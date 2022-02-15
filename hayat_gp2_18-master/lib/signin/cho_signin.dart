@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/home_pages/cho_home.dart';
@@ -20,9 +21,10 @@ class _LoginChoPageState extends State<LoginChoPage> {
   late String email = ' ';
   late String password = ' ';
   bool x = false;
-  late String z = '';
+  late String z = 'email or password is wrong Data';
+  late String u = "";
 
-  var allDonorswithEmail = [];
+  var allCHOwithEmail = [];
   var elements = [];
   var allDonorswithEmail2 = [];
   var elements2 = [];
@@ -98,9 +100,10 @@ class _LoginChoPageState extends State<LoginChoPage> {
                                   .CheckCHO()
                                   .then((value) {
                                 setState(() {
-                                  allDonorswithEmail = value;
-                                  elements = allDonorswithEmail;
+                                  allCHOwithEmail = value;
+                                  elements = allCHOwithEmail;
 
+                                  print('all chos');
                                   print(elements);
                                 });
                                 var s3 = elements;
@@ -114,54 +117,57 @@ class _LoginChoPageState extends State<LoginChoPage> {
                                   s3.forEach((element) {
                                     var cho = CHOs.fromMap(element);
                                     var Emails = cho.email.toString();
+                                    var pass = cho.password.toString();
                                     if (Emails.toLowerCase()
                                         .contains(query.toLowerCase())) {
-                                      var helper2 = DatabaseHelper.instance
-                                          .CheckCHO()
-                                          .then((value) {
-                                        setState(() {
-                                          allDonorswithEmail2 = value;
-                                          elements2 = allDonorswithEmail2;
+                                      // x = true;
+                                      z = '';
 
-                                          print(elements);
-                                        });
-                                        var s3 = elements;
-                                        var query2 = passController.text;
+                                      print('user\'s email');
+                                      print(Emails);
+                                      //email found now check password
+                                      var query2 = passController.text;
 
-                                        print('query2');
+                                      print('user\'s password');
 
-                                        print(query2);
+                                      print(query2);
+                                      var y = Encrypted.from64(pass);
+                                      var decryptedPass =
+                                          EncryptionDecryption.decryptAES(y);
+                                      print('deccryptedPass: ' + decryptedPass);
 
-                                        if (query2.isNotEmpty) {
-                                          s3.forEach((element) {
-                                            var cho = CHOs.fromMap(element);
-                                            var Passwords =
-                                                cho.password.toString();
+                                      if (decryptedPass == query2) {
+                                        z = '';
+                                        print(' دخل المقارنة');
 
-                                            var y = Encrypted.from64(Passwords);
-                                            var decryptedPass =
-                                                EncryptionDecryption.decryptAES(
-                                                    y);
-                                            print('deccryptedPass: ' +
-                                                decryptedPass);
-
-                                            if (decryptedPass == query2) {
-                                              z = '';
-                                            } else {
-                                              z = 'email or password is wrong';
-                                            }
-                                          });
-                                        }
-                                      });
-                                    } else {}
+                                        x = true;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text('Processing Data')),
+                                        );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => HomeC()),
+                                        );
+                                      } else if (decryptedPass != query2) {
+                                        z = 'email or password is wrong';
+                                      }
+                                    }
                                   });
                                 }
                               });
 
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
-                              } else if (z == 'email or password is wrong') {
-                                return 'email or password is wrong';
+                              }
+                              if (z == 'email or password is wrong Data') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          'email or password is wrong Data')),
+                                );
                               }
                             },
                           ),
@@ -209,15 +215,7 @@ class _LoginChoPageState extends State<LoginChoPage> {
                                   if (formKey.currentState!.validate()) {
                                     // If the form is valid, display a snackbar. In the real world,
                                     // you'd often call a server or save the information in a database.
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Processing Data')),
-                                    );
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeC()),
-                                    );
+
                                   }
                                 } catch (e) {
                                   print(e);
