@@ -288,7 +288,7 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                     alignment: Alignment.centerLeft,
                     //  child: Flexible(
                     child: Text(
-                      "\n\n Available quantity:      \n",
+                      "\n\n Available quantity (number of person):      \n",
                     ),
                     // ),
                   ),
