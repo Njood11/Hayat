@@ -22,7 +22,8 @@ class _LoginDonorState extends State<LoginDonor> {
   late String email = ' ';
   late String password = ' ';
   bool x = false;
-  late String z = '';
+  late String z = 'email or password is wrong';
+  late String u = "";
 
   var allDonorswithEmail = [];
   var elements = [];
@@ -96,74 +97,8 @@ class _LoginDonorState extends State<LoginDonor> {
                               labelText: 'Email',
                             ),
                             validator: (value) {
-                              var helper = DatabaseHelper.instance
-                                  .CheckCHO()
-                                  .then((value) {
-                                setState(() {
-                                  allDonorswithEmail = value;
-                                  elements = allDonorswithEmail;
-
-                                  print(elements);
-                                });
-                                var s3 = elements;
-                                var query = emailController.text;
-
-                                print('query');
-
-                                print(query);
-
-                                if (query.isNotEmpty) {
-                                  s3.forEach((element) {
-                                    var cho = CHOs.fromMap(element);
-                                    var Emails = cho.email.toString();
-                                    if (Emails.toLowerCase()
-                                        .contains(query.toLowerCase())) {
-                                      var helper2 = DatabaseHelper.instance
-                                          .CheckCHO()
-                                          .then((value) {
-                                        setState(() {
-                                          allDonorswithEmail2 = value;
-                                          elements2 = allDonorswithEmail2;
-
-                                          print(elements);
-                                        });
-                                        var s3 = elements;
-                                        var query2 = passController.text;
-
-                                        print('query2');
-
-                                        print(query2);
-
-                                        if (query2.isNotEmpty) {
-                                          s3.forEach((element) {
-                                            var cho = CHOs.fromMap(element);
-                                            var Passwords =
-                                                cho.password.toString();
-
-                                            var y = Encrypted.from64(Passwords);
-                                            var decryptedPass =
-                                                EncryptionDecryption.decryptAES(
-                                                    y);
-                                            print('deccryptedPass: ' +
-                                                decryptedPass);
-
-                                            if (decryptedPass == query2) {
-                                              z = '';
-                                            } else {
-                                              z = 'email or password is wrong';
-                                            }
-                                          });
-                                        }
-                                      });
-                                    } else {}
-                                  });
-                                }
-                              });
-
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
-                              } else if (z == 'email or password is wrong') {
-                                return 'email or password is wrong';
                               }
                             },
                           ),
@@ -180,13 +115,77 @@ class _LoginDonorState extends State<LoginDonor> {
                                 labelText: 'Password',
                               ),
                               validator: (value) {
+                                var helper = DatabaseHelper.instance
+                                    .CheckDonor()
+                                    .then((value) {
+                                  setState(() {
+                                    allDonorswithEmail = value;
+                                    elements = allDonorswithEmail;
+
+                                    print('all donors');
+                                    print(elements);
+                                  });
+                                  var s3 = elements;
+                                  var query = emailController.text;
+
+                                  print('query');
+
+                                  print(query);
+
+                                  if (query.isNotEmpty) {
+                                    s3.forEach((element) {
+                                      var don = Donors.fromMap(element);
+                                      var Emails = don.email.toString();
+                                      var pass = don.password.toString();
+                                      if (Emails.toLowerCase()
+                                          .contains(query.toLowerCase())) {
+                                        // x = true;
+                                        z = '';
+
+                                        print('user\'s email');
+                                        print(Emails);
+                                        //email found now check password
+                                        var query2 = passController.text;
+
+                                        print('user\'s password');
+
+                                        print(query2);
+                                        var y = Encrypted.from64(pass);
+                                        var decryptedPass =
+                                            EncryptionDecryption.decryptAES(y);
+                                        print(
+                                            'deccryptedPass: ' + decryptedPass);
+
+                                        if (decryptedPass == query2) {
+                                          z = '';
+                                          print(' دخل المقارنة');
+
+                                          x = true;
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                                content:
+                                                    Text('Processing Data')),
+                                          );
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => HomeD()),
+                                          );
+                                        } else if (decryptedPass != query2) {
+                                          z = 'email or password is wrong';
+                                        }
+                                      }
+                                    });
+                                  }
+                                });
+
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter some text';
-                                } else if (/*!RegExp(
-                                    r'^(?=.?[A-Z])(?=.?[a-z])(?=.?[0-9])(?=.?[#?!@$%^&*-]).{8,}$')
-                                .hasMatch(value) ||*/
-                                    value == null)
-                                  return 'Enter valid password';
+                                }
+                                if (z == 'email or password is wrong') {
+                                  return 'email or password is wrong';
+                                }
                               }),
                         ],
                       ),
@@ -211,15 +210,7 @@ class _LoginDonorState extends State<LoginDonor> {
                                   if (formKey.currentState!.validate()) {
                                     // If the form is valid, display a snackbar. In the real world,
                                     // you'd often call a server or save the information in a database.
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Processing Data')),
-                                    );
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeD()),
-                                    );
+
                                   }
                                 } catch (e) {
                                   print(e);
