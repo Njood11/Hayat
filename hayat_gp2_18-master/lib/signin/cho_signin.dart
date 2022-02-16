@@ -96,78 +96,8 @@ class _LoginChoPageState extends State<LoginChoPage> {
                               labelText: 'Email',
                             ),
                             validator: (value) {
-                              var helper = DatabaseHelper.instance
-                                  .CheckCHO()
-                                  .then((value) {
-                                setState(() {
-                                  allCHOwithEmail = value;
-                                  elements = allCHOwithEmail;
-
-                                  print('all chos');
-                                  print(elements);
-                                });
-                                var s3 = elements;
-                                var query = emailController.text;
-
-                                print('query');
-
-                                print(query);
-
-                                if (query.isNotEmpty) {
-                                  s3.forEach((element) {
-                                    var cho = CHOs.fromMap(element);
-                                    var Emails = cho.email.toString();
-                                    var pass = cho.password.toString();
-                                    if (Emails.toLowerCase()
-                                        .contains(query.toLowerCase())) {
-                                      // x = true;
-                                      z = '';
-
-                                      print('user\'s email');
-                                      print(Emails);
-                                      //email found now check password
-                                      var query2 = passController.text;
-
-                                      print('user\'s password');
-
-                                      print(query2);
-                                      var y = Encrypted.from64(pass);
-                                      var decryptedPass =
-                                          EncryptionDecryption.decryptAES(y);
-                                      print('deccryptedPass: ' + decryptedPass);
-
-                                      if (decryptedPass == query2) {
-                                        z = '';
-                                        print(' دخل المقارنة');
-
-                                        x = true;
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content: Text('Processing Data')),
-                                        );
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => HomeC()),
-                                        );
-                                      } else if (decryptedPass != query2) {
-                                        z = 'email or password is wrong';
-                                      }
-                                    }
-                                  });
-                                }
-                              });
-
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
-                              }
-                              if (z == 'email or password is wrong Data') {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          'email or password is wrong Data')),
-                                );
                               }
                             },
                           ),
@@ -184,13 +114,77 @@ class _LoginChoPageState extends State<LoginChoPage> {
                                 labelText: 'Password',
                               ),
                               validator: (value) {
+                                var helper = DatabaseHelper.instance
+                                    .CheckCHO()
+                                    .then((value) {
+                                  setState(() {
+                                    allCHOwithEmail = value;
+                                    elements = allCHOwithEmail;
+
+                                    print('all chos');
+                                    print(elements);
+                                  });
+                                  var s3 = elements;
+                                  var query = emailController.text;
+
+                                  print('query');
+
+                                  print(query);
+
+                                  if (query.isNotEmpty) {
+                                    s3.forEach((element) {
+                                      var cho = CHOs.fromMap(element);
+                                      var Emails = cho.email.toString();
+                                      var pass = cho.password.toString();
+                                      if (Emails.toLowerCase()
+                                          .contains(query.toLowerCase())) {
+                                        // x = true;
+                                        z = '';
+
+                                        print('user\'s email');
+                                        print(Emails);
+                                        //email found now check password
+                                        var query2 = passController.text;
+
+                                        print('user\'s password');
+
+                                        print(query2);
+                                        var y = Encrypted.from64(pass);
+                                        var decryptedPass =
+                                            EncryptionDecryption.decryptAES(y);
+                                        print(
+                                            'deccryptedPass: ' + decryptedPass);
+
+                                        if (decryptedPass == query2) {
+                                          z = '';
+                                          print(' دخل المقارنة');
+
+                                          x = true;
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                                content:
+                                                    Text('Processing Data')),
+                                          );
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => HomeC()),
+                                          );
+                                        } else if (decryptedPass != query2) {
+                                          z = 'email or password is wrong';
+                                        }
+                                      }
+                                    });
+                                  }
+                                });
+
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter some text';
-                                } else if (/*!RegExp(
-                                    r'^(?=.?[A-Z])(?=.?[a-z])(?=.?[0-9])(?=.?[#?!@$%^&*-]).{8,}$')
-                                .hasMatch(value) ||*/
-                                    value == null)
-                                  return 'Enter valid password';
+                                }
+                                if (z == 'email or password is wrong Data') {
+                                  return 'email or password is wrong Data';
+                                }
                               }),
                         ],
                       ),
