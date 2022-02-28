@@ -5,6 +5,7 @@ import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:hayat_gp2_18/home_pages/contactus.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';
+import 'package:hayat_gp2_18/offers/search_offers.dart';
 
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 
@@ -73,8 +74,10 @@ class HomePage extends StatelessWidget {
                 Card(
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomeAbout()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListOffersPage3()));
                     },
                     splashColor: Colors.red,
                     child: Center(

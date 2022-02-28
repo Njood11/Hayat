@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:hayat_gp2_18/database/sqlite.dart';
+import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';
 import 'package:hayat_gp2_18/main.dart';
@@ -218,9 +219,42 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                       itemCount: items.length,
                       itemBuilder: (context, i) {
                         Offers offer = Offers.fromMap(items[i]);
-                        return Card(
-                          margin: EdgeInsets.all(8),
+
+                        return Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            // borderRadius: BorderRadius.circular(13),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 10,
+                                  spreadRadius: 3,
+                                  offset: Offset(3, 4))
+                            ],
+                          ),
                           child: ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => offerDetailes(
+                                            SelectedOfferCategory:
+                                                offer.fCategory,
+                                            SelectedOfferStatus: offer.fStatus,
+                                            SelectedAvailableQuantity: offer.aq,
+                                            SelectedExpirationDate: offer.eDate,
+                                            SelectedPic: offer.pic,
+                                            SelectedDonorId: offer.Did,
+                                          )));
+                            },
+                            /* leading:   Image.network(
+                          offer.pic,
+                          fit: BoxFit.cover,
+                          width: 90,
+                          height: 100,
+                        ),*/
                             title: Text(
                                 'Food Category:${offer.fCategory}\n\nFood Status:${offer.fStatus}\n\nEXP:${offer.eDate}\n'),
                             subtitle: Text('Available Quantity' + offer.aq),
