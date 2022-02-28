@@ -18,11 +18,11 @@ class LoginDonor extends StatefulWidget {
 
 class _LoginDonorState extends State<LoginDonor> {
   final formKey = GlobalKey<FormState>(); //key for form
-
+  late var id;
   late String email = ' ';
   late String password = ' ';
   bool x = false;
-  late String z = 'email or password is wrong';
+  late String z = '';
   late String u = "";
 
   var allDonorswithEmail = [];
@@ -141,7 +141,7 @@ class _LoginDonorState extends State<LoginDonor> {
                                           .contains(query.toLowerCase())) {
                                         // x = true;
                                         z = '';
-
+                                        id = don.Donorid!;
                                         print('user\'s email');
                                         print(Emails);
                                         //email found now check password
@@ -170,7 +170,8 @@ class _LoginDonorState extends State<LoginDonor> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => HomeD()),
+                                                builder: (context) =>
+                                                    HomeD(id)),
                                           );
                                         } else if (decryptedPass != query2) {
                                           z = 'email or password is wrong';

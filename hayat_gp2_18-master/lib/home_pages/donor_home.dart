@@ -3,10 +3,13 @@ import 'package:hayat_gp2_18/offers/publish_offer.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 
 class HomeD extends StatelessWidget {
-  HomeD({Key? key}) : super(key: key);
+  var Did;
+
+  HomeD(this.Did) : super();
 
   @override
   Widget build(BuildContext context) {
+    var Donorid1 = Did;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -60,7 +63,9 @@ class HomeD extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PublishOfferPage()));
+                          builder: (context) => PublishOfferPage(
+                                Donorid: Donorid1,
+                              )));
                 },
                 splashColor: Colors.red,
                 child: Center(

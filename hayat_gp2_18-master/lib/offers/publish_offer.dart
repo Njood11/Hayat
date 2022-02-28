@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
+//import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,15 +15,17 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 class PublishOfferPage extends StatefulWidget {
-  PublishOfferPage({Key? key}) : super(key: key);
+  var Donorid;
+  PublishOfferPage({Key? key, this.Donorid}) : super(key: key);
 
   @override
-  _PublishOfferPage createState() => _PublishOfferPage();
+  _PublishOfferPage createState() => _PublishOfferPage(Donorid);
 }
 
 class _PublishOfferPage extends State<PublishOfferPage> {
+  var Donorid;
   var _file;
-
+  _PublishOfferPage(this.Donorid);
   void pickC() async {
     var picFile = await ImagePicker().pickImage(source: ImageSource.camera);
     setState(() {
@@ -420,7 +422,9 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                                     ',' +
                                     MoreController.text,
                                 fStatus: dropdownvalueStatus,
-                                pic: _file.path.split("/").last,
+                                pic: '',
+                                Did: Donorid,
+                                // _file.path.split("/").last,
                               );
 
                               await DatabaseHelper.instance.addOffer(offer);
@@ -430,7 +434,7 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeD()),
+                                    builder: (context) => HomeD(Donorid)),
                               );
                             }
                           } catch (e) {
