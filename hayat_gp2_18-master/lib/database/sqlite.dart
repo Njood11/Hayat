@@ -35,8 +35,8 @@ class _SqliteAppState extends State<SqliteApp> {
         body: FloatingActionButton(
           onPressed: () async {
             donorId != null
-                ? await DatabaseHelper.instance.getDonors()
-                : await DatabaseHelper.instance.getDonors();
+                ? await DatabaseHelper.instance.getOffers()
+                : await DatabaseHelper.instance.getOffers();
             setState(() {
               textController.clear();
               donorId = null;
@@ -48,10 +48,10 @@ class _SqliteAppState extends State<SqliteApp> {
   }
 }
 
-//Donors model
+//Donors model yes or yes
 class Donors {
   //columns to store data in
-  final int? id;
+  final int? Donorid;
   final String email;
   final String password;
   final String name;
@@ -61,7 +61,7 @@ class Donors {
 
   Donors({
     //assing values
-    this.id,
+    this.Donorid,
     required this.email,
     required this.password,
     required this.name,
@@ -71,7 +71,7 @@ class Donors {
   });
 
   factory Donors.fromMap(Map<String, dynamic> json) => new Donors(
-        id: json['id'],
+        Donorid: json['Donorid'],
         email: json['email'],
         password: json['password'],
         name: json['name'],
@@ -82,7 +82,7 @@ class Donors {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'Donorid': Donorid,
       'email': email,
       'password': password,
       'name': name,
@@ -142,12 +142,12 @@ class CHOs {
 class Offers {
   //columns to store data in
   final int? offerID;
-
   final String aq;
   final String eDate;
   final String fCategory;
   final String fStatus;
   final String pic;
+  final int Did;
 
   Offers({
     //assing values
@@ -157,6 +157,7 @@ class Offers {
     required this.fCategory,
     required this.fStatus,
     required this.pic,
+    required this.Did,
   });
 
   factory Offers.fromMap(Map<String, dynamic> json) => new Offers(
@@ -166,6 +167,7 @@ class Offers {
         fCategory: json['fCategory'],
         fStatus: json['fStatus'],
         pic: json['pic'],
+        Did: json['Donorid'],
       );
 
   Map<String, dynamic> toMap() {
@@ -176,6 +178,7 @@ class Offers {
       'fCategory': fCategory,
       'fStatus': fStatus,
       'pic': pic,
+      'Donorid': Did,
     };
   }
 }
@@ -189,18 +192,24 @@ class DatabaseHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, 'H.db');
+    String path = join(documentsDirectory.path, 'gp4.db');
     return await openDatabase(
       path,
       version: 1,
       onCreate: _CreateDB,
+      onConfigure: _onConfigure,
     );
+  }
+
+  Future _onConfigure(Database db) async {
+    // Add support for cascade delete
+    await db.execute("PRAGMA foreign_keys = ON");
   }
 
   Future _CreateDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE donors (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          Donorid INTEGER PRIMARY KEY AUTOINCREMENT,
           email TEXT,
           password TEXT,
           name TEXT, 
@@ -227,8 +236,10 @@ class DatabaseHelper {
           eDate TEXT,
           fCategory TEXT, 
           fStatus TEXT,
-          pic TEXT)
-          ''');
+          pic TEXT,
+          Donorid INTEGER NOT NULL,
+          FOREIGN KEY (Donorid) REFERENCES donors (Donorid))
+      ''');
   }
 
 //Donors function
@@ -277,7 +288,7 @@ class DatabaseHelper {
     // Convert the List<Map<String, dynamic> into a List<Donors>.
     return List.generate(maps.length, (i) {
       return Donors(
-        id: maps[i]['id'],
+        Donorid: maps[i]['Donorid'],
         name: maps[i]['name'],
         email: maps[i]['email'],
         location: maps[i]['location'],
