@@ -87,7 +87,9 @@ class _HomeState extends State<DSignupPage> {
     if (response.success) {
       Widget okButton = TextButton(
         child: Text("OK"),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context, 'OK');
+        },
       );
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
@@ -762,6 +764,7 @@ class _HomeState extends State<DSignupPage> {
                                     phone: phone1,
                                   ),
                                 );
+                                addDonor();
 
                                 print(
                                     await DatabaseHelper.instance.getDonors());
