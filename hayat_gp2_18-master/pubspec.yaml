@@ -49,6 +49,7 @@ dependencies:
   shared_preferences: ^2.0.13
   dropdown_search: ^2.0.1
   encrypt: ^5.0.1
+  parse_server_sdk_flutter: ^3.1.0
 
 dev_dependencies:
   flutter_test:
