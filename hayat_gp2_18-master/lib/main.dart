@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
-
 import 'package:hayat_gp2_18/home_pages/aboutus.dart';
 import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:hayat_gp2_18/home_pages/contactus.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';
 import 'package:hayat_gp2_18/offers/search_offers.dart';
-
 import 'package:hayat_gp2_18/signin/signin_all.dart';
-
 import 'package:hayat_gp2_18/signup/signup_all.dart';
+import 'package:parse_server_sdk_flutter/generated/i18n.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final keyApplicationId = 'ZnPhCx7U3tijRcMYSHFdq5hu0lFNZ6VCOXOxzxZP';
+  final keyClientKey = 'rsn7DBvf3lMhRvKuVu6txlZqzbAhdJ8z0uIzeHpU';
+  final keyParseServerUrl = 'https://parseapi.back4app.com';
+
+  await Parse().initialize(keyApplicationId, keyParseServerUrl,
+      clientKey: keyClientKey, debug: true);
+
   runApp(const MyApp());
 }
 
