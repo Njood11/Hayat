@@ -5,6 +5,8 @@ import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:hayat_gp2_18/encryption.dart';
+import 'package:parse_server_sdk_flutter/generated/i18n.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class DSignupPage extends StatefulWidget {
   const DSignupPage() : super();
@@ -71,6 +73,60 @@ class _HomeState extends State<DSignupPage> {
       _hasSpecialCharacter = false;
       if (specialCharRegex.hasMatch(password)) _hasSpecialCharacter = true;
     });
+  }
+  ////database cloud functions//////
+
+  void addDonor() async {
+    final donor =
+        ParseUser(nameController.text, encryptedPass, emailController.text)
+          ..set('location', location)
+          ..set('type', eType)
+          ..set('phone', phone1);
+    var response = await donor.signUp();
+
+    if (response.success) {
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () {},
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Success!"),
+        content: Text("Donor was successfully created !"),
+        actions: [
+          okButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    } else {
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () {},
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Error!"),
+        content: Text("Account already exists for this email!"),
+        actions: [
+          okButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
   }
 
   @override
