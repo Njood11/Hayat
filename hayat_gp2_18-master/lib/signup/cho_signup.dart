@@ -8,6 +8,8 @@ import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:hayat_gp2_18/encryption.dart';
 import 'package:hayat_gp2_18/database/sqlite.dart';
+import 'package:parse_server_sdk_flutter/generated/i18n.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 var selecteditem = null;
 
@@ -71,6 +73,44 @@ class _HomeState extends State<SignupPage> {
       _hasSpecialCharacter = false;
       if (specialCharRegex.hasMatch(password)) _hasSpecialCharacter = true;
     });
+  }
+
+////database cloud add donor functions//////
+
+  void addCHO() async {
+    final donor = ParseUser(name, encryptedPass, emailController.text)
+      ..set('location', location)
+      ..set('phone', phone)
+      ..set('lNumber', _LicenseNo)
+      ..set('userType', 'cho');
+
+    var response = await donor.signUp();
+
+    if (response.success) {
+    } else {
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.pop(context, 'OK');
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Error!"),
+        content: Text("Account already exists for this email!"),
+        actions: [
+          okButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
   }
 
   @override
@@ -667,9 +707,37 @@ class _HomeState extends State<SignupPage> {
                                   const SnackBar(
                                       content: Text('Processing Data')),
                                 );
-                              }
+                                Widget okButton = TextButton(
+                                  child: Text("OK"),
+                                  onPressed: () {
+                                    Navigator.pop(context, 'OK');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginChoPage()),
+                                    );
+                                  },
+                                );
+                                // set up the AlertDialog
+                                AlertDialog alert = AlertDialog(
+                                  title: Text("Success!"),
+                                  content:
+                                      Text("Donor was successfully created !"),
+                                  actions: [
+                                    okButton,
+                                  ],
+                                );
 
-                              CHOs cho = CHOs(
+                                // show the dialog
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return alert;
+                                  },
+                                );
+                              }
+                              addCHO();
+                              /*   CHOs cho = CHOs(
                                 email: emailController.text,
                                 password: encryptedPass,
                                 name: name,
@@ -678,15 +746,9 @@ class _HomeState extends State<SignupPage> {
                                 lNumber: _LicenseNo,
                               );
 
-                              await DatabaseHelper.instance.addCHOs(cho);
+                              await DatabaseHelper.instance.addCHOs(cho);*/
 
-                              print(await DatabaseHelper.instance.getCHOs());
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginChoPage()),
-                              );
+                              //print(await DatabaseHelper.instance.getCHOs());
                             } catch (e) {
                               print(e);
                             }

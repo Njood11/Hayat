@@ -8,6 +8,10 @@ import 'package:hayat_gp2_18/encryption.dart';
 import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
+//email validation
+//location
+// cho lNumber اتاكد انه مضيوف قبل عشان اقبله
+
 class DSignupPage extends StatefulWidget {
   const DSignupPage() : super();
 
@@ -74,43 +78,24 @@ class _HomeState extends State<DSignupPage> {
       if (specialCharRegex.hasMatch(password)) _hasSpecialCharacter = true;
     });
   }
-  ////database cloud functions//////
+  ////database cloud add donor functions//////
 
   void addDonor() async {
     final donor =
         ParseUser(nameController.text, encryptedPass, emailController.text)
           ..set('location', location)
           ..set('type', eType)
-          ..set('phone', phone1);
+          ..set('phone', phone1)
+          ..set('userType', 'donor');
+
     var response = await donor.signUp();
 
-    if (response.success) {
+    if (response.success == false) {
       Widget okButton = TextButton(
         child: Text("OK"),
         onPressed: () {
           Navigator.pop(context, 'OK');
         },
-      );
-      // set up the AlertDialog
-      AlertDialog alert = AlertDialog(
-        title: Text("Success!"),
-        content: Text("Donor was successfully created !"),
-        actions: [
-          okButton,
-        ],
-      );
-
-      // show the dialog
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return alert;
-        },
-      );
-    } else {
-      Widget okButton = TextButton(
-        child: Text("OK"),
-        onPressed: () {},
       );
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
@@ -589,7 +574,7 @@ class _HomeState extends State<DSignupPage> {
                                 "Al Birriyyah",
                                 "Al Dar Albaida ",
                                 "Al Dhubbat ",
-                                " Al Difa",
+                                "Al Difa",
                                 "Al Dirah ",
                                 "Al Dubiyah",
                                 "Al Duraihimiyah ",
@@ -745,6 +730,34 @@ class _HomeState extends State<DSignupPage> {
                             try {
                               // Validate returns true if the form is valid, or false otherwise.
                               if (formKey.currentState!.validate()) {
+                                Widget okButton = TextButton(
+                                  child: Text("OK"),
+                                  onPressed: () {
+                                    Navigator.pop(context, 'OK');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginDonor()),
+                                    );
+                                  },
+                                );
+                                // set up the AlertDialog
+                                AlertDialog alert = AlertDialog(
+                                  title: Text("Success!"),
+                                  content:
+                                      Text("Donor was successfully created !"),
+                                  actions: [
+                                    okButton,
+                                  ],
+                                );
+
+                                // show the dialog
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return alert;
+                                  },
+                                );
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -754,7 +767,7 @@ class _HomeState extends State<DSignupPage> {
 
                                 //check donors exist in donors table or cho table before insert it
 
-                                DatabaseHelper.instance.addDonor(
+                                /* DatabaseHelper.instance.addDonor(
                                   Donors(
                                     email: emailController.text,
                                     password: encryptedPass,
@@ -763,17 +776,12 @@ class _HomeState extends State<DSignupPage> {
                                     type: eType,
                                     phone: phone1,
                                   ),
-                                );
+                                );*/
                                 addDonor();
 
-                                print(
-                                    await DatabaseHelper.instance.getDonors());
+                                //   print(
+                                //       await DatabaseHelper.instance.getDonors());
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginDonor()),
-                                );
                               } else {
                                 print('try again later.');
                               }

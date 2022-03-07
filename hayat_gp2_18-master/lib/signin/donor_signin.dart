@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/signup/donor_signup.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
@@ -8,6 +10,8 @@ import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:hayat_gp2_18/encryption.dart';
+import 'package:parse_server_sdk_flutter/generated/i18n.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class LoginDonor extends StatefulWidget {
   const LoginDonor() : super();
@@ -32,6 +36,86 @@ class _LoginDonorState extends State<LoginDonor> {
 
   var emailController = new TextEditingController();
   var passController = new TextEditingController();
+  var encryptedPass;
+  ////database cloud add donor functions//////
+
+  void loginDonor() async {
+    final email = emailController.text;
+    final inputpass = passController.text;
+
+    encryptedPass = EncryptionDecryption.encryptAES(inputpass);
+
+    encryptedPass = encryptedPass.base64;
+    print('encryptedPass:  ');
+    print(encryptedPass);
+    final donor = ParseUser(email, encryptedPass, null);
+//bring pass from db
+    /*var dbpass = donor.password.toString();
+
+    var y = Encrypted.from64(inputpass);
+    var decryptedPass = EncryptionDecryption.decryptAES(y);
+    print('deccryptedPass: ' + decryptedPass);*/
+
+    var response = await donor.login();
+
+    /////
+    if (response.success && donor.get("userType") == 'donor') {
+      id = donor.objectId;
+      print('id:  ');
+      print(id);
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.pop(context, 'OK');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomeD(id)),
+          );
+        },
+      );
+      // set up the AlertDialog
+
+      AlertDialog alert = AlertDialog(
+        title: Text("Success!"),
+        content: Text("You have successfully logged in"),
+        actions: [
+          okButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+    if (response.success == false || donor.get("userType") != 'donor') {
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.pop(context, 'OK');
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Error!"),
+        content: Text("email or password is wrong!"),
+        actions: [
+          okButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +199,7 @@ class _LoginDonorState extends State<LoginDonor> {
                                 labelText: 'Password',
                               ),
                               validator: (value) {
-                                var helper = DatabaseHelper.instance
+                                /*var helper = DatabaseHelper.instance
                                     .CheckDonor()
                                     .then((value) {
                                   setState(() {
@@ -179,14 +263,14 @@ class _LoginDonorState extends State<LoginDonor> {
                                       }
                                     });
                                   }
-                                });
+                                });*/
 
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter some text';
                                 }
-                                if (z == 'email or password is wrong') {
-                                  return 'email or password is wrong';
-                                }
+                                //if (z == 'email or password is wrong') {
+                                //  return 'email or password is wrong';
+                                //}
                               }),
                         ],
                       ),
@@ -209,6 +293,7 @@ class _LoginDonorState extends State<LoginDonor> {
                               onPressed: () {
                                 try {
                                   if (formKey.currentState!.validate()) {
+                                    loginDonor();
                                     // If the form is valid, display a snackbar. In the real world,
                                     // you'd often call a server or save the information in a database.
 
