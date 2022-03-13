@@ -129,11 +129,14 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
       for (int i = 0; i < allOffers.length; i++) {
         // var offer = Offers.fromMap(element);
         var offer = allOffers[i];
-        var categories = offer.get("food_category").split(' ').toString();
-        var status = offer.get("food_status").split(' ').toString();
+
+        var categories = offer.get("food_category").toString();
+        var status = offer.get("food_status").toString();
+
         if (categories.toLowerCase().contains(query.toLowerCase()) ||
             status.toLowerCase().contains(query.toLowerCase())) {
           match.add(offer);
+          print('yes match');
         }
       }
 
@@ -347,6 +350,8 @@ class CustomDialog extends StatefulWidget {
 }
 
 class _CustomDialogState extends State<CustomDialog> {
+  List<ParseObject> allOffers = <ParseObject>[];
+
   late bool Checked1Vegetables = false;
   late bool Checked2Fruits = false;
   late bool Checked3Meat = false;
@@ -367,7 +372,7 @@ class _CustomDialogState extends State<CustomDialog> {
 
   var SelectedCategory = [];
   var SelectedStatus = [];
-  late var allOffers = [];
+  //late var allOffers = [];
   var items = [];
   var matchC = [];
   var matchS = [];
@@ -375,13 +380,28 @@ class _CustomDialogState extends State<CustomDialog> {
   bool selectStatus2 = false;
   bool selectCategory2 = false;
   late var allOffers2 = [];
+  void getOffers() async {
+    QueryBuilder<ParseObject> parseQuery =
+        QueryBuilder<ParseObject>(ParseObject('donations'));
+
+    final ParseResponse apiResponse = await parseQuery.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      setState(() {
+        allOffers = apiResponse.results as List<ParseObject>;
+        items = allOffers as List<ParseObject>;
+      });
+    } else {
+      allOffers = [];
+    }
+    print(items);
+  }
+
   @override
   void initState() {
     super.initState();
-    //return all offers
 
-    // allOffers = value;
-    // items = allOffers;
+    getOffers();
   }
 
   void searchWithFilter(var SelectedCat, var SelectedSta) async {
@@ -393,11 +413,11 @@ class _CustomDialogState extends State<CustomDialog> {
       print('query');
 
       print(query);
-      var s = allOffers2;
+      var s = allOffers;
       if (query.isNotEmpty) {
-        for (int i = 0; i < allOffers2.length; i++) {
+        for (int i = 0; i < allOffers.length; i++) {
           // var offer = Offers.fromMap(element);
-          var offer = allOffers2[i];
+          var offer = allOffers[i];
 
           var categories = offer.get("food_category").toString();
           if (categories.toLowerCase().contains(query.toLowerCase())) {
