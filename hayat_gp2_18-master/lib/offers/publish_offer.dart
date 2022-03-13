@@ -43,11 +43,15 @@ class _PublishOfferPage extends State<PublishOfferPage> {
       ..set('exp_date', DateFormat('yyyy-MM-dd').format(pickedDate))
       ..set('food_category', dropdownvalueCategory + ',' + MoreController.text)
       ..set('food_status', dropdownvalueStatus)
-      ..set("pic", 'parseFile')
       ..set('donor_ID', Donorid /*ParseObject('User')..objectId = Donorid*/);
-
+    // ..set("pic", parseFile)
     var response = await offer.save();
-
+    if (response.success) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeD(Donorid)),
+      );
+    }
     if (response.success == false) {
       Widget okButton = TextButton(
         child: Text("OK"),
@@ -452,9 +456,9 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                                 const SnackBar(
                                     content: Text('Processing Data')),
                               );
-
-                              parseFile = ParseFile(File(pickedFile!.path));
-                              await parseFile!.save();
+//back
+                              //parseFile = ParseFile(File(pickedFile!.path));
+                              // await parseFile!.save();
 
                               addOffer();
 
@@ -475,11 +479,6 @@ class _PublishOfferPage extends State<PublishOfferPage> {
 
                               print(await DatabaseHelper.instance.getOffers());*/
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeD(Donorid)),
-                              );
                             }
                           } catch (e) {
                             print(e);

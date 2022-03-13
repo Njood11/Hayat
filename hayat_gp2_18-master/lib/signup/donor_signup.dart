@@ -328,13 +328,6 @@ class _HomeState extends State<DSignupPage> {
                                 EncryptionDecryption.encryptAES(pass);
 
                             encryptedPass = encryptedPass.base64;
-                            // print('encryptedPass: ' + encryptedPass);
-
-                            //in log in page decrypt
-                            // var x = Encrypted.from64(encryptedPass);
-                            // var decryptedPass =
-                            //  EncryptionDecryption.decryptAES(x);
-                            // print('deccryptedPass: ' + decryptedPass);
 
                             return null;
                           }
