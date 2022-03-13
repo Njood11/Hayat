@@ -22,7 +22,7 @@ class SignupPage extends StatefulWidget {
 
 class _HomeState extends State<SignupPage> {
   final formKey = GlobalKey<FormState>(); //key for form
-
+  var response;
   late String e_mail;
   var pass;
   late String name;
@@ -78,16 +78,44 @@ class _HomeState extends State<SignupPage> {
 ////database cloud add donor functions//////
 
   void addCHO() async {
-    final donor = ParseUser(name, encryptedPass, emailController.text)
-      ..set('location', location)
-      ..set('phone', phone)
-      ..set('lNumber', _LicenseNo)
-      ..set('userType', 'cho');
+    final donor =
+        ParseUser(emailController.text, encryptedPass, emailController.text)
+          ..set('location', location)
+          ..set('phone', phone)
+          ..set('lNumber', _LicenseNo)
+          ..set('userType', 'cho')
+          ..set('name', name);
 
-    var response = await donor.signUp();
+    response = await donor.signUp();
 
     if (response.success) {
-    } else {
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.pop(context, 'OK');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginChoPage()),
+          );
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Success!"),
+        content: Text("Account signed up successfully!"),
+        actions: [
+          okButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    } else if (response.success == false) {
       Widget okButton = TextButton(
         child: Text("OK"),
         onPressed: () {
@@ -701,42 +729,15 @@ class _HomeState extends State<SignupPage> {
                             try {
                               // Validate returns true if the form is valid, or false otherwise.
                               if (formKey.currentState!.validate()) {
+                                addCHO();
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text('Processing Data')),
                                 );
-                                Widget okButton = TextButton(
-                                  child: Text("OK"),
-                                  onPressed: () {
-                                    Navigator.pop(context, 'OK');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginChoPage()),
-                                    );
-                                  },
-                                );
-                                // set up the AlertDialog
-                                AlertDialog alert = AlertDialog(
-                                  title: Text("Success!"),
-                                  content:
-                                      Text("Donor was successfully created !"),
-                                  actions: [
-                                    okButton,
-                                  ],
-                                );
-
-                                // show the dialog
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return alert;
-                                  },
-                                );
                               }
-                              addCHO();
+
                               /*   CHOs cho = CHOs(
                                 email: emailController.text,
                                 password: encryptedPass,
@@ -762,19 +763,13 @@ class _HomeState extends State<SignupPage> {
                   children: <Widget>[
                     Text("Already have an account?"),
                     GestureDetector(
-                        child: Text(
-                          'Sign in',
-                          style: TextStyle(
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginChoPage()),
-                          );
-                        }),
+                      child: Text(
+                        'Sign in',
+                        style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(

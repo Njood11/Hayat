@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hayat_gp2_18/signin/donor_signin.dart';
-import 'package:hayat_gp2_18/database/sqlite.dart';
+//import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:hayat_gp2_18/encryption.dart';
@@ -20,6 +20,7 @@ class DSignupPage extends StatefulWidget {
 }
 
 class _HomeState extends State<DSignupPage> {
+  bool response2 = false;
   late String e_mail;
   late String pass;
   late String _name;
@@ -82,15 +83,43 @@ class _HomeState extends State<DSignupPage> {
 
   void addDonor() async {
     final donor =
-        ParseUser(nameController.text, encryptedPass, emailController.text)
+        ParseUser(emailController.text, encryptedPass, emailController.text)
           ..set('location', location)
           ..set('type', eType)
           ..set('phone', phone1)
-          ..set('userType', 'donor');
+          ..set('userType', 'donor')
+          ..set('name', nameController.text);
 
     var response = await donor.signUp();
+    print(response);
+    if (response.success) {
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.pop(context, 'OK');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginDonor()),
+          );
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Success!"),
+        content: Text("Account signed up successfully!"),
+        actions: [
+          okButton,
+        ],
+      );
 
-    if (response.success == false) {
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    } else if (response.success == false) {
       Widget okButton = TextButton(
         child: Text("OK"),
         onPressed: () {
@@ -257,63 +286,6 @@ class _HomeState extends State<DSignupPage> {
                           prefixIcon: Icon(Icons.email),
                         ),
                         validator: (value) {
-                          var helper = DatabaseHelper.instance
-                              .CheckDonor()
-                              .then((value) {
-                            setState(() {
-                              allDonorswithEmail = value;
-                              elements = allDonorswithEmail;
-
-                              print(elements);
-                            });
-                            var s3 = elements;
-                            var query = emailController.text;
-
-                            print('query');
-
-                            print(query);
-
-                            if (query.isNotEmpty) {
-                              s3.forEach((element) {
-                                var donor = Donors.fromMap(element);
-                                var Emails = donor.email.toString();
-                                if (Emails.toLowerCase()
-                                    .contains(query.toLowerCase())) {
-                                  x = 'This email already used';
-                                } else
-                                  x = '';
-                              });
-                            }
-                          });
-
-                          var helper2 =
-                              DatabaseHelper.instance.CheckCHO().then((value) {
-                            setState(() {
-                              allDonorswithEmail2 = value;
-                              elements2 = allDonorswithEmail2;
-
-                              print(elements);
-                            });
-                            var s3 = elements;
-                            var query = emailController.text;
-
-                            print('query');
-
-                            print(query);
-
-                            if (query.isNotEmpty) {
-                              s3.forEach((element) {
-                                var cho = CHOs.fromMap(element);
-                                var Emails = cho.email.toString();
-                                if (Emails.toLowerCase()
-                                    .contains(query.toLowerCase())) {
-                                  x = 'This email already used';
-                                } else
-                                  x = '';
-                              });
-                            }
-                          });
-
                           if (value == null || value.isEmpty) {
                             return 'Please enter some text';
                           } else if (!RegExp(
@@ -727,66 +699,15 @@ class _HomeState extends State<DSignupPage> {
                           horizontal: 8, vertical: 16),
                       child: ElevatedButton(
                           onPressed: () async {
-                            try {
-                              // Validate returns true if the form is valid, or false otherwise.
-                              if (formKey.currentState!.validate()) {
-                                Widget okButton = TextButton(
-                                  child: Text("OK"),
-                                  onPressed: () {
-                                    Navigator.pop(context, 'OK');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginDonor()),
-                                    );
-                                  },
-                                );
-                                // set up the AlertDialog
-                                AlertDialog alert = AlertDialog(
-                                  title: Text("Success!"),
-                                  content:
-                                      Text("Donor was successfully created !"),
-                                  actions: [
-                                    okButton,
-                                  ],
-                                );
+                            if (formKey.currentState!.validate()) {
+                              addDonor();
 
-                                // show the dialog
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return alert;
-                                  },
-                                );
-                                // If the form is valid, display a snackbar. In the real world,
-                                // you'd often call a server or save the information in a database.
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Processing Data')),
-                                );
-
-                                //check donors exist in donors table or cho table before insert it
-
-                                /* DatabaseHelper.instance.addDonor(
-                                  Donors(
-                                    email: emailController.text,
-                                    password: encryptedPass,
-                                    name: nameController.text,
-                                    location: location,
-                                    type: eType,
-                                    phone: phone1,
-                                  ),
-                                );*/
-                                addDonor();
-
-                                //   print(
-                                //       await DatabaseHelper.instance.getDonors());
-
-                              } else {
-                                print('try again later.');
-                              }
-                            } catch (e) {
-                              print(e);
+                              // If the form is valid, display a snackbar. In the real world,
+                              // you'd often call a server or save the information in a database.
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Processing Data')),
+                              );
                             }
                           },
                           child: const Text('Sign Up')),
@@ -853,4 +774,10 @@ Widget inputFile({label, obscureText = false}) {
       )
     ],
   );
+}
+
+@override
+Widget build(BuildContext context) {
+  // TODO: implement build
+  throw UnimplementedError();
 }
