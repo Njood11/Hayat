@@ -44,7 +44,6 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   var selectstatus;
   _ListOffersPage3(this.myArray, this.apply, this.AllCategory, this.myArray2S,
       this.myArray2C, this.selectstatus, this.SelectCategory);
-
   // late String searchText = searchController.text;
   //late var allOffers = [];
   var items = [];
@@ -57,14 +56,6 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
     super.initState();
 
     getOffers();
-    //search('', apply, myArray);
-    //var helper = DatabaseHelper.instance.Categorylist().then((value) {
-    //   setState(() {
-    //    allOffers = value;
-    //   items = allOffers;
-    //  });
-    //   search('', apply, myArray);
-    //  });
   }
 
   void getOffers() async {
@@ -78,6 +69,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
         allOffers = apiResponse.results as List<ParseObject>;
         items = allOffers as List<ParseObject>;
       });
+      search("", apply, myArray);
     } else {
       allOffers = [];
     }
@@ -170,7 +162,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
     if (AllCategory == true && selectstatus == true) {
       setState(() {
         items = [];
-        items = myAr;
+        items = myArray2S;
       });
     }
 
@@ -248,7 +240,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                       onChanged: (value) {
                         setState(() {
                           // search(value, apply, myArray);
-                          search1(value);
+                          search(value, apply, myArray);
                         });
                       },
                       controller: searchController,
@@ -443,18 +435,18 @@ class _CustomDialogState extends State<CustomDialog> {
       print(query2);
       var s = allOffers;
       if (query2.isNotEmpty) {
-        s.forEach((element) {
-          for (int i = 0; i < allOffers.length; i++) {
-            var offer = allOffers[i];
+        for (int i = 0; i < allOffers.length; i++) {
+          var offer = allOffers[i];
 
-            var categories = offer.get("food_category").toString();
-            var status = offer.get("food_status").toString();
+          var status = offer.get("food_status").toString();
 
-            if (status.toLowerCase().contains(query2.toLowerCase())) {
-              matchS.add(element);
-            }
+          if (status.toLowerCase().contains(query2.toLowerCase())) {
+            matchS.add(offer);
           }
-        });
+        }
+
+        print('matchSsssss');
+
         print(matchS);
       }
     }
@@ -534,25 +526,30 @@ class _CustomDialogState extends State<CustomDialog> {
           finalQueryC = SelectedCat[j];
         }
 
-        print('queryyyyyyy4');
-        print(query4);
-        print('queryyyyyyy5');
-        print(query5);
+        print('finalQueryC');
+        print(finalQueryC);
+        print('finalQueryS');
+        print(finalQueryS);
 
         var s12 = allOffers;
-
-        s12.forEach((element) {
-          for (int i = 0; i < allOffers.length; i++) {
-            var offer = allOffers[i];
-            var categories = offer.get("food_category").toString();
-            var status = offer.get("food_status").toString();
-
-            if (categories.contains(finalQueryC.toLowerCase()) &&
-                status.contains(finalQueryS.toLowerCase())) {
-              finalMatch.add(element);
-            }
+        finalMatch = [];
+        for (int i = 0; i < allOffers.length; i++) {
+          var offer = allOffers[i];
+          var categories = offer.get("food_category").toString();
+          print('categories');
+          print(categories);
+          var status = offer.get("food_status").toString();
+          print('status');
+          print(status);
+          if (categories.toLowerCase().contains(finalQueryC.toLowerCase()) &&
+              status.toLowerCase().contains(finalQueryS.toLowerCase())) {
+            print('yeass match');
+            finalMatch.add(offer);
           }
-        });
+        }
+
+        print('final match :');
+        print(finalMatch);
       }
     }
   }
