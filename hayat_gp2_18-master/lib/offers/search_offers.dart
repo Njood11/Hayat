@@ -48,7 +48,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   // late String searchText = searchController.text;
   //late var allOffers = [];
   var items = [];
-
+  var match = [];
   TextEditingController searchController = new TextEditingController();
   late String Searchstring = "";
 
@@ -76,7 +76,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
     if (apiResponse.success && apiResponse.results != null) {
       setState(() {
         allOffers = apiResponse.results as List<ParseObject>;
-        items = allOffers;
+        items = allOffers as List<ParseObject>;
       });
     } else {
       allOffers = [];
@@ -87,25 +87,19 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   void search1(String query) async {
     var s = allOffers;
     if (query.isNotEmpty) {
-      var match = [];
+      match = [];
 
       for (int i = 0; i < allOffers.length; i++) {
         // var offer = Offers.fromMap(element);
         var offer = allOffers[i];
-        print("offer");
-        print(offer);
+
         var categories = offer.get("food_category").toString();
         var status = offer.get("food_status").toString();
-        print("query" + query);
-        print("categoryyy" + categories);
-        print("statussss" + status);
 
         if (categories.toLowerCase().contains(query.toLowerCase()) ||
             status.toLowerCase().contains(query.toLowerCase())) {
           match.add(offer);
-
-          print('matchhh');
-          print(match);
+          print('yes match');
         }
       }
 
@@ -130,7 +124,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
 
     var s = allOffers;
     if (query.isNotEmpty) {
-      var match = [];
+      match = [];
 
       for (int i = 0; i < allOffers.length; i++) {
         // var offer = Offers.fromMap(element);
@@ -283,7 +277,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                   child: ListView.builder(
                       itemCount: items.length,
                       itemBuilder: (context, i) {
-                        var offer = allOffers[i];
+                        var offer = items[i];
                         print(offer);
 
                         return Container(
