@@ -3,16 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hayat_gp2_18/database/sqlite.dart';
-import 'package:hayat_gp2_18/main.dart';
+//import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'dart:async';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class PublishOfferPage extends StatefulWidget {
   var Donorid;
@@ -24,19 +21,59 @@ class PublishOfferPage extends StatefulWidget {
 
 class _PublishOfferPage extends State<PublishOfferPage> {
   var Donorid;
-  var _file;
+  PickedFile? pickedFile;
   _PublishOfferPage(this.Donorid);
   void pickC() async {
-    var picFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    PickedFile? image =
+        await ImagePicker().getImage(source: ImageSource.camera);
     setState(() {
-      _file = File(picFile!.path);
+      pickedFile = image;
     });
   }
 
-  Future encodePic() async {
+  /* Future encodePic() async {
     if (_file == null) return;
 
     String base64 = base64Encode(_file.readAsBytesSync());
+  }*/
+
+  void addOffer() async {
+    final offer = ParseObject("donations")
+      ..set("aq", dropdownvalueAQ)
+      ..set('exp_date', DateFormat('yyyy-MM-dd').format(pickedDate))
+      ..set('food_category', dropdownvalueCategory + ',' + MoreController.text)
+      ..set('food_status', dropdownvalueStatus)
+      ..set("pic", parseFile)
+      ..set('donor_ID', Donorid /*ParseObject('User')..objectId = Donorid*/);
+
+    var response = await offer.save();
+
+    if (response.success == false) {
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.pop(context, 'OK');
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Error!"),
+        content: Text("Can't add offer!"),
+        actions: [
+          okButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+
+      pickedFile = null;
+    }
   }
 
   // Initial Selected Value
@@ -78,8 +115,9 @@ class _PublishOfferPage extends State<PublishOfferPage> {
     ' Dried ',
   ];
   //uploadImage() async {}
-  String imagePath = "";
+  //String imagePath = "";
   final picker = ImagePicker();
+  ParseFileBase? parseFile;
   // late String uid = widget.id;
   late String FoodStatus = " ";
   late String FoodCategory = " ";
@@ -378,25 +416,26 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                       ),
                       onPressed: () async {
                         pickC();
-                        encodePic();
+                        //encodePic();
                       },
                       child: Text("Select Image"),
                     ),
                   ),
                   Container(
-                    alignment: Alignment.center,
-                    height: 280.0,
-                    color: Colors.teal[200],
-                    child: _file == null
-                        ? Text(
-                            "No Image Selectd",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 40,
-                            ),
-                          )
-                        : Image.file(_file),
-                  ),
+                      alignment: Alignment.center,
+                      height: 280.0,
+                      color: Colors.teal[200],
+                      child: pickedFile == null
+                          ? Text(
+                              "No Image Selectd",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 40,
+                              ),
+                            )
+                          : Image.file(File(pickedFile!.path))
+                      //Image.file(_file),
+                      ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -414,7 +453,12 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                                     content: Text('Processing Data')),
                               );
 
-                              var offer = Offers(
+                              parseFile = ParseFile(File(pickedFile!.path));
+                              await parseFile!.save();
+
+                              addOffer();
+
+                              /*var offer = Offers(
                                 aq: dropdownvalueAQ,
                                 eDate:
                                     DateFormat('yyyy-MM-dd').format(pickedDate),
@@ -429,7 +473,7 @@ class _PublishOfferPage extends State<PublishOfferPage> {
 
                               await DatabaseHelper.instance.addOffer(offer);
 
-                              print(await DatabaseHelper.instance.getOffers());
+                              print(await DatabaseHelper.instance.getOffers());*/
 
                               Navigator.push(
                                 context,

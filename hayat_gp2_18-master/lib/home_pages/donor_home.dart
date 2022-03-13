@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';
+import 'package:hayat_gp2_18/offers/view_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 
 class HomeD extends StatelessWidget {
@@ -90,7 +91,9 @@ class HomeD extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PublishOfferPage()));
+                          builder: (context) => PublishedOffers(
+                                Did: Donorid1,
+                              )));
                 },
                 splashColor: Colors.red,
                 child: Center(
@@ -102,7 +105,7 @@ class HomeD extends StatelessWidget {
                         size: 75,
                         color: Colors.teal,
                       ),
-                      Text("Published offers",
+                      Text("View published offers",
                           style: new TextStyle(fontSize: 12))
                     ],
                   ),
