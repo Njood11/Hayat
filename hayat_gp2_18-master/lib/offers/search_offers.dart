@@ -5,6 +5,8 @@ import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';
 import 'package:hayat_gp2_18/main.dart';
+import 'package:parse_server_sdk_flutter/generated/i18n.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class ListOffersPage3 extends StatefulWidget {
   var myArray;
@@ -32,6 +34,7 @@ class ListOffersPage3 extends StatefulWidget {
 }
 
 class _ListOffersPage3 extends State<ListOffersPage3> {
+  List<ParseObject> allOffers = <ParseObject>[];
   var myArray;
   var apply;
   var AllCategory;
@@ -43,7 +46,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
       this.myArray2C, this.selectstatus, this.SelectCategory);
 
   // late String searchText = searchController.text;
-  late var allOffers = [];
+  //late var allOffers = [];
   var items = [];
 
   TextEditingController searchController = new TextEditingController();
@@ -52,13 +55,71 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   @override
   void initState() {
     super.initState();
-    var helper = DatabaseHelper.instance.Categorylist().then((value) {
+
+    getOffers();
+    //search('', apply, myArray);
+    //var helper = DatabaseHelper.instance.Categorylist().then((value) {
+    //   setState(() {
+    //    allOffers = value;
+    //   items = allOffers;
+    //  });
+    //   search('', apply, myArray);
+    //  });
+  }
+
+  void getOffers() async {
+    QueryBuilder<ParseObject> parseQuery =
+        QueryBuilder<ParseObject>(ParseObject('donations'));
+
+    final ParseResponse apiResponse = await parseQuery.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
       setState(() {
-        allOffers = value;
+        allOffers = apiResponse.results as List<ParseObject>;
         items = allOffers;
       });
-      search('', apply, myArray);
-    });
+    } else {
+      allOffers = [];
+    }
+    print(items);
+  }
+
+  void search1(String query) async {
+    var s = allOffers;
+    if (query.isNotEmpty) {
+      var match = [];
+
+      for (int i = 0; i < allOffers.length; i++) {
+        // var offer = Offers.fromMap(element);
+        var offer = allOffers[i];
+        print("offer");
+        print(offer);
+        var categories = offer.get("food_category").toString();
+        var status = offer.get("food_status").toString();
+        print("query" + query);
+        print("categoryyy" + categories);
+        print("statussss" + status);
+
+        if (categories.toLowerCase().contains(query.toLowerCase()) ||
+            status.toLowerCase().contains(query.toLowerCase())) {
+          match.add(offer);
+
+          print('matchhh');
+          print(match);
+        }
+      }
+
+      setState(() {
+        items = [];
+        items.addAll(match);
+      });
+      return;
+    } else {
+      setState(() {
+        items = [];
+        items = allOffers;
+      });
+    }
   }
 
   void search(String query, var applay, var myAr) async {
@@ -70,15 +131,18 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
     var s = allOffers;
     if (query.isNotEmpty) {
       var match = [];
-      s.forEach((element) {
-        var offer = Offers.fromMap(element);
-        var categories = offer.fCategory.split(' ').toString();
-        var status = offer.fStatus.split(' ').toString();
+
+      for (int i = 0; i < allOffers.length; i++) {
+        // var offer = Offers.fromMap(element);
+        var offer = allOffers[i];
+        var categories = offer.get("food_category").split(' ').toString();
+        var status = offer.get("food_status").split(' ').toString();
         if (categories.toLowerCase().contains(query.toLowerCase()) ||
             status.toLowerCase().contains(query.toLowerCase())) {
-          match.add(element);
+          match.add(offer);
         }
-      });
+      }
+
       setState(() {
         items = [];
         items.addAll(match);
@@ -186,7 +250,8 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                     child: TextField(
                       onChanged: (value) {
                         setState(() {
-                          search(value, apply, myArray);
+                          // search(value, apply, myArray);
+                          search1(value);
                         });
                       },
                       controller: searchController,
@@ -218,7 +283,8 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                   child: ListView.builder(
                       itemCount: items.length,
                       itemBuilder: (context, i) {
-                        Offers offer = Offers.fromMap(items[i]);
+                        var offer = allOffers[i];
+                        print(offer);
 
                         return Container(
                           margin: EdgeInsets.symmetric(
@@ -240,13 +306,22 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => offerDetailes(
-                                            SelectedOfferCategory:
-                                                offer.fCategory,
-                                            SelectedOfferStatus: offer.fStatus,
-                                            SelectedAvailableQuantity: offer.aq,
-                                            SelectedExpirationDate: offer.eDate,
-                                            SelectedPic: offer.pic,
-                                            SelectedDonorId: offer.Did,
+                                            SelectedOfferCategory: offer
+                                                .get("food_category")
+                                                .toString(),
+                                            SelectedOfferStatus: offer
+                                                .get("food_status")
+                                                .toString(),
+                                            SelectedAvailableQuantity:
+                                                offer.get("aq").toString(),
+                                            SelectedExpirationDate: offer
+                                                .get("exp_date")
+                                                .toString(),
+                                            SelectedPic:
+                                                offer.get("pic").toString(),
+                                            SelectedDonorId: offer
+                                                .get("donor_ID")
+                                                .toString(),
                                           )));
                             },
                             /* leading:   Image.network(
@@ -256,8 +331,9 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                           height: 100,
                         ),*/
                             title: Text(
-                                'Food Category:${offer.fCategory}\n\nFood Status:${offer.fStatus}\n\nEXP:${offer.eDate}\n'),
-                            subtitle: Text('Available Quantity' + offer.aq),
+                                'Food Category:${offer.get("food_category").toString()}\n\nFood Status:${offer.get("food_status").toString()}\n\nEXP:${offer.get("exp_date").toString()}\n'),
+                            subtitle: Text('Available Quantity' +
+                                offer.get("aq").toString()),
                           ),
                         );
                       }),
@@ -304,18 +380,14 @@ class _CustomDialogState extends State<CustomDialog> {
   var finalMatch = [];
   bool selectStatus2 = false;
   bool selectCategory2 = false;
-
+  late var allOffers2 = [];
   @override
   void initState() {
     super.initState();
     //return all offers
 
-    var helper = DatabaseHelper.instance.Categorylist().then((value) {
-      setState(() {
-        allOffers = value;
-        items = allOffers;
-      });
-    });
+    // allOffers = value;
+    // items = allOffers;
   }
 
   void searchWithFilter(var SelectedCat, var SelectedSta) async {
@@ -327,15 +399,17 @@ class _CustomDialogState extends State<CustomDialog> {
       print('query');
 
       print(query);
-      var s = allOffers;
+      var s = allOffers2;
       if (query.isNotEmpty) {
-        s.forEach((element) {
-          var offer = Offers.fromMap(element);
-          var categories = offer.fCategory.toString();
+        for (int i = 0; i < allOffers2.length; i++) {
+          // var offer = Offers.fromMap(element);
+          var offer = allOffers2[i];
+
+          var categories = offer.get("food_category").toString();
           if (categories.toLowerCase().contains(query.toLowerCase())) {
-            matchC.add(element);
+            matchC.add(offer);
           }
-        });
+        }
 
         print(matchC);
       }
@@ -356,12 +430,15 @@ class _CustomDialogState extends State<CustomDialog> {
       var s = allOffers;
       if (query2.isNotEmpty) {
         s.forEach((element) {
-          var offer = Offers.fromMap(element);
-          var status = offer.fStatus.toString();
-          var categories = offer.fCategory.toString();
+          for (int i = 0; i < allOffers.length; i++) {
+            var offer = allOffers[i];
 
-          if (status.toLowerCase().contains(query2.toLowerCase())) {
-            matchS.add(element);
+            var categories = offer.get("food_category").toString();
+            var status = offer.get("food_status").toString();
+
+            if (status.toLowerCase().contains(query2.toLowerCase())) {
+              matchS.add(element);
+            }
           }
         });
         print(matchS);
@@ -451,12 +528,15 @@ class _CustomDialogState extends State<CustomDialog> {
         var s12 = allOffers;
 
         s12.forEach((element) {
-          var offer = Offers.fromMap(element);
-          var categories = offer.fCategory.toLowerCase().toString();
-          var status = offer.fStatus.toLowerCase().toString();
-          if (categories.contains(finalQueryC.toLowerCase()) &&
-              status.contains(finalQueryS.toLowerCase())) {
-            finalMatch.add(element);
+          for (int i = 0; i < allOffers.length; i++) {
+            var offer = allOffers[i];
+            var categories = offer.get("food_category").toString();
+            var status = offer.get("food_status").toString();
+
+            if (categories.contains(finalQueryC.toLowerCase()) &&
+                status.contains(finalQueryS.toLowerCase())) {
+              finalMatch.add(element);
+            }
           }
         });
       }
