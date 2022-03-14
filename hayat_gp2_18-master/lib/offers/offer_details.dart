@@ -184,11 +184,13 @@ class _offerDetailes extends State<offerDetailes> {
         print('donors');
         print(donor);
         print(donor[0].get('name'));
+        print(donor[0].get('phone'));
+        print(donor[0].get('type'));
+        name == donor[0].get("name").toString();
+        phone = donor[0].get("phone").toString();
+        // location = donor[0].get("location").toString();
+        establishmentType = donor[0].get("type").toString();
       });
-      name == donor[0].get("name").toString();
-      phone = donor[0].get("phone").toString();
-      // location = donor[0].get("location").toString();
-      establishmentType = donor[0].get("type").toString();
     } else {
       donor = [];
     }
@@ -237,7 +239,7 @@ class _offerDetailes extends State<offerDetailes> {
                 style: TextStyle(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              Text('\n\n\nFood Category of the Donation: ',
+              Text('\n\n\nFood category of the donation: ',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               Text(
                 '\n' + C,
@@ -249,7 +251,7 @@ class _offerDetailes extends State<offerDetailes> {
                 '\n' + S,
                 overflow: TextOverflow.visible,
               ),
-              Text('\nAvailable Quantity (# person): ',
+              Text('\nAvailable quantity (# person): ',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               Text(
                 '\n' + A,
@@ -267,25 +269,23 @@ class _offerDetailes extends State<offerDetailes> {
                 style: TextStyle(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              /*  Text('\n\n\nDonor type: ',
+              Text('\n\n\nDonor type: ',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               Text(
-                '\n' + establishmentType,
+                '\n' + donor[0].get("type").toString(),
                 overflow: TextOverflow.visible,
               ),
               Text('\nName: ', style: TextStyle(fontWeight: FontWeight.bold)),
               Text(
-                '\n' + name,
+                '\n' + donor[0].get("name").toString(),
                 overflow: TextOverflow.visible,
               ),
               Text('\nContact number: ',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               Text(
-                '\n' + phone,
+                '\n' + donor[0].get("phone").toString(),
                 overflow: TextOverflow.visible,
               ),
-              Text('\nlocation: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),*/
             ],
           ),
         ));
