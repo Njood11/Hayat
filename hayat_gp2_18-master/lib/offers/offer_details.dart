@@ -124,6 +124,8 @@ class offerDetailes extends StatefulWidget {
   var SelectedPic;
   var SelectedDonorId;
   var SelectedDonor;
+  var SelectedOfferId;
+  var SelectedCHOId;
 
   offerDetailes(
       {Key? key,
@@ -132,7 +134,9 @@ class offerDetailes extends StatefulWidget {
       this.SelectedAvailableQuantity,
       this.SelectedExpirationDate,
       this.SelectedPic,
-      this.SelectedDonorId})
+      this.SelectedDonorId,
+      this.SelectedOfferId,
+      this.SelectedCHOId})
       : super(key: key);
   @override
   _offerDetailes createState() => _offerDetailes(
@@ -141,7 +145,9 @@ class offerDetailes extends StatefulWidget {
       SelectedAvailableQuantity,
       SelectedExpirationDate,
       SelectedPic,
-      SelectedDonorId);
+      SelectedDonorId,
+      SelectedOfferId,
+      SelectedCHOId);
 }
 
 class _offerDetailes extends State<offerDetailes> {
@@ -154,6 +160,8 @@ class _offerDetailes extends State<offerDetailes> {
   var SelectedPic;
   var SelectedDonorId;
   var SelectedDonor;
+  var SelectedOfferId;
+  var SelectedCHOId;
 
   _offerDetailes(
       this.SelectedOfferCategory,
@@ -161,7 +169,9 @@ class _offerDetailes extends State<offerDetailes> {
       this.SelectedAvailableQuantity,
       this.SelectedExpirationDate,
       this.SelectedPic,
-      this.SelectedDonorId);
+      this.SelectedDonorId,
+      this.SelectedOfferId,
+      this.SelectedCHOId);
 
   @override
   void initState() {
@@ -201,7 +211,7 @@ class _offerDetailes extends State<offerDetailes> {
         Navigator.pop(context, "OK");
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeC()),
+          MaterialPageRoute(builder: (context) => HomeC(SelectedCHOId)),
         );
       },
     );
@@ -374,18 +384,26 @@ class _offerDetailes extends State<offerDetailes> {
                     );
                     Widget continueButton = TextButton(
                       child: Text("Yes"),
-                      onPressed: () {
-                        //delete offer from search page
+                      onPressed: () async {
+                        //update request column to true (Done)
+                        var RequestedOffer = ParseObject('donations')
+                          ..objectId = SelectedOfferId
+                          ..set('requested', true);
+                        await RequestedOffer.save();
+                        //delete offer from search page (Done)
                         //add offer in published request page
+
                         //add offer in requested offers
                         // set up the button
+
                         Widget okButton = TextButton(
                           child: Text("OK"),
                           onPressed: () {
                             Navigator.pop(context, "OK");
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => HomeC()),
+                              MaterialPageRoute(
+                                  builder: (context) => HomeC(SelectedCHOId)),
                             );
                           },
                         );

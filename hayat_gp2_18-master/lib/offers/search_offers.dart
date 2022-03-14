@@ -12,7 +12,7 @@ class ListOffersPage3 extends StatefulWidget {
   var myArray;
   var myArray2S;
   var myArray2C;
-
+  var Cid;
   var apply;
   var AllCategory;
   var SelectCategory;
@@ -26,11 +26,12 @@ class ListOffersPage3 extends StatefulWidget {
       this.myArray2S,
       this.myArray2C,
       this.selectstatus,
-      this.SelectCategory})
+      this.SelectCategory,
+      this.Cid})
       : super(key: key);
   @override
   _ListOffersPage3 createState() => _ListOffersPage3(myArray, apply,
-      AllCategory, myArray2S, myArray2C, selectstatus, SelectCategory);
+      AllCategory, myArray2S, myArray2C, selectstatus, SelectCategory, Cid);
 }
 
 class _ListOffersPage3 extends State<ListOffersPage3> {
@@ -42,8 +43,9 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   var myArray2C;
   var SelectCategory;
   var selectstatus;
+  var Cid;
   _ListOffersPage3(this.myArray, this.apply, this.AllCategory, this.myArray2S,
-      this.myArray2C, this.selectstatus, this.SelectCategory);
+      this.myArray2C, this.selectstatus, this.SelectCategory, this.Cid);
   // late String searchText = searchController.text;
   //late var allOffers = [];
   var items = [];
@@ -206,7 +208,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
         leading: IconButton(
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeC()));
+                context, MaterialPageRoute(builder: (context) => HomeC(Cid)));
           },
           icon: Icon(Icons.home_outlined),
         ),
@@ -296,23 +298,23 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => offerDetailes(
-                                            SelectedOfferCategory: offer
-                                                .get("food_category")
-                                                .toString(),
-                                            SelectedOfferStatus: offer
-                                                .get("food_status")
-                                                .toString(),
-                                            SelectedAvailableQuantity:
-                                                offer.get("aq").toString(),
-                                            SelectedExpirationDate: offer
-                                                .get("exp_date")
-                                                .toString(),
-                                            SelectedPic:
-                                                offer.get("pic").toString(),
-                                            SelectedDonorId: offer
-                                                .get("donor_ID")
-                                                .toString(),
-                                          )));
+                                          SelectedOfferCategory: offer
+                                              .get("food_category")
+                                              .toString(),
+                                          SelectedOfferStatus: offer
+                                              .get("food_status")
+                                              .toString(),
+                                          SelectedAvailableQuantity:
+                                              offer.get("aq").toString(),
+                                          SelectedExpirationDate:
+                                              offer.get("exp_date").toString(),
+                                          SelectedPic:
+                                              offer.get("pic").toString(),
+                                          SelectedDonorId:
+                                              offer.get("donor_ID").toString(),
+                                          SelectedOfferId:
+                                              offer.get("objectId").toString(),
+                                          SelectedCHOId: Cid)));
                             },
                             /* leading:   Image.network(
                           offer.pic,

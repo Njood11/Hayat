@@ -5,8 +5,12 @@ import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/main.dart';
 
 class HomeC extends StatelessWidget {
+  var Cid;
+  HomeC(this.Cid) : super();
+
   @override
   Widget build(BuildContext context) {
+    var CHOid1 = Cid;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,

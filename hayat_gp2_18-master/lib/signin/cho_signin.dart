@@ -66,7 +66,7 @@ class _LoginChoPageState extends State<LoginChoPage> {
           Navigator.pop(context, 'OK');
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomeC()),
+            MaterialPageRoute(builder: (context) => HomeC(id)),
           );
         },
       );
