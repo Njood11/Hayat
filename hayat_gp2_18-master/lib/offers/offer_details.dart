@@ -151,10 +151,6 @@ class _offerDetailes extends State<offerDetailes> {
   var SelectedPic;
   var SelectedDonorId;
   var SelectedDonor;
-  var name;
-  var phone;
-  var location;
-  var establishmentType;
 
   _offerDetailes(
       this.SelectedOfferCategory,
@@ -186,10 +182,8 @@ class _offerDetailes extends State<offerDetailes> {
         print(donor[0].get('name'));
         print(donor[0].get('phone'));
         print(donor[0].get('type'));
-        name == donor[0].get("name").toString();
-        phone = donor[0].get("phone").toString();
+
         // location = donor[0].get("location").toString();
-        establishmentType = donor[0].get("type").toString();
       });
     } else {
       donor = [];
