@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/offers/published_request_cho.dart';
 import 'package:hayat_gp2_18/offers/search_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/main.dart';
@@ -79,7 +80,12 @@ class HomeC extends StatelessWidget {
             ),
             Card(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => publishedRequestCHO()));
+                },
                 splashColor: Colors.red,
                 child: Center(
                   child: Column(

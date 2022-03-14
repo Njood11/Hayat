@@ -60,7 +60,8 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
 
   void getOffers() async {
     QueryBuilder<ParseObject> parseQuery =
-        QueryBuilder<ParseObject>(ParseObject('donations'));
+        QueryBuilder<ParseObject>(ParseObject('donations'))
+          ..whereEqualTo("requested", false);
 
     final ParseResponse apiResponse = await parseQuery.query();
 
@@ -374,7 +375,9 @@ class _CustomDialogState extends State<CustomDialog> {
   late var allOffers2 = [];
   void getOffers() async {
     QueryBuilder<ParseObject> parseQuery =
-        QueryBuilder<ParseObject>(ParseObject('donations'));
+        QueryBuilder<ParseObject>(ParseObject('donations'))
+          ..whereEqualTo("requested", false);
+    ;
 
     final ParseResponse apiResponse = await parseQuery.query();
 

@@ -106,7 +106,10 @@ class offerDetailes extends StatelessWidget {
   }
 }
 */
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:hayat_gp2_18/offers/search_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/main.dart';
@@ -190,6 +193,75 @@ class _offerDetailes extends State<offerDetailes> {
     }
   }
 
+  showAlertDialog2(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context, "OK");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeC()),
+        );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Success!"),
+      content: Text(
+          "Your request has been successful.\nNow you can find your request on the (Published Requests) page on your home page."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.pop(context, 'Cancel');
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () {
+        //delete offer from search page
+        //add offer in published request page
+        //add offer in requested offers
+        showAlertDialog2;
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("AlertDialog"),
+      content: Text("Would you like to continue requesting this donation?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   Widget build(BuildContext context) {
     var SelectedOfferCategory;
     var SelectedOfferStatus;
@@ -205,83 +277,212 @@ class _offerDetailes extends State<offerDetailes> {
     var E = this.SelectedExpirationDate;
     var P = this.SelectedPic;
     var I = this.SelectedDonorId;
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.blueGrey[200],
-        appBar: AppBar(
-          title: Text(
-            'Hayat food donation',
-          ),
-          backgroundColor: Colors.teal[200],
-          elevation: 0.0,
+    return MaterialApp(
+        home: Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.blueGrey[200],
+      body: Container(
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.all(10),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+              Radius.circular(10.0) //                 <--- border radius here
+              ),
+          color: Colors.white70,
         ),
-        body: Container(
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          padding: EdgeInsets.all(10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-                Radius.circular(10.0) //                 <--- border radius here
-                ),
-            color: Colors.white70,
-          ),
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            children: <Widget>[
-              Text(
-                'Donation offer details',
-                style: TextStyle(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              Text('\n\n\nFood category of the donation: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(
-                '\n' + C,
-                overflow: TextOverflow.visible,
-              ),
-              Text('\nFood Status of Donation: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(
-                '\n' + S,
-                overflow: TextOverflow.visible,
-              ),
-              Text('\nAvailable quantity (# person): ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(
-                '\n' + A,
-                overflow: TextOverflow.visible,
-              ),
-              Text('\nExpiration date: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(
-                '\n' + E + '\n',
-                overflow: TextOverflow.visible,
-              ),
-              Divider(color: Colors.grey),
-              Text(
-                '\nDonor information',
-                style: TextStyle(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              Text('\n\n\nDonor type: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(
-                '\n' + donor[0].get("type").toString(),
-                overflow: TextOverflow.visible,
-              ),
-              Text('\nName: ', style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(
-                '\n' + donor[0].get("name").toString(),
-                overflow: TextOverflow.visible,
-              ),
-              Text('\nContact number: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(
-                '\n' + donor[0].get("phone").toString(),
-                overflow: TextOverflow.visible,
-              ),
-            ],
-          ),
-        ));
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            Text(
+              'Donation offer details',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            Text('\n\n\nFood category of the donation: ',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '\n' + C,
+              overflow: TextOverflow.visible,
+            ),
+            Text('\nFood Status of Donation: ',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '' + S,
+              overflow: TextOverflow.visible,
+            ),
+            Text('\nAvailable quantity (# person): ',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '' + A,
+              overflow: TextOverflow.visible,
+            ),
+            Text('\nExpiration date: ',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '' + E + '\n',
+              overflow: TextOverflow.visible,
+            ),
+            Divider(color: Colors.grey),
+            Text(
+              '\nDonor information',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            Text('\n\n\nDonor type: ' + donor[0].get("type").toString(),
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '' + donor[0].get("type").toString(),
+            ),
+            Text('\nName: ', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '' + donor[0].get("name").toString(),
+              overflow: TextOverflow.visible,
+            ),
+            Text('\nContact number: ',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '' + donor[0].get("phone").toString(),
+              overflow: TextOverflow.visible,
+            ),
+            Text('\nLocation: ', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '' + donor[0].get("location").toString(),
+              overflow: TextOverflow.visible,
+            ),
+
+            /*  Column(
+                    children: <Widget>[
+                      Text('\nLocation: ',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(
+                        '\n' + donor[0].get("location").toString(),
+                        overflow: TextOverflow.visible,
+                      ),
+                    ],
+                  ),*/
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    // set up the buttons
+                    Widget cancelButton = TextButton(
+                      child: Text("Cancel"),
+                      onPressed: () {
+                        Navigator.pop(context, 'Cancel');
+                      },
+                    );
+                    Widget continueButton = TextButton(
+                      child: Text("Yes"),
+                      onPressed: () {
+                        //delete offer from search page
+                        //add offer in published request page
+                        //add offer in requested offers
+                        // set up the button
+                        Widget okButton = TextButton(
+                          child: Text("OK"),
+                          onPressed: () {
+                            Navigator.pop(context, "OK");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeC()),
+                            );
+                          },
+                        );
+
+                        // set up the AlertDialog
+                        AlertDialog alert = AlertDialog(
+                          title: Text("Success!"),
+                          content: Text(
+                              "Your request has been successful.\n\nNow you can find your request on the (Published Requests) page on your home page."),
+                          actions: [
+                            okButton,
+                          ],
+                        );
+
+                        // show the dialog
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return alert;
+                          },
+                        );
+                      },
+                    );
+
+                    // set up the AlertDialog
+                    AlertDialog alert = AlertDialog(
+                      title: Text(""),
+                      content: Text(
+                          "Would you like to continue requesting this donation?"),
+                      actions: [
+                        cancelButton,
+                        continueButton,
+                      ],
+                    );
+
+                    // show the dialog
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  },
+                  child: const Text('Request Donation')),
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 }
+
+/*  Text('\n\n\nFood category of the donation: ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    '\n' + C,
+                    overflow: TextOverflow.visible,
+                  ),
+                  Text('\nFood Status of Donation: ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    '\n' + S,
+                    overflow: TextOverflow.visible,
+                  ),
+                  Text('\nAvailable quantity (# person): ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    '\n' + A,
+                    overflow: TextOverflow.visible,
+                  ),
+                  Text('\nExpiration date: ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    '\n' + E + '\n',
+                    overflow: TextOverflow.visible,
+                  ),
+                  Divider(color: Colors.grey),
+                  Text(
+                    '\nDonor information',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text('\n\n\nDonor type: ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    '\n' + donor[0].get("type").toString(),
+                    overflow: TextOverflow.visible,
+                  ),
+                  Text('\nName: ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    '\n' + donor[0].get("name").toString(),
+                    overflow: TextOverflow.visible,
+                  ),
+                  Text('\nContact number: ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    '\n' + donor[0].get("phone").toString(),
+                    overflow: TextOverflow.visible,
+                  ), */
