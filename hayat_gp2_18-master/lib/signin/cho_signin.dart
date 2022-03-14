@@ -24,7 +24,7 @@ class _LoginChoPageState extends State<LoginChoPage> {
   late String email = ' ';
   late String password = ' ';
   bool x = false;
-  late var id;
+  var Cid;
 
   var allCHOwithEmail = [];
   var elements = [];
@@ -57,16 +57,16 @@ class _LoginChoPageState extends State<LoginChoPage> {
 
     /////
     if (response.success && donor.get("userType") == 'cho') {
-      id = donor.objectId;
+      Cid = donor.objectId;
       print('id:  ');
-      print(id);
+      print(Cid);
       Widget okButton = TextButton(
         child: Text("OK"),
         onPressed: () {
           Navigator.pop(context, 'OK');
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomeC(id)),
+            MaterialPageRoute(builder: (context) => HomeC(Cid)),
           );
         },
       );

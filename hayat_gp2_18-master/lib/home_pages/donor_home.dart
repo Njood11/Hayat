@@ -11,6 +11,7 @@ class HomeD extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var Donorid1 = Did;
+    print(Donorid1);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,

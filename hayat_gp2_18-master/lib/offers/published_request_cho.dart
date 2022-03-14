@@ -43,7 +43,7 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Requested Offers"),
-        backgroundColor: Colors.teal[700],
+        backgroundColor: Colors.teal[200],
         centerTitle: true,
       ),
       body: Column(
@@ -64,17 +64,17 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
                         return Container(
                           margin: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
-                          decoration: BoxDecoration(
+                          /*decoration: BoxDecoration(
                             color: Colors.white,
                             // borderRadius: BorderRadius.circular(13),
-                            boxShadow: [
+                            /* boxShadow: [
                               BoxShadow(
                                   color: Colors.grey,
                                   blurRadius: 10,
                                   spreadRadius: 3,
                                   offset: Offset(3, 4))
-                            ],
-                          ),
+                            ],*/
+                          ),*/
                           child: ListTile(
                             onTap: () {
                               Navigator.push(

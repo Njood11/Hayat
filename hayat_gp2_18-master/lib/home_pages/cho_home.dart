@@ -11,6 +11,7 @@ class HomeC extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var CHOid1 = Cid;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -45,7 +46,7 @@ class HomeC extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ListOffersPage3()));
+                          builder: (context) => ListOffersPage3(Cid: Cid)));
                 },
                 splashColor: Colors.red,
                 child: Center(
