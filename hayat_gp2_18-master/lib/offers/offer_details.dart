@@ -388,7 +388,8 @@ class _offerDetailes extends State<offerDetailes> {
                         //update request column to true (Done)
                         var RequestedOffer = ParseObject('donations')
                           ..objectId = SelectedOfferId
-                          ..set('requested', true);
+                          ..set('requested', true)
+                          ..set('RequesterCHOid', SelectedCHOId);
                         await RequestedOffer.save();
                         //delete offer from search page (Done)
                         //add offer in published request page

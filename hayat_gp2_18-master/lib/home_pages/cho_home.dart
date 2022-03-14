@@ -88,7 +88,7 @@ class HomeC extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => publishedRequestCHO()));
+                          builder: (context) => publishedRequestCHO(Cid)));
                 },
                 splashColor: Colors.red,
                 child: Center(
