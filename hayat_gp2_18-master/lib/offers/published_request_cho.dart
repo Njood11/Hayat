@@ -116,9 +116,9 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
                           height: 100,
                         ),*/
                             title: Text(
-                                'Food Category:${offer.get("food_category").toString()}\n\nFood Status:${offer.get("food_status").toString()}\n\nEXP:${offer.get("exp_date").toString()}\n'),
-                            subtitle: Text('Available Quantity' +
-                                offer.get("aq").toString()),
+                                'Food Category:${offer.get("food_category").toString()}\n\nFood Status:${offer.get("food_status").toString()}\n'),
+                            subtitle: Text(
+                                'EXP: ' + offer.get("exp_date").toString()),
                           ),
                         );
                       }),

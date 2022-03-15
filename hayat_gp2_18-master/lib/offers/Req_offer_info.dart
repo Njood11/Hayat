@@ -202,11 +202,11 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
                                 child: Text(
                                   '\nDonor type:  ' +
                                       donor[0].get("type").toString() +
-                                      '\nName:  ' +
+                                      '\n\nName:  ' +
                                       donor[0].get("name").toString() +
-                                      '\nContact number:  ' +
+                                      '\n\nContact number:  ' +
                                       donor[0].get("phone").toString() +
-                                      '\nLocation:  ' +
+                                      '\n\nLocation:  ' +
                                       donor[0].get("location").toString(),
                                   overflow: TextOverflow.visible,
                                 ),
@@ -227,7 +227,7 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
                           },
                           child: const Text('Donor Information')),
                     ),
-                    Container(
+                    /*   Container(
                       child: ListTile(
                         title: Text(
                           '\nDonor Information',
@@ -236,7 +236,7 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
                         ),
                       ),
                     ),
-                    /*\Container(
+                   \Container(
                       child: ListTile(
                         title: Text(
                           '\nDonor type:  ' +
