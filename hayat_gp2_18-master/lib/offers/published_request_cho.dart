@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/offers/Req_offer_info.dart';
 import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,6 +21,13 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
   List<ParseObject> allOffers = <ParseObject>[];
 
   var Cid;
+  _publishedRequestCHO(this.Cid);
+
+  void initState() {
+    super.initState();
+
+    getRequestedOffers(Cid);
+  }
 
   void getRequestedOffers(String Cid) async {
     QueryBuilder<ParseObject> parseQuery =
@@ -37,9 +45,11 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
     }
   }
 
-  _publishedRequestCHO(Cid);
   @override
   Widget build(BuildContext context) {
+    print('Cid in Requested Offers');
+
+    print(Cid);
     return Scaffold(
       appBar: AppBar(
         title: Text("Requested Offers"),
@@ -64,9 +74,9 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
                         return Container(
                           margin: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
-                          /*decoration: BoxDecoration(
-                            color: Colors.white,
-                            // borderRadius: BorderRadius.circular(13),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(13),
                             /* boxShadow: [
                               BoxShadow(
                                   color: Colors.grey,
@@ -74,13 +84,13 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
                                   spreadRadius: 3,
                                   offset: Offset(3, 4))
                             ],*/
-                          ),*/
+                          ),
                           child: ListTile(
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => offerDetailes(
+                                      builder: (context) => ReqOfferInfo(
                                           SelectedOfferCategory: offer
                                               .get("food_category")
                                               .toString(),
