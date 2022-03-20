@@ -334,7 +334,7 @@ class _offerDetailes extends State<offerDetailes> {
               overflow: TextOverflow.visible,
             ),
             Divider(color: Colors.grey),
-            Text(
+            /*  Text(
               '\nDonor information',
               style: TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
@@ -359,7 +359,7 @@ class _offerDetailes extends State<offerDetailes> {
             Text(
               '' + donor[0].get("location").toString(),
               overflow: TextOverflow.visible,
-            ),
+            ),*/
 
             /*  Column(
                     children: <Widget>[
@@ -374,6 +374,68 @@ class _offerDetailes extends State<offerDetailes> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.blueGrey[200]),
+                  ),
+                  onPressed: () async {
+                    // set up the buttons
+                    Widget cancelButton = TextButton(
+                      child: Text("Ok"),
+                      onPressed: () {
+                        Navigator.pop(context, 'OK');
+                      },
+                    );
+                    Widget continueButton = TextButton(
+                      child: Text("Contact"),
+                      onPressed: () {
+                        //what's app
+                      },
+                    );
+
+                    // set up the AlertDialog
+                    AlertDialog alert = AlertDialog(
+                      title: Text(
+                        '\nDonor Information',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      content: Container(
+                        child: Text(
+                          '\nDonor type:  ' +
+                              donor[0].get("type").toString() +
+                              '\n\nName:  ' +
+                              donor[0].get("name").toString() +
+                              '\n\nContact number:  ' +
+                              donor[0].get("phone").toString() +
+                              '\n\nLocation:  ' +
+                              donor[0].get("location").toString(),
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                      actions: [
+                        cancelButton,
+                        continueButton,
+                      ],
+                    );
+
+                    // show the dialog
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  },
+                  child: const Text('Donor Information')),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.teal[200]),
+                  ),
                   onPressed: () async {
                     // set up the buttons
                     Widget cancelButton = TextButton(

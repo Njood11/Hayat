@@ -63,7 +63,7 @@ class _LoginChoPageState extends State<LoginChoPage> {
       Widget okButton = TextButton(
         child: Text("OK"),
         onPressed: () {
-          Navigator.pop(context, 'OK');
+          Navigator.pop(context, "OK");
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomeC(Cid)),

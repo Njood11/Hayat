@@ -176,6 +176,10 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
                       child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.blueGrey[200]),
+                          ),
                           onPressed: () async {
                             // set up the buttons
                             Widget cancelButton = TextButton(

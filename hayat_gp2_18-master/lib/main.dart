@@ -81,10 +81,8 @@ class HomePage extends StatelessWidget {
                 Card(
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ListOffersPage3()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomeAbout()));
                     },
                     splashColor: Colors.red,
                     child: Center(
