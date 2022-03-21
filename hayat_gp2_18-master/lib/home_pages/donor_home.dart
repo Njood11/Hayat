@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/contract/cho_list.dart';
+import 'package:hayat_gp2_18/contract/contract_form.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';
 import 'package:hayat_gp2_18/offers/view_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
@@ -42,7 +44,10 @@ class HomeD extends StatelessWidget {
           children: <Widget>[
             Card(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => listCHO(Did)));
+                },
                 splashColor: Colors.red,
                 child: Center(
                   child: Column(

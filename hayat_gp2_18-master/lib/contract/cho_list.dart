@@ -1,0 +1,115 @@
+import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/contract/contract_form.dart';
+//import 'package:hayat_gp2_18/database/sqlite.dart';
+import 'package:hayat_gp2_18/home_pages/donor_home.dart';
+import 'package:hayat_gp2_18/offers/donation_details_d.dart';
+import 'package:hayat_gp2_18/offers/offer_details.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+
+class listCHO extends StatefulWidget {
+  listCHO(did, {Key? key, this.Did}) : super(key: key);
+  var Did;
+
+  @override
+  _listCHO createState() => _listCHO(this.Did);
+}
+
+class _listCHO extends State<listCHO> {
+  List<ParseObject> allCHO = <ParseObject>[];
+  var Did;
+  _listCHO(this.Did);
+
+  void getCHOs() async {
+    QueryBuilder<ParseObject> parseQuery =
+        QueryBuilder<ParseObject>(ParseObject('User'))
+          ..whereEqualTo("userType", 'cho');
+
+    final ParseResponse apiResponse = await parseQuery.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      setState(() {
+        allCHO = apiResponse.results as List<ParseObject>;
+      });
+    } else {
+      allCHO = [];
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCHOs();
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(
+          'Hayat food donation',
+        ),
+        backgroundColor: Colors.teal[200],
+        elevation: 0.0,
+      ),
+      body: Container(
+        child: ListView.builder(
+            itemCount: allCHO.length,
+            itemBuilder: (context, i) {
+              var cho = allCHO[i];
+              print(cho);
+              return Container(
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  // borderRadius: BorderRadius.circular(13),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 10,
+                        spreadRadius: 3,
+                        offset: Offset(3, 4))
+                  ],
+                ),
+                child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Contract(
+                                  Donorid: Did,
+                                )));
+                    /*   Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => offerDetailesForDonor(
+                                  Selectedcontractperiod:
+                                      cho.get("period").toString(),
+                                  SelectedcontractEnddate:
+                                      cho.get("End_date").toString(),
+                                  SelectedFoodcategory:
+                                      cho.get("Food_category").toString(),
+                                  SelectedFoodstatus:
+                                      cho.get("Food_status").toString(),
+                                  Selectedfquantity:
+                                      cho.get("fquantity").toString(),
+                                  SelectedDonorId:
+                                      cho.get("donor_ID").toString(),
+                                )));*/
+                  },
+                  /* leading:   Image.network(
+                          offer.pic,
+                          fit: BoxFit.cover,
+                          width: 90,
+                          height: 100,
+                        ),*/
+                  title: Text(
+                      'Charity Name:${cho.get("name").toString()}\n\nPhone number:${cho.get("phone number").toString()}\n\nLicense Number:${cho.get("lNumber").toString()}\n'),
+                  subtitle: Text('Email' + cho.get("Email").toString()),
+                ),
+              );
+            }),
+      ),
+    );
+  }
+}

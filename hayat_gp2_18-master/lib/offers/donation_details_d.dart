@@ -18,7 +18,7 @@ class offerDetailesForDonor extends StatelessWidget {
       this.SelectedAvailableQuantity,
       this.SelectedExpirationDate,
       this.SelectedPic,
-      this.SelectedDonorId})
+      this.SelectedDonorId, })
       : super(key: key);
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,7 @@ import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/main.dart';
 import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ReqOfferInfo extends StatefulWidget {
   var SelectedOfferCategory;
@@ -109,6 +110,7 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
     var E = this.SelectedExpirationDate;
     var P = this.SelectedPic;
     var I = this.SelectedDonorId;
+    var c;
     return MaterialApp(
         home: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -192,6 +194,11 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
                               child: Text("Contact"),
                               onPressed: () {
                                 //what's app
+                                // c = int.parse(donor[0].get("phone"));
+                                c = donor[0].get("phone").toString();
+                                print('hey ' + c);
+                                () async => await launch(
+                                    "https://wa.me/${c}?text=Hello");
                               },
                             );
 
