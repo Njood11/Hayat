@@ -20,11 +20,11 @@ class _listCHO extends State<listCHO> {
   _listCHO(this.Did);
 
   void getCHOs() async {
-    QueryBuilder<ParseObject> parseQuery =
-        QueryBuilder<ParseObject>(ParseObject('User'))
+    QueryBuilder<ParseUser> queryUsers =
+        QueryBuilder<ParseUser>(ParseUser.forQuery())
           ..whereEqualTo("userType", 'cho');
 
-    final ParseResponse apiResponse = await parseQuery.query();
+    final ParseResponse apiResponse = await queryUsers.query();
 
     if (apiResponse.success && apiResponse.results != null) {
       setState(() {
@@ -33,6 +33,8 @@ class _listCHO extends State<listCHO> {
     } else {
       allCHO = [];
     }
+    print('cho');
+    print(allCHO);
   }
 
   @override
@@ -97,15 +99,13 @@ class _listCHO extends State<listCHO> {
                                       cho.get("donor_ID").toString(),
                                 )));*/
                   },
-                  /* leading:   Image.network(
-                          offer.pic,
-                          fit: BoxFit.cover,
-                          width: 90,
-                          height: 100,
-                        ),*/
+                  leading: const Icon(Icons.home_work_rounded),
+                  //  fit: BoxFit.cover,
+                  //  height: 100,
+
                   title: Text(
-                      'Charity Name:${cho.get("name").toString()}\n\nPhone number:${cho.get("phone number").toString()}\n\nLicense Number:${cho.get("lNumber").toString()}\n'),
-                  subtitle: Text('Email' + cho.get("Email").toString()),
+                      '\n\nCharity Name:${cho.get("name").toString()}\n\nPhone number:${cho.get("phone").toString()}\n\nLicense Number:${cho.get("lNumber").toString()}\n'),
+                  subtitle: Text('Email: ' + cho.get("username").toString()),
                 ),
               );
             }),
