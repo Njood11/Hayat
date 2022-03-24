@@ -4,6 +4,11 @@ import 'package:hayat_gp2_18/home_pages/donor_home.dart';
 import 'package:hayat_gp2_18/offers/donation_details_d.dart';
 import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:flutter/material.dart';
+//import 'package:hayat_gp2_18/database/sqlite.dart';
+import 'package:hayat_gp2_18/home_pages/donor_home.dart';
+import 'package:hayat_gp2_18/offers/offer_details.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class PublishedOffers extends StatefulWidget {
   PublishedOffers({Key? key, this.Did}) : super(key: key);
@@ -75,7 +80,7 @@ class _PublishedOffersState extends State<PublishedOffers> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => offerDetailesForDonor(
+                            builder: (context) => offerDetailes(
                                   SelectedOfferCategory:
                                       offer.get("food_category").toString(),
                                   SelectedOfferStatus:
