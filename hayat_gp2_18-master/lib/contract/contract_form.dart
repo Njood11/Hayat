@@ -11,6 +11,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -32,6 +33,51 @@ class _Contract extends State<Contract> {
     setState(() {
       _file = File(picFile!.path);
     });
+  }
+
+  void addcontracts() async {
+    final offer = ParseObject("contracts")
+      ..set('Food_category', dropdownvalueCategory + ',' + MoreController.text)
+      ..set('Food_status', dropdownvalueStatus)
+      ..set('fquantity', dropdownvalueAQ)
+      ..set('cho_id', '')
+      ..set('donor_id', Donorid)
+      ..set('contract_type', dropdownvalueContract)
+      ..set('End_date', DateFormat('yyyy-MM-dd').format(pickedDate))
+      ..set('startDate', DateFormat('yyyy-MM-dd').format(pickedDate2));
+    ;
+
+    var response = await offer.save();
+    if (response.success) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeD(Donorid)),
+      );
+    }
+    if (response.success == false) {
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.pop(context, 'OK');
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Error!"),
+        content: Text("Can't add offer!"),
+        actions: [
+          okButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
   }
 
   Future encodePic() async {
@@ -95,9 +141,11 @@ class _Contract extends State<Contract> {
   late String FoodStatus = " ";
   late String FoodCategory = " ";
   late String Expire = "";
+  late String Expire2 = "";
   late String EstimatedQuantity = " ";
   late String More = " ";
   late DateTime pickedDate;
+  late DateTime pickedDate2;
   final formKey = GlobalKey<FormState>(); //key for form
   var FoodCategoryController = new TextEditingController();
   var FoodStatusController = new TextEditingController();
@@ -110,6 +158,7 @@ class _Contract extends State<Contract> {
   void initState() {
     super.initState();
     pickedDate = DateTime.now();
+    pickedDate2 = DateTime.now();
   }
 
   Widget build(BuildContext context) {
@@ -409,7 +458,7 @@ class _Contract extends State<Contract> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "  Start date",
+                      " Start date",
                       style: TextStyle(
                         color: Colors.black,
                       ),
@@ -430,6 +479,30 @@ class _Contract extends State<Contract> {
                       ),
                     ),
                   ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      " End date",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                        "${pickedDate2.year},${pickedDate2.month},${pickedDate2.day}"),
+                    trailing: Icon(Icons.keyboard_arrow_down),
+                    onTap: _pickedDate2,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      Expire2,
+                      style: TextStyle(
+                        color: Colors.red.withOpacity(0.8),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -441,11 +514,13 @@ class _Contract extends State<Contract> {
                           try {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (formKey.currentState!.validate() &&
-                                Expire == '') {
+                                Expire == '' &&
+                                Expire2 == '') {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text('Processing Data')),
                               );
+                              addcontracts();
 
                               /*  var offer = Offers(
                                 aq: dropdownvalueAQ,
@@ -500,6 +575,27 @@ class _Contract extends State<Contract> {
     if (date != null && date.isAfter(DateTime.now()))
       setState(() {
         pickedDate = date;
+        Expire = "";
+      });
+  }
+
+  _pickedDate2() async {
+    DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: pickedDate2,
+      firstDate: DateTime(DateTime.now().year),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
+
+    if (date != null && date.isBefore(DateTime.now()))
+      setState(() {
+        pickedDate2 = date;
+        Expire = "Please enter valid date";
+      });
+
+    if (date != null && date.isAfter(DateTime.now()))
+      setState(() {
+        pickedDate2 = date;
         Expire = "";
       });
   }

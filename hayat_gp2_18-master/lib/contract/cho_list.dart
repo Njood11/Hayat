@@ -75,29 +75,14 @@ class _listCHO extends State<listCHO> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    //      print('heyy' + Did);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => Contract(
                                   Donorid: Did,
                                 )));
-                    /*   Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => offerDetailesForDonor(
-                                  Selectedcontractperiod:
-                                      cho.get("period").toString(),
-                                  SelectedcontractEnddate:
-                                      cho.get("End_date").toString(),
-                                  SelectedFoodcategory:
-                                      cho.get("Food_category").toString(),
-                                  SelectedFoodstatus:
-                                      cho.get("Food_status").toString(),
-                                  Selectedfquantity:
-                                      cho.get("fquantity").toString(),
-                                  SelectedDonorId:
-                                      cho.get("donor_ID").toString(),
-                                )));*/
+                    print('id' + Did);
                   },
                   leading: const Icon(Icons.home_work_rounded),
                   //  fit: BoxFit.cover,

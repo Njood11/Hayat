@@ -5,6 +5,7 @@ import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';
 import 'package:hayat_gp2_18/main.dart';
+import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
@@ -71,6 +72,18 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
       setState(() {
         allOffers = apiResponse.results as List<ParseObject>;
         items = allOffers as List<ParseObject>;
+        for (int i = 0; i < allOffers.length; i++) {
+          //  var todyDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+          // print('tody date' + todyDate);
+          var offer = allOffers[i];
+          DateTime? dbOfferDate = DateTime.parse(offer.get("exp_date"));
+
+          if (dbOfferDate.isBefore(DateTime.now())) {
+            items.remove(offer);
+            allOffers.remove(offer);
+            print("old remove");
+          }
+        }
       });
       search("", apply, myArray);
     } else {

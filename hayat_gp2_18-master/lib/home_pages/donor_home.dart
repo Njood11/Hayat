@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/contract/cho_list.dart';
 import 'package:hayat_gp2_18/contract/contract_form.dart';
+import 'package:hayat_gp2_18/contract/view_contract_donor.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';
 import 'package:hayat_gp2_18/offers/view_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
@@ -45,6 +46,7 @@ class HomeD extends StatelessWidget {
             Card(
               child: InkWell(
                 onTap: () {
+                  print('heyy' + Donorid1);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => listCHO(Did)));
                 },
@@ -120,18 +122,26 @@ class HomeD extends StatelessWidget {
             ),
             Card(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PublishedContract(
+                                Did: Donorid1,
+                              )));
+                },
                 splashColor: Colors.red,
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Icon(
-                        Icons.circle_notifications,
+                        Icons.assignment_outlined,
                         size: 75,
                         color: Colors.teal,
                       ),
-                      Text("Notifications", style: new TextStyle(fontSize: 12))
+                      Text("View published contracts",
+                          style: new TextStyle(fontSize: 12))
                     ],
                   ),
                 ),

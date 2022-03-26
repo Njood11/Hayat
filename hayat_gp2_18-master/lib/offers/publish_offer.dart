@@ -31,12 +31,6 @@ class _PublishOfferPage extends State<PublishOfferPage> {
     });
   }
 
-  /* Future encodePic() async {
-    if (_file == null) return;
-
-    String base64 = base64Encode(_file.readAsBytesSync());
-  }*/
-
   void addOffer() async {
     final offer = ParseObject("donations")
       ..set("aq", dropdownvalueAQ)
