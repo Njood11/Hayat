@@ -10,3 +10,7 @@ An android application developed using Flutter and Dart programming language.
 ## How to lunch the project
 
 Hayat application can be downloaded from Google play store. (cooming soon)
+
+## Authors
+
+Njood Aljuraid / Njood Almousabhi / Shahad Alhoshan / Aljowhara Alsulaiman
