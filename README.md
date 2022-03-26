@@ -1,4 +1,4 @@
-# Hayat 
+# Hayat
 ## Aim
 
 Hayat is an application created to help Donors share their donations, and help Charities find donations easily in one platform. 
