@@ -13,7 +13,4 @@ Hayat application can be downloaded from Google play store. (cooming soon)
 
 ## Authors
 
-##### Njood Aljuraid
-##### Njood Almousabhi
-##### Shahad Alhoshan
-##### Aljowhara Alsulaiman
+Njood Aljuraid / Njood Almousabhi / Shahad Alhoshan / Aljowhara Alsulaiman
