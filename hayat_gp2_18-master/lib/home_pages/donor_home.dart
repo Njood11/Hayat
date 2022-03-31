@@ -86,34 +86,7 @@ class HomeD extends StatelessWidget {
                         size: 75,
                         color: Colors.teal,
                       ),
-                      Text("Publish an offer",
-                          style: new TextStyle(fontSize: 12))
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PublishedOffers(
-                                Did: Donorid1,
-                              )));
-                },
-                splashColor: Colors.red,
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(
-                        Icons.fact_check,
-                        size: 75,
-                        color: Colors.teal,
-                      ),
-                      Text("View published offers",
+                      Text("Publish new donation",
                           style: new TextStyle(fontSize: 12))
                     ],
                   ),
@@ -142,6 +115,33 @@ class HomeD extends StatelessWidget {
                       ),
                       Text("View published contracts",
                           style: new TextStyle(fontSize: 12))
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PublishedOffers(
+                                Did: Donorid1,
+                              )));
+                },
+                splashColor: Colors.red,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(
+                        Icons.fact_check,
+                        size: 75,
+                        color: Colors.teal,
+                      ),
+                      Text("View published donations",
+                          style: new TextStyle(fontSize: 11))
                     ],
                   ),
                 ),
