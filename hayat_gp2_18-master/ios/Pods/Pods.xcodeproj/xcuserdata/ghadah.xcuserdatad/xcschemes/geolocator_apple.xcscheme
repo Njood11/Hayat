@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B78EB6C3DEF8DC5CFA552A40A1726955"
-               BuildableName = "geocoder.framework"
-               BlueprintName = "geocoder"
+               BlueprintIdentifier = "D2129B9E0DCE64EA38C25BA6C89558D7"
+               BuildableName = "geolocator_apple.framework"
+               BlueprintName = "geolocator_apple"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

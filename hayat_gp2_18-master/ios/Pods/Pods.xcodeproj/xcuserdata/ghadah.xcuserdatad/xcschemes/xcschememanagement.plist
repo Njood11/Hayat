@@ -114,12 +114,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>geocoder.xcscheme</key>
+		<key>geocoding.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>geocoding.xcscheme</key>
+		<key>geolocator_apple.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
