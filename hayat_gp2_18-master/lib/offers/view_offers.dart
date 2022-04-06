@@ -80,7 +80,7 @@ class _PublishedOffersState extends State<PublishedOffers> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => offerDetailes(
+                            builder: (context) => offerDetailesForDonor(
                                   SelectedOfferCategory:
                                       offer.get("food_category").toString(),
                                   SelectedOfferStatus:
