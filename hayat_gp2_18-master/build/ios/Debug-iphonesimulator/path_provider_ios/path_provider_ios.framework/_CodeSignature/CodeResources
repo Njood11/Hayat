@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		Bv3nGBxpJr+0du+lZ7C9/hFOQug=
+		UnG+nK9d9Znnel6NKTJwpQ53gzs=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -25,10 +25,6 @@
 	<dict>
 		<key>Headers/FLTPathProviderPlugin.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			+07W1N145g6+kFz/ocqMqHbdR6M=
-			</data>
 			<key>hash2</key>
 			<data>
 			eRnBn9tRArmcmJ9UN/gE8Lokm52lhAX0yeWEFxjMJUY=
@@ -36,10 +32,6 @@
 		</dict>
 		<key>Headers/path_provider_ios-umbrella.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			0hPgzjh/PTlntpghx6J7VWPNSYk=
-			</data>
 			<key>hash2</key>
 			<data>
 			/aCEXRNh2iE1PEDwhEwofBqAE43jJc7pGj9rIRUYA6o=
@@ -47,10 +39,6 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			EnzYyLu4OBhkcB3Yg6qahT+D/6g=
-			</data>
 			<key>hash2</key>
 			<data>
 			90o75IyrqfOlYKo9phvcDZCQZcaWKx8NccVwxOs53SQ=

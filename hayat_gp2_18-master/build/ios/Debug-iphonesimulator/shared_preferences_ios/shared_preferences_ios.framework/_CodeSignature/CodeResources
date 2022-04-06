@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		6f/a4LRhDZBb5ErK2tCy6gfTu80=
+		p3h7czSxa6TohYc0btPCvkXpRBg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -25,10 +25,6 @@
 	<dict>
 		<key>Headers/FLTSharedPreferencesPlugin.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			pAxFZL6xT4Xsp/qlxTdbpBUHE7E=
-			</data>
 			<key>hash2</key>
 			<data>
 			+VEridcwqcNkt6aNXNQVOunNmgXcBA0ereU1u46adPc=
@@ -36,10 +32,6 @@
 		</dict>
 		<key>Headers/shared_preferences_ios-umbrella.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			GivD4Ew1DxCKNVNCJ797WetqC24=
-			</data>
 			<key>hash2</key>
 			<data>
 			6Ww47riJw1UogOofAlEGugcX5tZ6SQRUJgNQSYnMKm8=
@@ -47,10 +39,6 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			Y93E5q9Nhft+STfNOgdUrsfGHL8=
-			</data>
 			<key>hash2</key>
 			<data>
 			VvqQlZHAXXm5C3BNX+ttfZUuTAvzEFz+/JHtqxHchw0=

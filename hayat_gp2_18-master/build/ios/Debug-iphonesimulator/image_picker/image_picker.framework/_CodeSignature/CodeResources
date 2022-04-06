@@ -34,7 +34,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		0bxSEfPNovtpdUeL2d1DRxE6h2Y=
+		/lPKIp38EY1YuD8rYN56qpBFSfo=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -45,10 +45,6 @@
 	<dict>
 		<key>Headers/FLTImagePickerImageUtil.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			SMlyFZj2SvJBjywLwVFhKKpLQ78=
-			</data>
 			<key>hash2</key>
 			<data>
 			yykcI3M6t8zMn7Ass3OakoUbw6aHcboaEAOWLO+EZbM=
@@ -56,10 +52,6 @@
 		</dict>
 		<key>Headers/FLTImagePickerMetaDataUtil.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			zSOS6f5yY1LLDVrnjr2TmDCspYU=
-			</data>
 			<key>hash2</key>
 			<data>
 			cO9lumGQK7vjRX2TSDwnmMWJZZINVs2zFdvpul+QC2M=
@@ -67,10 +59,6 @@
 		</dict>
 		<key>Headers/FLTImagePickerPhotoAssetUtil.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			m1+hnaDML8QTN58Ul1U19kQsgm8=
-			</data>
 			<key>hash2</key>
 			<data>
 			Ne2NeyR/GgW/ieixcr5Zpm0UonON8854oAr7FAgrb8g=
@@ -78,10 +66,6 @@
 		</dict>
 		<key>Headers/FLTImagePickerPlugin.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			uFVm828TX1UmFmZPBE2YWBxQ4k8=
-			</data>
 			<key>hash2</key>
 			<data>
 			x2pQ3urChPqb25FxG8Whl2uHSGH6pvtEW+I2lNisTmw=
@@ -89,10 +73,6 @@
 		</dict>
 		<key>Headers/FLTImagePickerPlugin_Test.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			63RAMYw/QM1NLUcMrKFgg28Sceg=
-			</data>
 			<key>hash2</key>
 			<data>
 			Y75zcTYfKzNVaAxOoACkcphKRbfk1FaPwRrrSNz9IIo=
@@ -100,10 +80,6 @@
 		</dict>
 		<key>Headers/FLTPHPickerSaveImageToPathOperation.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			1sd/FHWcSiTannMFB3MjV0Es3hI=
-			</data>
 			<key>hash2</key>
 			<data>
 			nqtpiLyh1wKHvWbIjntEKPHM+g/sT1+2TnTA7Njo0mg=
@@ -111,10 +87,6 @@
 		</dict>
 		<key>Headers/image_picker-umbrella.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			6ndCxSOSQLJOysMafpz7NJhb8NA=
-			</data>
 			<key>hash2</key>
 			<data>
 			c0/3t/DPXt86jmKmwgZzAUOHTj62sZUdsSqw8RJTjrM=
@@ -122,10 +94,6 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			uNvKMLARzXcvKISnRkyjRw5l7Po=
-			</data>
 			<key>hash2</key>
 			<data>
 			9eDs/Gkj75FhJY8lszn43zSZGg9waqeScm/OYq4fHHk=
