@@ -11,14 +11,14 @@ class map extends StatefulWidget {
   map({required this.longitude, required this.latitude});
 
   @override
-  _Screen3State createState() => _Screen3State(longitude, latitude);
+  _map createState() => _map(longitude, latitude);
 }
 
-class _Screen3State extends State<map> {
+class _map extends State<map> {
   @override
   var longitude;
   var latitude;
-  _Screen3State(this.longitude, this.latitude);
+  _map(this.longitude, this.latitude);
   void initState() {
     // TODO: implement initState
     super.initState();
