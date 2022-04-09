@@ -98,7 +98,8 @@ class SignupAll extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DSignupPage()));
+                                builder: (context) =>
+                                    DSignupPage('no location selected yet')));
                       },
                       color: Colors.teal[100],
                       shape: RoundedRectangleBorder(

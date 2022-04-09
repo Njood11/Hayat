@@ -102,7 +102,7 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
                                           SelectedExpirationDate:
                                               offer.get("exp_date").toString(),
                                           SelectedPic:
-                                              offer.get("pic").toString(),
+                                              offer.get<ParseFile>("pic"),
                                           SelectedDonorId:
                                               offer.get("donor_ID").toString(),
                                           SelectedOfferId:

@@ -11,19 +11,30 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:async';
+import 'package:hayat_gp2_18/app.dart' as globals;
 
+import 'package:hayat_gp2_18/signup/donor_signup.dart';
 //email validation
 //location
 // cho lNumber اتاكد انه مضيوف قبل عشان اقبله
 
 class DSignupPage extends StatefulWidget {
-  const DSignupPage() : super();
+  final String ad;
+
+  const DSignupPage(this.ad) : super();
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(ad);
 }
 
 class _HomeState extends State<DSignupPage> {
+  var ad;
+  _HomeState(this.ad);
   bool response2 = false;
   late String e_mail;
   late String pass;
@@ -32,6 +43,7 @@ class _HomeState extends State<DSignupPage> {
   late int phone1;
   late String location2 = '';
   late String _usernameError;
+  late String ErrorMesLoc = '';
   late String x = '';
 
   var allDonorswithEmail = [];
@@ -60,7 +72,8 @@ class _HomeState extends State<DSignupPage> {
   bool _hasLowerCaseCharacter = false;
   bool _hasSpecialCharacter = false;
   String location = 'Null, Press Button';
-  String Address = 'search';
+
+  String add = 'no location selected yet';
 
   Future<Position> _getGeoLocationPosition() async {
     bool serviceEnabled;
@@ -106,9 +119,12 @@ class _HomeState extends State<DSignupPage> {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     print(placemarks);
     Placemark place = placemarks[0];
-    Address =
+    add =
         '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
-    setState(() {});
+    setState(() {
+      add =
+          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    });
   }
 
   onPasswordChanged(String password) {
@@ -134,16 +150,20 @@ class _HomeState extends State<DSignupPage> {
       if (specialCharRegex.hasMatch(password)) _hasSpecialCharacter = true;
     });
   }
+
   ////database cloud add donor functions//////
 
   void addDonor() async {
+    Position position = await _getGeoLocationPosition();
     final donor =
         ParseUser(emailController.text, encryptedPass, emailController.text)
-          ..set('location', location)
+          ..set('location', add)
           ..set('type', eType)
           ..set('phone', phone1)
           ..set('userType', 'donor')
-          ..set('name', nameController.text);
+          ..set('name', nameController.text)
+          ..set('long', position.longitude)
+          ..set('lat', position.latitude);
 
     var response = await donor.signUp();
     print(response);
@@ -202,10 +222,11 @@ class _HomeState extends State<DSignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(globals.result);
     final double height = MediaQuery.of(context).size.height;
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+    print(add);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -575,196 +596,91 @@ class _HomeState extends State<DSignupPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Column(
+                    Row(
                       children: [
-                        ElevatedButton(
-                            onPressed: () async {
-                              Position position =
-                                  await _getGeoLocationPosition();
-                              location =
-                                  'Lat: ${position.latitude} , Long: ${position.longitude}';
-                              GetAddressFromLatLong(position);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => map(
-                                            latitude: position.latitude,
-                                            longitude: position.longitude,
-                                          )));
-                            },
-                            child: Text('Get Location'))
-                        /*
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Location address: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                         Container(
-                          child: DropdownSearch<String>(
-                              mode: Mode.DIALOG,
-                              showSelectedItems: true,
-                              showSearchBox: true,
-                              items: [
-                                "Al ِAqiq",
-                                "Al Amajiyah",
-                                "Al Andalus ",
-                                "Al Arid",
-                                "Al Awali",
-                                "Al Aziziah",
-                                "Al Badiah",
-                                "Al Batha",
-                                "Al Birriyyah",
-                                "Al Dar Albaida ",
-                                "Al Dhubbat ",
-                                "Al Difa",
-                                "Al Dirah ",
-                                "Al Dubiyah",
-                                "Al Duraihimiyah ",
-                                "Al Eamal",
-                                "Al Faisalyah",
-                                "Al Fakhiriyah",
-                                "Al Falah",
-                                "Al Faruq ",
-                                "Al Fayha",
-                                "Al Futah",
-                                "Al Gadeer",
-                                "Al Ghnamiah",
-                                "Al Hada",
-                                "Al Haeer",
-                                "Al Hamra",
-                                "Al Hazm",
-                                "Al Iskan",
-                                "Al Izdihar",
-                                "Al Janadriyyah",
-                                "Al Jaradiyah",
-                                "Al Jazirah",
-                                "Al Khaleej",
-                                "Al Khalidiyyah",
-                                "Al Khozama",
-                                "Al Maazer",
-                                "Al Mahdiyah",
-                                "Al Maizilah",
-                                "Al Malaz",
-                                "Al Malqa",
-                                "Al Manakh",
-                                "Al Manar",
-                                "Al Mansourah",
-                                "Al Mansouriyah",
-                                "Al Marqab",
-                                "Al Marwah",
-                                "Al Masani",
-                                "Al Mashael",
-                                "Al Masiaf",
-                                "Al Misfat",
-                                "Al Moatamarat",
-                                "Al Mohammadiyyah",
-                                "Al Mughrizat",
-                                "Al Munsiyah",
-                                "Al Murabba",
-                                "Al Mursalat",
-                                "Al Muruj",
-                                "Al Nada",
-                                "Al Nadheem",
-                                "Al Nadwah",
-                                "Al Nafal",
-                                "Al Nahdah",
-                                "Al Nakheel",
-                                "Al Namudhajiya",
-                                "Al Narjis",
-                                "Al Nasiriyah",
-                                "Al Nasim AlGharbi",
-                                "Al Nasim Alshrqi",
-                                "Al Noor",
-                                "Al Nozha",
-                                "Al Olaya",
-                                "Al Oud",
-                                "Al Qadisiyah",
-                                "Al Qari",
-                                "Al Qirawan",
-                                "Al Quds",
-                                "Al Rabie",
-                                "Al Rabwah",
-                                "Al Raed",
-                                "Al Rafiah",
-                                "Al Rahmaniyah",
-                                "Al Rawabi",
-                                "Al Rawdah",
-                                "Al Rayan",
-                                "Al Rimal",
-                                "Al Saadah ",
-                                "Al Safa",
-                                "Al Safarat",
-                                "Al Sahafa",
-                                "Al Salam",
-                                "Al Sharafiyah",
-                                "Al Shemaysi",
-                                "Al Shifa ",
-                                "Al Sinaiyah",
-                                "Al Sulay",
-                                "Al Sulimaniyah",
-                                "Al Suwaidi",
-                                "Al Suwaidi Al Suwaidi",
-                                "Al Taawun",
-                                "Al Uraija",
-                                " Al Uraija Alwusta ",
-                                "Al Uraija Alchrbiyah",
-                                "Al Wadi",
-                                "Al Wisham",
-                                "Al Wizarat",
-                                "Al Wurud",
-                                "Al Wusaita",
-                                "Al Yamamah",
-                                "Al Yarmouk",
-                                "Al Yasmin",
-                                "Al Zahra ",
-                                "Al Zahrah ",
-                                "Badr",
-                                "Banban",
-                                "Dhahrat Albadiah",
-                                "Dhahrat Laban",
-                                "Dirab",
-                                "Ghirnatah",
-                                "Ghubairah",
-                                "Hijratlaban",
-                                "Hittin",
-                                "Hyt",
-                                "Irqah",
-                                "Ishbiliyah District ",
-                                "Jabrah",
-                                "Jarir",
-                                "Khashm Alaan ",
-                                "King AbdulAziz",
-                                "King Abdullah",
-                                "King Fahd",
-                                "King Faisal",
-                                "Manfuhah",
-                                "Manfuhah Aljadidah ",
-                                "Mikal",
-                                "Namar",
-                                "New Industrial Area",
-                                "Qurtubah ",
-                                "Salahuddin",
-                                "Shubra",
-                                "Siyah",
-                                "Sultanah",
-                                "Taybah",
-                                "Thulaim",
-                                "Uhud",
-                                "Ulaishah",
-                                "Umm Alhamam Algharbi",
-                                "Umm Alhamam Alshrqi",
-                                "Umm Salim",
-                                "Uqadh ",
-                                "Uraidh",
-                                "Utaiqah",
-                              ],
-                              label: "Location",
-                              hint: "what is your district",
-                              selectedItem: location),
-                        )*/
+                          //  margin: const EdgeInsets.only(bottom: 60.0),
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.teal[100]),
+                              ),
+                              onPressed: () async {
+                                Position position =
+                                    await _getGeoLocationPosition();
+                                if (globals.result == true) {
+                                  GetAddressFromLatLong(position);
+                                }
+
+                                location =
+                                    'Lat: ${position.latitude} , Long: ${position.longitude}';
+                                //  GetAddressFromLatLong(position);
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return map(
+                                        latitude: position.latitude,
+                                        longitude: position.longitude,
+                                      );
+                                    });
+                                /* Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => map(
+                                              latitude: position.latitude,
+                                              longitude: position.longitude,
+                                            )));*/
+                              },
+                              child: Text('Enter your Location')),
+                        ),
                       ],
+                    ),
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.location_history),
+                        title: Text(globals.result.toString()),
+                        subtitle: Text('$add'),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        ErrorMesLoc,
+                        style: TextStyle(
+                          color: Colors.red[800],
+                          fontSize: 13,
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
                       child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.grey[800]),
+                          ),
                           onPressed: () async {
-                            if (formKey.currentState!.validate()) {
+                            print(add);
+                            print(globals.result);
+                            if (globals.result == false) {
+                              setState(() {
+                                ErrorMesLoc = '   please enter your location';
+                              });
+                            }
+
+                            if (formKey.currentState!.validate() &&
+                                globals.result == true &&
+                                add == 'no location selected yet') {
                               addDonor();
 
                               // If the form is valid, display a snackbar. In the real world,
@@ -845,4 +761,103 @@ Widget inputFile({label, obscureText = false}) {
 Widget build(BuildContext context) {
   // TODO: implement build
   throw UnimplementedError();
+}
+
+class map extends StatefulWidget {
+  static final pageName = '/Screen3';
+
+  final double longitude;
+  final double latitude;
+
+  map({required this.longitude, required this.latitude});
+
+  @override
+  _map createState() => _map(longitude, latitude);
+}
+
+class _map extends State<map> {
+  @override
+  var longitude;
+  var latitude;
+  _map(this.longitude, this.latitude);
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    customIcon();
+  }
+
+  late BitmapDescriptor myCustomIcon;
+  String Address = '';
+
+  void customIcon() async {
+    myCustomIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5), '/images/avatar.png');
+  }
+
+  Completer<GoogleMapController> _controller = Completer();
+
+  List<Marker> allMarkers = [];
+  bool appearlocation = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: (AppBar(
+          title: Text("Location"),
+        )),
+        body: Container(
+          child: GoogleMap(
+            myLocationButtonEnabled: false,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              setState(() {
+                print('longitude');
+                print(longitude);
+                print('latitude');
+                print(latitude);
+                allMarkers = [
+                  Marker(
+                      icon: myCustomIcon,
+                      onTap: () {
+                        _goToTheLake(latitude, longitude);
+                        print('this is the user location .,');
+                      },
+                      infoWindow: InfoWindow(title: 'your location'),
+                      markerId: MarkerId('third'),
+                      position: LatLng(latitude, longitude)),
+                ];
+              });
+            },
+            markers: Set.from(allMarkers),
+            mapType: MapType.normal,
+            initialCameraPosition:
+                CameraPosition(target: LatLng(latitude, longitude), zoom: 10.0),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () async {
+            globals.result = true;
+
+            setState(() {
+              globals.result = true;
+            });
+
+            print('Confirm my location button');
+            print(globals.result);
+            Navigator.pop(context);
+          },
+          label: Text('Confirm my location'),
+          icon: Icon(Icons.location_history),
+        ));
+  }
+
+  Future<void> _goToTheLake(double lat, double long) async {
+    final CameraPosition A = CameraPosition(
+        bearing: 192.8334901395799,
+        target: LatLng(lat, long),
+        tilt: 59.440717697143555,
+        zoom: 19.151926040649414);
+
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(A));
+  }
 }

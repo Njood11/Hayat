@@ -89,17 +89,11 @@ class _PublishedOffersState extends State<PublishedOffers> {
                                       offer.get("aq").toString(),
                                   SelectedExpirationDate:
                                       offer.get("exp_date").toString(),
-                                  SelectedPic: offer.get("pic").toString(),
+                                  SelectedPic: offer.get<ParseFile>("pic"),
                                   SelectedDonorId:
                                       offer.get("donor_ID").toString(),
                                 )));
                   },
-                  /* leading:   Image.network(
-                          offer.pic,
-                          fit: BoxFit.cover,
-                          width: 90,
-                          height: 100,
-                        ),*/
                   title: Text(
                       'Food Category:${offer.get("food_category").toString()}\n\nFood Status:${offer.get("food_status").toString()}\n\nEXP:${offer.get("exp_date").toString()}\n'),
                   subtitle:

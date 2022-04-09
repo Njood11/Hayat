@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/offers/search_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/main.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class offerDetailesForDonor extends StatelessWidget {
   var SelectedOfferCategory;
@@ -11,15 +14,15 @@ class offerDetailesForDonor extends StatelessWidget {
   var SelectedPic;
   var SelectedDonorId;
 
-  offerDetailesForDonor(
-      {Key? key,
-      this.SelectedOfferCategory,
-      this.SelectedOfferStatus,
-      this.SelectedAvailableQuantity,
-      this.SelectedExpirationDate,
-      this.SelectedPic,
-      this.SelectedDonorId, })
-      : super(key: key);
+  offerDetailesForDonor({
+    Key? key,
+    this.SelectedOfferCategory,
+    this.SelectedOfferStatus,
+    this.SelectedAvailableQuantity,
+    this.SelectedExpirationDate,
+    this.SelectedPic,
+    this.SelectedDonorId,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var C = this.SelectedOfferCategory;
@@ -28,6 +31,7 @@ class offerDetailesForDonor extends StatelessWidget {
     var E = this.SelectedExpirationDate;
     var P = this.SelectedPic;
     var I = this.SelectedDonorId;
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.blueGrey[200],
@@ -81,8 +85,14 @@ class offerDetailesForDonor extends StatelessWidget {
                 overflow: TextOverflow.visible,
               ),
               Divider(color: Colors.grey),
-
-              // Text(' '),
+              Container(
+                  alignment: Alignment.center,
+                  height: 280.0,
+                  color: Colors.teal[200],
+                  child: Image.network(
+                    P!.url!,
+                    fit: BoxFit.fitHeight,
+                  )),
             ],
           ),
         ));

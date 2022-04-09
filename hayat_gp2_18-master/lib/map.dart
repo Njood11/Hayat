@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
+
+import 'package:hayat_gp2_18/signup/donor_signup.dart';
 
 class map extends StatefulWidget {
   static final pageName = '/Screen3';
@@ -26,6 +30,7 @@ class _map extends State<map> {
   }
 
   late BitmapDescriptor myCustomIcon;
+  String Address = '';
 
   void customIcon() async {
     myCustomIcon = await BitmapDescriptor.fromAssetImage(
@@ -46,40 +51,56 @@ class _map extends State<map> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: (AppBar(
-        title: Text("Screen3"),
+        title: Text("Location"),
       )),
       body: Container(
-          child: GoogleMap(
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
+        child: GoogleMap(
+          myLocationButtonEnabled: false,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+            setState(() {
+              print('longitude');
+              print(longitude);
+              print('latitude');
+              print(latitude);
+              allMarkers = [
+                Marker(
+                    icon: myCustomIcon,
+                    onTap: () {
+                      _goToTheLake(latitude, longitude);
+                      print('this is the user location .,');
+                    },
+                    infoWindow: InfoWindow(title: 'your location'),
+                    markerId: MarkerId('third'),
+                    position: LatLng(latitude, longitude)),
+              ];
+            });
+          },
+          markers: Set.from(allMarkers),
+          mapType: MapType.normal,
+          initialCameraPosition:
+              CameraPosition(target: LatLng(latitude, longitude), zoom: 10.0),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          List<Placemark> placemarks =
+              await placemarkFromCoordinates(latitude, longitude);
+          print(placemarks);
+          Placemark place = placemarks[0];
+          Address =
+              '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
           setState(() {
-            print('longitude');
-            print(longitude);
-            print('latitude');
-            print(latitude);
-            allMarkers = [
-              Marker(
-                  icon: myCustomIcon,
-                  onTap: () {
-                    _goToTheLake(latitude, longitude);
-                    print('this is the user location .,');
-                  },
-                  infoWindow: InfoWindow(title: 'User location  '),
-                  markerId: MarkerId('third'),
-                  position: LatLng(latitude, longitude)),
-            ];
+            Address =
+                '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
           });
+          print(Address);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DSignupPage(Address)));
         },
-        markers: Set.from(allMarkers),
-        mapType: MapType.normal,
-        initialCameraPosition:
-            CameraPosition(target: LatLng(latitude, longitude), zoom: 10.0),
-      )),
-      /*   floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: Text('To the lake!'),
-        icon: Icon(Icons.directions_boat),
-      ),*/
+        label: Text('Confirm my location'),
+        icon: Icon(Icons.location_history),
+      ),
     );
   }
 

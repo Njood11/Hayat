@@ -199,72 +199,6 @@ class _LoginDonorState extends State<LoginDonor> {
                                 labelText: 'Password',
                               ),
                               validator: (value) {
-                                /*var helper = DatabaseHelper.instance
-                                    .CheckDonor()
-                                    .then((value) {
-                                  setState(() {
-                                    allDonorswithEmail = value;
-                                    elements = allDonorswithEmail;
-
-                                    print('all donors');
-                                    print(elements);
-                                  });
-                                  var s3 = elements;
-                                  var query = emailController.text;
-
-                                  print('query');
-
-                                  print(query);
-
-                                  if (query.isNotEmpty) {
-                                    s3.forEach((element) {
-                                      var don = Donors.fromMap(element);
-                                      var Emails = don.email.toString();
-                                      var pass = don.password.toString();
-                                      if (Emails.toLowerCase()
-                                          .contains(query.toLowerCase())) {
-                                        // x = true;
-                                        z = '';
-                                        id = don.Donorid!;
-                                        print('user\'s email');
-                                        print(Emails);
-                                        //email found now check password
-                                        var query2 = passController.text;
-
-                                        print('user\'s password');
-
-                                        print(query2);
-                                        var y = Encrypted.from64(pass);
-                                        var decryptedPass =
-                                            EncryptionDecryption.decryptAES(y);
-                                        print(
-                                            'deccryptedPass: ' + decryptedPass);
-
-                                        if (decryptedPass == query2) {
-                                          z = '';
-                                          print(' دخل المقارنة');
-
-                                          x = true;
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                                content:
-                                                    Text('Processing Data')),
-                                          );
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomeD(id)),
-                                          );
-                                        } else if (decryptedPass != query2) {
-                                          z = 'email or password is wrong';
-                                        }
-                                      }
-                                    });
-                                  }
-                                });*/
-
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter some text';
                                 }
@@ -329,7 +263,8 @@ class _LoginDonorState extends State<LoginDonor> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => DSignupPage()));
+                                          builder: (context) => DSignupPage(
+                                              'no location selected yet')));
                                 },
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,

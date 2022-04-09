@@ -322,7 +322,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                                           SelectedExpirationDate:
                                               offer.get("exp_date").toString(),
                                           SelectedPic:
-                                              offer.get("pic").toString(),
+                                              offer.get<ParseFile>("pic"),
                                           SelectedDonorId:
                                               offer.get("donor_ID").toString(),
                                           SelectedOfferId:

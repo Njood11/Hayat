@@ -174,6 +174,14 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
                       ),
                     ),
                     Divider(color: Colors.grey),
+                    Container(
+                        alignment: Alignment.center,
+                        height: 280.0,
+                        color: Colors.teal[200],
+                        child: Image.network(
+                          P!.url!,
+                          fit: BoxFit.fitHeight,
+                        )),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
