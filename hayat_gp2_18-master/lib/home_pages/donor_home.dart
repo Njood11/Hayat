@@ -26,8 +26,6 @@ class HomeD extends StatelessWidget {
         elevation: 0.0,
         actions: <Widget>[
           FlatButton.icon(
-
-            
             icon: Icon(
               Icons.logout,
               color: Colors.white,
@@ -75,7 +73,7 @@ class HomeD extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => PublishOfferPage(
-                                Donorid: Donorid1,
+                                Donorid: Did,
                               )));
                 },
                 splashColor: Colors.red,
@@ -102,7 +100,7 @@ class HomeD extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => PublishedContract(
-                                Did: Donorid1,
+                                Did,
                               )));
                 },
                 splashColor: Colors.red,
@@ -129,7 +127,7 @@ class HomeD extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => PublishedOffers(
-                                Did: Donorid1,
+                                Donorid1,
                               )));
                 },
                 splashColor: Colors.red,

@@ -115,6 +115,7 @@ import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/main.dart';
 import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class offerDetailes extends StatefulWidget {
   var SelectedOfferCategory;
@@ -173,9 +174,12 @@ class _offerDetailes extends State<offerDetailes> {
       this.SelectedOfferId,
       this.SelectedCHOId);
 
+  late String Expire = "";
+  late DateTime pickedDate;
   @override
   void initState() {
     super.initState();
+    pickedDate = DateTime.now();
 
     getDonor(SelectedDonorId);
   }
@@ -249,6 +253,7 @@ class _offerDetailes extends State<offerDetailes> {
         //delete offer from search page
         //add offer in published request page
         //add offer in requested offers
+        pickedDate = DateTime.now();
         showAlertDialog2;
       },
     );
@@ -334,43 +339,6 @@ class _offerDetailes extends State<offerDetailes> {
               overflow: TextOverflow.visible,
             ),
             Divider(color: Colors.grey),
-            /*  Text(
-              '\nDonor information',
-              style: TextStyle(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            Text('\n\n\nDonor type: ' + donor[0].get("type").toString(),
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(
-              '' + donor[0].get("type").toString(),
-            ),
-            Text('\nName: ', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(
-              '' + donor[0].get("name").toString(),
-              overflow: TextOverflow.visible,
-            ),
-            Text('\nContact number: ',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(
-              '' + donor[0].get("phone").toString(),
-              overflow: TextOverflow.visible,
-            ),
-            Text('\nLocation: ', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(
-              '' + donor[0].get("location").toString(),
-              overflow: TextOverflow.visible,
-            ),*/
-
-            /*  Column(
-                    children: <Widget>[
-                      Text('\nLocation: ',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(
-                        '\n' + donor[0].get("location").toString(),
-                        overflow: TextOverflow.visible,
-                      ),
-                    ],
-                  ),*/
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: ElevatedButton(
@@ -390,6 +358,10 @@ class _offerDetailes extends State<offerDetailes> {
                       child: Text("Contact"),
                       onPressed: () {
                         //what's app
+                        /*
+                        print('hey ' + c);
+                        () async =>
+                            await launch("https://wa.me/${c}?text=Hello");*/
                       },
                     );
 
@@ -450,8 +422,9 @@ class _offerDetailes extends State<offerDetailes> {
                         //update request column to true (Done)
                         var RequestedOffer = ParseObject('donations')
                           ..objectId = SelectedOfferId
-                          ..set('requested', true)
-                          ..set('RequesterCHOid', SelectedCHOId);
+                          ..set('req_donation_status', 'Requested')
+                          ..set('RequesterCHOid', SelectedCHOId)
+                          ..set('DateOfReq', pickedDate.toString());
                         await RequestedOffer.save();
                         //delete offer from search page (Done)
                         //add offer in published request page
@@ -518,52 +491,3 @@ class _offerDetailes extends State<offerDetailes> {
     ));
   }
 }
-
-/*  Text('\n\n\nFood category of the donation: ',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    '\n' + C,
-                    overflow: TextOverflow.visible,
-                  ),
-                  Text('\nFood Status of Donation: ',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    '\n' + S,
-                    overflow: TextOverflow.visible,
-                  ),
-                  Text('\nAvailable quantity (# person): ',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    '\n' + A,
-                    overflow: TextOverflow.visible,
-                  ),
-                  Text('\nExpiration date: ',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    '\n' + E + '\n',
-                    overflow: TextOverflow.visible,
-                  ),
-                  Divider(color: Colors.grey),
-                  Text(
-                    '\nDonor information',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text('\n\n\nDonor type: ',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    '\n' + donor[0].get("type").toString(),
-                    overflow: TextOverflow.visible,
-                  ),
-                  Text('\nName: ',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    '\n' + donor[0].get("name").toString(),
-                    overflow: TextOverflow.visible,
-                  ),
-                  Text('\nContact number: ',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    '\n' + donor[0].get("phone").toString(),
-                    overflow: TextOverflow.visible,
-                  ), */

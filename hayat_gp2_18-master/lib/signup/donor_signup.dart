@@ -2,39 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hayat_gp2_18/map.dart';
 import 'package:hayat_gp2_18/signin/donor_signin.dart';
-//import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:hayat_gp2_18/encryption.dart';
-import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:hayat_gp2_18/app.dart' as globals;
-
 import 'package:hayat_gp2_18/signup/donor_signup.dart';
 //email validation
 //location
 // cho lNumber اتاكد انه مضيوف قبل عشان اقبله
 
 class DSignupPage extends StatefulWidget {
-  final String ad;
+  // final String ad;
 
-  const DSignupPage(this.ad) : super();
+  const DSignupPage() : super();
 
   @override
-  _HomeState createState() => _HomeState(ad);
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<DSignupPage> {
-  var ad;
-  _HomeState(this.ad);
+  //var ad;
+  //_HomeState( this.ad);
   bool response2 = false;
   late String e_mail;
   late String pass;
@@ -73,9 +65,9 @@ class _HomeState extends State<DSignupPage> {
   bool _hasSpecialCharacter = false;
   String location = 'Null, Press Button';
 
-  String add = 'no location selected yet';
-
-  Future<Position> _getGeoLocationPosition() async {
+  static String add = 'no location selected yet';
+  static bool result = false;
+  Future<Position> _getPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -108,6 +100,13 @@ class _HomeState extends State<DSignupPage> {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<Position> _getGeoLocationPosition() async {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition(
@@ -149,6 +148,13 @@ class _HomeState extends State<DSignupPage> {
       _hasSpecialCharacter = false;
       if (specialCharRegex.hasMatch(password)) _hasSpecialCharacter = true;
     });
+  }
+
+  Text getDynamicText(String add) {
+    if (add == 'no location selected yet') {
+      return Text('no location selected yet');
+    } else
+      return Text('$add');
   }
 
   ////database cloud add donor functions//////
@@ -222,7 +228,7 @@ class _HomeState extends State<DSignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(globals.result);
+    print(_HomeState.result);
     final double height = MediaQuery.of(context).size.height;
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -239,9 +245,6 @@ class _HomeState extends State<DSignupPage> {
           padding: const EdgeInsets.all(10.0),
           child: Form(
             key: formKey,
-            //padding: EdgeInsets.symmetric(horizontal: 40),
-            //height: MediaQuery.of(context).size.height - 50,
-            //width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -617,7 +620,7 @@ class _HomeState extends State<DSignupPage> {
                               onPressed: () async {
                                 Position position =
                                     await _getGeoLocationPosition();
-                                if (globals.result == true) {
+                                if (_HomeState.result == true) {
                                   GetAddressFromLatLong(position);
                                 }
 
@@ -632,13 +635,6 @@ class _HomeState extends State<DSignupPage> {
                                         longitude: position.longitude,
                                       );
                                     });
-                                /* Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => map(
-                                              latitude: position.latitude,
-                                              longitude: position.longitude,
-                                            )));*/
                               },
                               child: Text('Enter your Location')),
                         ),
@@ -647,8 +643,8 @@ class _HomeState extends State<DSignupPage> {
                     Card(
                       child: ListTile(
                         leading: Icon(Icons.location_history),
-                        title: Text(globals.result.toString()),
-                        subtitle: Text('$add'),
+                        title: Text(/*_HomeState.result.toString()*/ ''),
+                        subtitle: getDynamicText(add),
                       ),
                     ),
                     Align(
@@ -671,15 +667,18 @@ class _HomeState extends State<DSignupPage> {
                           ),
                           onPressed: () async {
                             print(add);
-                            print(globals.result);
-                            if (globals.result == false) {
+                            print(_HomeState.result);
+                            if (_HomeState.result == false) {
                               setState(() {
                                 ErrorMesLoc = '   please enter your location';
                               });
-                            }
+                            } else
+                              setState(() {
+                                ErrorMesLoc = '';
+                              });
 
                             if (formKey.currentState!.validate() &&
-                                globals.result == true &&
+                                _HomeState.result == true &&
                                 add == 'no location selected yet') {
                               addDonor();
 
@@ -764,8 +763,6 @@ Widget build(BuildContext context) {
 }
 
 class map extends StatefulWidget {
-  static final pageName = '/Screen3';
-
   final double longitude;
   final double latitude;
 
@@ -781,7 +778,6 @@ class _map extends State<map> {
   var latitude;
   _map(this.longitude, this.latitude);
   void initState() {
-    // TODO: implement initState
     super.initState();
     customIcon();
   }
@@ -799,11 +795,26 @@ class _map extends State<map> {
   List<Marker> allMarkers = [];
   bool appearlocation = false;
   @override
+  Future<Position> _getGeoLocationPosition() async {
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<void> GetAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    _HomeState.add =
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    setState(() {
+      _HomeState.add =
+          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: (AppBar(
-          title: Text("Location"),
-        )),
         body: Container(
           child: GoogleMap(
             myLocationButtonEnabled: false,
@@ -835,14 +846,19 @@ class _map extends State<map> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            globals.result = true;
+            Position position = await _getGeoLocationPosition();
+
+            _HomeState.result = true;
 
             setState(() {
-              globals.result = true;
+              _HomeState.result = true;
+              _HomeState.add = Address;
             });
-
+            if (_HomeState.result == true) {
+              GetAddressFromLatLong(position);
+            }
             print('Confirm my location button');
-            print(globals.result);
+            print(_HomeState.result);
             Navigator.pop(context);
           },
           label: Text('Confirm my location'),

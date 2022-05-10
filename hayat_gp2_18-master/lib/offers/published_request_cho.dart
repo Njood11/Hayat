@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:hayat_gp2_18/offers/Req_offer_info.dart';
 import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -21,12 +22,29 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
   List<ParseObject> allOffers = <ParseObject>[];
 
   var Cid;
+  var offerStatus = '';
   _publishedRequestCHO(this.Cid);
 
   void initState() {
     super.initState();
 
     getRequestedOffers(Cid);
+  }
+
+  Color? getDynamicColor(String status) {
+    if (status == 'Delivered') {
+      return Colors.blueGrey;
+    } else {
+      return Colors.teal[200];
+    }
+  }
+
+  String getDynamicText(String status) {
+    if (status == 'Delivered') {
+      return 'Completed';
+    } else {
+      return 'I collect this donation';
+    }
   }
 
   void getRequestedOffers(String Cid) async {
@@ -52,6 +70,13 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
     print(Cid);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomeC(Cid)));
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
         title: Text("Requested Offers"),
         backgroundColor: Colors.teal[200],
         centerTitle: true,
@@ -87,27 +112,32 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
                           ),
                           child: ListTile(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ReqOfferInfo(
-                                          SelectedOfferCategory: offer
-                                              .get("food_category")
-                                              .toString(),
-                                          SelectedOfferStatus: offer
-                                              .get("food_status")
-                                              .toString(),
-                                          SelectedAvailableQuantity:
-                                              offer.get("aq").toString(),
-                                          SelectedExpirationDate:
-                                              offer.get("exp_date").toString(),
-                                          SelectedPic:
-                                              offer.get<ParseFile>("pic"),
-                                          SelectedDonorId:
-                                              offer.get("donor_ID").toString(),
-                                          SelectedOfferId:
-                                              offer.get("objectId").toString(),
-                                          SelectedCHOId: Cid)));
+                              if (allOffers.length != 0) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ReqOfferInfo(
+                                            SelectedOfferCategory: offer
+                                                .get("food_category")
+                                                .toString(),
+                                            SelectedOfferStatus: offer
+                                                .get("food_status")
+                                                .toString(),
+                                            SelectedAvailableQuantity:
+                                                offer.get("aq").toString(),
+                                            SelectedExpirationDate: offer
+                                                .get("exp_date")
+                                                .toString(),
+                                            SelectedPic:
+                                                offer.get<ParseFile>("pic"),
+                                            SelectedDonorId: offer
+                                                .get("donor_ID")
+                                                .toString(),
+                                            SelectedOfferId: offer
+                                                .get("objectId")
+                                                .toString(),
+                                            SelectedCHOId: Cid)));
+                              }
                             },
                             /* leading:   Image.network(
                           offer.pic,
@@ -116,9 +146,44 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
                           height: 100,
                         ),*/
                             title: Text(
-                                'Food Category:${offer.get("food_category").toString()}\n\nFood Status:${offer.get("food_status").toString()}\n'),
-                            subtitle: Text(
-                                'EXP: ' + offer.get("exp_date").toString()),
+                                '\nFood Category:${offer.get("food_category").toString()}\n\nFood Status:${offer.get("food_status").toString()}\n'),
+                            subtitle: Column(children: <Widget>[
+                              Text(
+                                'EXP: ' + offer.get("exp_date").toString(),
+                                textAlign: TextAlign.left,
+                              ),
+                              SizedBox(
+                                height: 10,
+                                width: 10,
+                              ),
+                              SizedBox(
+                                height: 10,
+                                width: 10,
+                              ),
+                              ElevatedButton(
+                                child: Text(getDynamicText(
+                                    offer.get('req_donation_status'))),
+                                onPressed: () async {
+                                  var RequestedOffer = ParseObject('donations')
+                                    ..objectId = offer.get("objectId")
+                                    ..set('req_donation_status', 'Delivered');
+                                  await RequestedOffer.save();
+                                  if (offer.get('req_donation_status') ==
+                                      'Requested') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                publishedRequestCHO(Cid)));
+                                  }
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      getDynamicColor(
+                                          offer.get('req_donation_status'))),
+                                ),
+                              ),
+                            ]),
                           ),
                         );
                       }),

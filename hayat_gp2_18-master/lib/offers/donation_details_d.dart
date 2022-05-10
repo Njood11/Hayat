@@ -22,7 +22,7 @@ class offerDetailesForDonor extends StatelessWidget {
     this.SelectedExpirationDate,
     this.SelectedPic,
     this.SelectedDonorId,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     var C = this.SelectedOfferCategory;
@@ -31,7 +31,7 @@ class offerDetailesForDonor extends StatelessWidget {
     var E = this.SelectedExpirationDate;
     var P = this.SelectedPic;
     var I = this.SelectedDonorId;
-
+    print(C + I);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.blueGrey[200],

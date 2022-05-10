@@ -17,16 +17,19 @@ import 'package:path_provider/path_provider.dart';
 
 class Contract extends StatefulWidget {
   var Donorid;
-  Contract({Key? key, this.Donorid}) : super(key: key);
+  var CID;
+  Contract(this.Donorid, this.CID);
 
   @override
-  _Contract createState() => _Contract(Donorid);
+  _Contract createState() => _Contract(Donorid, CID);
 }
 
 class _Contract extends State<Contract> {
   var _file;
   var Donorid;
-  _Contract(this.Donorid);
+  var CID;
+
+  _Contract(this.Donorid, this.CID);
 
   void pickC() async {
     var picFile = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -36,11 +39,13 @@ class _Contract extends State<Contract> {
   }
 
   void addcontracts() async {
+    print('heyyyy' + Donorid);
+    print('beyyy' + CID);
     final offer = ParseObject("contracts")
       ..set('Food_category', dropdownvalueCategory + ',' + MoreController.text)
       ..set('Food_status', dropdownvalueStatus)
       ..set('fquantity', dropdownvalueAQ)
-      ..set('cho_id', '')
+      ..set('cho_id', CID)
       ..set('donor_id', Donorid)
       ..set('contract_type', dropdownvalueContract)
       ..set('End_date', DateFormat('yyyy-MM-dd').format(pickedDate))

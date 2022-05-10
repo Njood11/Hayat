@@ -11,7 +11,7 @@ import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class PublishedOffers extends StatefulWidget {
-  PublishedOffers({Key? key, this.Did}) : super(key: key);
+  PublishedOffers(this.Did);
   var Did;
 
   @override
@@ -21,6 +21,7 @@ class PublishedOffers extends StatefulWidget {
 class _PublishedOffersState extends State<PublishedOffers> {
   List<ParseObject> allOffers = <ParseObject>[];
   var Did;
+  String offerStatus = '';
   _PublishedOffersState(this.Did);
 
   void getOffers(String DID) async {
@@ -36,6 +37,20 @@ class _PublishedOffersState extends State<PublishedOffers> {
       });
     } else {
       allOffers = [];
+    }
+  }
+
+  Color? getDynamicColor(String status) {
+    if (offerStatus == 'Requested') {
+      return Colors.green[400];
+    }
+    if (offerStatus == 'Sent') {
+      return Colors.amberAccent;
+    }
+    if (offerStatus == 'Delivered') {
+      return Colors.blueGrey;
+    } else {
+      return Colors.black;
     }
   }
 
@@ -62,6 +77,22 @@ class _PublishedOffersState extends State<PublishedOffers> {
             itemBuilder: (context, i) {
               var offer = allOffers[i];
               print(offer);
+              /* if (offer.get('requested') == true) {
+                offerStatus = 'Requested';
+              }
+              if (offer.get('requested') == false) {
+                offerStatus = 'Sent';
+              }*/
+              print(offer);
+              if (offer.get('req_donation_status') == 'Requested') {
+                offerStatus = 'Requested';
+              }
+              if (offer.get('req_donation_status') == 'Sent') {
+                offerStatus = 'Sent';
+              }
+              if (offer.get('req_donation_status') == 'Delivered') {
+                offerStatus = 'Delivered';
+              }
               return Container(
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
@@ -77,6 +108,9 @@ class _PublishedOffersState extends State<PublishedOffers> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    print(offer.get("food_category").toString() +
+                        offer.get("food_status").toString() +
+                        offer.get("donor_ID").toString());
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -95,9 +129,26 @@ class _PublishedOffersState extends State<PublishedOffers> {
                                 )));
                   },
                   title: Text(
-                      'Food Category:${offer.get("food_category").toString()}\n\nFood Status:${offer.get("food_status").toString()}\n\nEXP:${offer.get("exp_date").toString()}\n'),
-                  subtitle:
-                      Text('Available Quantity' + offer.get("aq").toString()),
+                      '\nFood Category:${offer.get("food_category").toString()}\n\nFood Status:${offer.get("food_status").toString()}\n\nEXP:${offer.get("exp_date").toString()}'),
+                  subtitle: Align(
+                      alignment: Alignment.bottomRight,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            WidgetSpan(
+                              child: Icon(Icons.mode_standby_outlined,
+                                  color: getDynamicColor(offerStatus),
+                                  size: 16),
+                            ),
+                            TextSpan(
+                                text: ' $offerStatus       \n',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: getDynamicColor(offerStatus),
+                                    fontSize: 16)),
+                          ],
+                        ),
+                      )),
                 ),
               );
             }),

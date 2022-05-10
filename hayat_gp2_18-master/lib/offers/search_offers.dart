@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/filter_loc.dart';
 import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:hayat_gp2_18/offers/offer_details.dart';
@@ -62,9 +63,12 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   }
 
   void getOffers() async {
+    /*QueryBuilder<ParseObject> parseQuery =
+        QueryBuilder<ParseObject>(ParseObject('donations'))
+          ..whereEqualTo("requested", false);*/
     QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject('donations'))
-          ..whereEqualTo("requested", false);
+          ..whereEqualTo("req_donation_status", 'Sent');
 
     final ParseResponse apiResponse = await parseQuery.query();
 
@@ -267,6 +271,25 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                   ),
                 ),
                 Align(
+                  alignment: Alignment
+                      .topLeft, //mainAxisAlignment: MainAxisAlignment.,
+                  child: FlatButton(
+                    onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeAAA(Cid),
+                          ))
+                    },
+                    color: Colors.teal[200],
+                    padding: EdgeInsets.all(0),
+                    child: Column(
+                      // Replace with a Row for horizontal icon + text
+                      children: <Widget>[Icon(Icons.filter_alt_outlined)],
+                    ),
+                  ),
+                ),
+                Align(
                     alignment: Alignment
                         .topLeft, //mainAxisAlignment: MainAxisAlignment.,
                     child: FlatButton(
@@ -389,10 +412,13 @@ class _CustomDialogState extends State<CustomDialog> {
   bool selectCategory2 = false;
   late var allOffers2 = [];
   void getOffers() async {
+    /*QueryBuilder<ParseObject> parseQuery =
+        QueryBuilder<ParseObject>(ParseObject('donations'))
+          ..whereEqualTo("requested", false);*/
+
     QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject('donations'))
-          ..whereEqualTo("requested", false);
-    ;
+          ..whereEqualTo("req_donation_status", 'Sent');
 
     final ParseResponse apiResponse = await parseQuery.query();
 

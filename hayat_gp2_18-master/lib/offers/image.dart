@@ -37,6 +37,7 @@ class _HomePageState extends State<imPage> {
                   final pickedFile =
                       await picker.getImage(source: ImageSource.gallery);
                   if (pickedFile != null) {
+                    /*
                     File? croppedFile = await ImageCropper.cropImage(
                       sourcePath: pickedFile.path,
                       aspectRatioPresets: [
@@ -57,7 +58,8 @@ class _HomePageState extends State<imPage> {
                       iosUiSettings: IOSUiSettings(
                         minimumAspectRatio: 1.0,
                       ),
-                    );
+                    );*/
+
                     /* if (croppedFile != null) {
                       var snapshot = await _storage
                           .ref()

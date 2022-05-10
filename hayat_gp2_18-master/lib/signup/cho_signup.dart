@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +12,9 @@ import 'package:hayat_gp2_18/encryption.dart';
 import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 var selecteditem = null;
 
@@ -22,6 +27,8 @@ class SignupPage extends StatefulWidget {
 
 class _HomeState extends State<SignupPage> {
   final formKey = GlobalKey<FormState>(); //key for form
+  List<ParseObject> results = <ParseObject>[];
+
   var response;
   late String e_mail;
   var pass;
@@ -29,10 +36,11 @@ class _HomeState extends State<SignupPage> {
   late int phone;
   late String location = "";
   late String x = '';
-
+  static String add = 'no location selected yet';
+  static bool result = false;
   var encryptedPass;
   var _LicenseNo;
-
+  late String ErrorMesLoc = '';
   var allDonorswithEmail = [];
   var elements = [];
   var allDonorswithEmail2 = [];
@@ -50,6 +58,96 @@ class _HomeState extends State<SignupPage> {
   bool _hasCapitalCharacter = false;
   bool _hasLowerCaseCharacter = false;
   bool _hasSpecialCharacter = false;
+  Future<Position> getCurrentPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    print('serviceEnabled');
+
+    print(serviceEnabled);
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    print('permission');
+
+    print(permission);
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+/*
+  Future<Position> _getGeoLocationPosition() async {
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }*/
+
+  Future<void> GetAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    add =
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    setState(() {
+      add =
+          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    });
+  }
+
+  void doQueryNear() async {
+    // Create your query
+    final QueryBuilder<ParseObject> parseQuery =
+        QueryBuilder<ParseObject>(ParseObject('City'));
+
+    // Get current position from device
+    final position = await getCurrentPosition();
+
+    final currentGeoPoint = ParseGeoPoint(
+        latitude: position.latitude, longitude: position.longitude);
+
+    // `whereNear` will order results based on distance between the GeoPoint
+    // type field from the class and the GeoPoint argument
+    parseQuery.whereNear('location', currentGeoPoint);
+
+    // The query will resolve only after calling this method, retrieving
+    // an array of `ParseObjects`, if success
+    final ParseResponse apiResponse = await parseQuery.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      // Let's show the results
+      for (var o in apiResponse.results! as List<ParseObject>) {
+        print(
+            'City: ${o.get<String>('name')} - Location: ${o.get<ParseGeoPoint>('location')!.latitude}, ${o.get<ParseGeoPoint>('location')!.longitude}');
+      }
+
+      setState(() {
+        results = apiResponse.results as List<ParseObject>;
+      });
+    } else {
+      setState(() {
+        results.clear();
+      });
+    }
+  }
 
   onPasswordChanged(String password) {
     final numericRegex = RegExp(r'[0-9]');
@@ -75,16 +173,32 @@ class _HomeState extends State<SignupPage> {
     });
   }
 
+  void doClearResults() async {
+    setState(() {
+      results = [];
+    });
+  }
+
 ////database cloud add donor functions//////
+  Text getDynamicText(String add) {
+    if (add == 'no location selected yet') {
+      return Text('no location selected yet');
+    } else
+      return Text('$add');
+  }
 
   void addCHO() async {
+    Position position = await getCurrentPosition();
     final donor =
         ParseUser(emailController.text, encryptedPass, emailController.text)
           ..set('location', location)
           ..set('phone', phone)
           ..set('lNumber', _LicenseNo)
           ..set('userType', 'cho')
-          ..set('name', name);
+          ..set('name', name)
+          ..set('long', position.longitude)
+          ..set('lat', position.latitude);
+    ;
 
     response = await donor.signUp();
 
@@ -552,7 +666,64 @@ class _HomeState extends State<SignupPage> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Column(
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Location address: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          //  margin: const EdgeInsets.only(bottom: 60.0),
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.teal[100]),
+                              ),
+                              onPressed: () async {
+                                Position position = await getCurrentPosition();
+                                if (_HomeState.result == true) {
+                                  GetAddressFromLatLong(position);
+                                }
+
+                                location =
+                                    'Lat: ${position.latitude} , Long: ${position.longitude}';
+                                //  GetAddressFromLatLong(position);
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return map(
+                                        latitude: position.latitude,
+                                        longitude: position.longitude,
+                                      );
+                                    });
+                              },
+                              child: Text('Enter your Location')),
+                        ),
+                      ],
+                    ),
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.location_history),
+                        title: Text(/*_HomeState.result.toString()*/ ''),
+                        subtitle: getDynamicText(add),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        ErrorMesLoc,
+                        style: TextStyle(
+                          color: Colors.red[800],
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                    /*   Column(
                       children: [
                         Container(
                           child: DropdownSearch<String>(
@@ -718,17 +889,27 @@ class _HomeState extends State<SignupPage> {
                               selectedItem: location),
                         )
                       ],
-                    ),
+                    ),*/
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
                       child: ElevatedButton(
                           onPressed: () async {
-                            //print(e_mail);
-                            //print(pass);
+                            print(add);
+                            print(_HomeState.result);
+                            if (_HomeState.result == false) {
+                              setState(() {
+                                ErrorMesLoc = '   please enter your location';
+                              });
+                            } else
+                              setState(() {
+                                ErrorMesLoc = '';
+                              });
+
                             try {
-                              // Validate returns true if the form is valid, or false otherwise.
-                              if (formKey.currentState!.validate()) {
+                              if (formKey.currentState!.validate() &&
+                                  _HomeState.result == true &&
+                                  add == 'no location selected yet') {
                                 addCHO();
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
@@ -812,4 +993,120 @@ Widget inputFile({label, obscureText = false}) {
       )
     ],
   );
+}
+
+class map extends StatefulWidget {
+  final double longitude;
+  final double latitude;
+
+  map({required this.longitude, required this.latitude});
+
+  @override
+  _map createState() => _map(longitude, latitude);
+}
+
+class _map extends State<map> {
+  @override
+  var longitude;
+  var latitude;
+  _map(this.longitude, this.latitude);
+  void initState() {
+    super.initState();
+    customIcon();
+  }
+
+  late BitmapDescriptor myCustomIcon;
+  String Address = '';
+
+  void customIcon() async {
+    myCustomIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5), '/images/avatar.png');
+  }
+
+  Completer<GoogleMapController> _controller = Completer();
+
+  List<Marker> allMarkers = [];
+  bool appearlocation = false;
+  @override
+  Future<Position> _getGeoLocationPosition() async {
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<void> GetAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    _HomeState.add =
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    setState(() {
+      _HomeState.add =
+          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Container(
+          child: GoogleMap(
+            myLocationButtonEnabled: false,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              setState(() {
+                print('longitude');
+                print(longitude);
+                print('latitude');
+                print(latitude);
+                allMarkers = [
+                  Marker(
+                      icon: myCustomIcon,
+                      onTap: () {
+                        _goToTheLake(latitude, longitude);
+                        print('this is the user location .,');
+                      },
+                      infoWindow: InfoWindow(title: 'your location'),
+                      markerId: MarkerId('third'),
+                      position: LatLng(latitude, longitude)),
+                ];
+              });
+            },
+            markers: Set.from(allMarkers),
+            mapType: MapType.normal,
+            initialCameraPosition:
+                CameraPosition(target: LatLng(latitude, longitude), zoom: 10.0),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () async {
+            Position position = await _getGeoLocationPosition();
+
+            _HomeState.result = true;
+
+            setState(() {
+              _HomeState.result = true;
+              _HomeState.add = Address;
+            });
+            if (_HomeState.result == true) {
+              GetAddressFromLatLong(position);
+            }
+            print('Confirm my location button');
+            print(_HomeState.result);
+            Navigator.pop(context);
+          },
+          label: Text('Confirm my location'),
+          icon: Icon(Icons.location_history),
+        ));
+  }
+
+  Future<void> _goToTheLake(double lat, double long) async {
+    final CameraPosition A = CameraPosition(
+        bearing: 192.8334901395799,
+        target: LatLng(lat, long),
+        tilt: 59.440717697143555,
+        zoom: 19.151926040649414);
+
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(A));
+  }
 }

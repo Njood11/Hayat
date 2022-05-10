@@ -263,8 +263,7 @@ class _LoginDonorState extends State<LoginDonor> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => DSignupPage(
-                                              'no location selected yet')));
+                                          builder: (context) => DSignupPage()));
                                 },
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,

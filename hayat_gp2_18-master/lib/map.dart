@@ -95,8 +95,8 @@ class _map extends State<map> {
                 '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
           });
           print(Address);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DSignupPage(Address)));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => DSignupPage()));
         },
         label: Text('Confirm my location'),
         icon: Icon(Icons.location_history),

@@ -7,9 +7,8 @@ import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class listCHO extends StatefulWidget {
-  listCHO(did, {Key? key, this.Did}) : super(key: key);
   var Did;
-
+  listCHO(this.Did);
   @override
   _listCHO createState() => _listCHO(this.Did);
 }
@@ -79,10 +78,11 @@ class _listCHO extends State<listCHO> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Contract(
-                                  Donorid: Did,
-                                )));
-                    print('id' + Did);
+                          builder: (context) =>
+                              Contract(Did, cho.get("objectId")),
+                        ));
+                    print('id donor' + Did);
+                    print('id cho' + cho.get("objectId"));
                   },
                   leading: const Icon(Icons.home_work_rounded),
                   //  fit: BoxFit.cover,

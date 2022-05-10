@@ -33,12 +33,13 @@ class _PublishOfferPage extends State<PublishOfferPage> {
 
   void addOffer() async {
     final offer = ParseObject("donations")
-      ..set("aq", dropdownvalueAQ)
+      ..set("aq", quantity)
       ..set('exp_date', DateFormat('yyyy-MM-dd').format(pickedDate))
       ..set('food_category', dropdownvalueCategory + ',' + MoreController.text)
       ..set('food_status', dropdownvalueStatus)
-      ..set('donor_ID', Donorid /*ParseObject('User')..objectId = Donorid*/);
-    // ..set("pic", parseFile)
+      ..set('donor_ID', Donorid /*ParseObject('User')..objectId = Donorid*/)
+      ..set("pic", parseFile)
+      ..set("req_donation_status", 'Sent');
     var response = await offer.save();
     if (response.success) {
       Navigator.push(
@@ -74,19 +75,6 @@ class _PublishOfferPage extends State<PublishOfferPage> {
     }
   }
 
-  // Initial Selected Value
-  String dropdownvalueAQ = ' 1-5 ';
-
-  // List of items in our dropdown menu
-  var items = [
-    ' 1-5 ',
-    ' 6-10 ',
-    ' 11-20 ',
-    ' 21-30 ',
-    ' 31-40 ',
-    ' more than 40 ',
-  ];
-
   String dropdownvalueCategory = ' Vegetables ';
   // List of items in our dropdown menu of category
   var itemsCategory = [
@@ -115,8 +103,9 @@ class _PublishOfferPage extends State<PublishOfferPage> {
   //uploadImage() async {}
   //String imagePath = "";
   final picker = ImagePicker();
-  ParseFileBase? parseFile;
+  ParseFileBase? parseFile/*= ParseFile(File(pickedFile!.path))*/;
   // late String uid = widget.id;
+  late int quantity = 1;
   late String FoodStatus = " ";
   late String FoodCategory = " ";
   late String Expire = "";
@@ -180,6 +169,54 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                 ],
               ),
 
+//------------------------- Available Quantity ------------------------------------
+
+              Column(
+                mainAxisSize: MainAxisSize.min, // see 3
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    //  child: Flexible(
+                    child: Text(
+                      "\n\n Available quantity:      \n",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                    ),
+                    // ),
+                  ),
+                ],
+              ),
+
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(children: <Widget>[
+                  TextFormField(
+                      onChanged: (value) {
+                        var q = int.parse(value);
+                        quantity = q;
+                      },
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        contentPadding: EdgeInsets.symmetric(),
+                        labelText: 'Number of Person',
+                      ),
+                      validator: (value) {
+                        var v = int.parse(value!);
+
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a number';
+                        } else if (v.toInt() == false)
+                          return 'Enter a valid number';
+                      }),
+                ]),
+              ),
+
+//-----------------------------------------------------------------------------
+              SizedBox(
+                height: 15,
+              ),
 //------------------------- Food Category ------------------------------------
 
               Column(
@@ -192,7 +229,10 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                     //  child: Flexible(
                     child: Text(
                       "\n\n Food Category:      \n",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
+
                     // ),
                   ),
                 ],
@@ -204,14 +244,14 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
+
                     // child: Flexible(
                     // see 3
                     child: Column(children: <Widget>[
                       DropdownButton(
                         // Initial Value
-
                         value: dropdownvalueCategory,
-
+                        isExpanded: true,
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
 
@@ -257,7 +297,9 @@ class _PublishOfferPage extends State<PublishOfferPage> {
               ),
 
 //-----------------------------------------------------------------------------
-
+              SizedBox(
+                height: 15,
+              ),
 //------------------------- Food Status ------------------------------------
 
               Column(
@@ -270,6 +312,8 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                     //  child: Flexible(
                     child: Text(
                       "\n\n Food Status:      \n",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                     // ),
                   ),
@@ -288,6 +332,7 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                         // Initial Value
 
                         value: dropdownvalueStatus,
+                        isExpanded: true,
 
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
@@ -314,70 +359,10 @@ class _PublishOfferPage extends State<PublishOfferPage> {
               ),
 
 //-----------------------------------------------------------------------------
-
-//------------------------- Available Quantity ------------------------------------
-
-              Column(
-                mainAxisSize: MainAxisSize.min, // see 3
-                crossAxisAlignment: CrossAxisAlignment.start,
-
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    //  child: Flexible(
-                    child: Text(
-                      "\n\n Available quantity (number of person):      \n",
-                    ),
-                    // ),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.min, // see 3
-                crossAxisAlignment: CrossAxisAlignment.start,
-
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    // child: Flexible(
-                    // see 3
-                    child: Column(children: <Widget>[
-                      DropdownButton(
-                        // Initial Value
-
-                        value: dropdownvalueAQ,
-
-                        // Down Arrow Icon
-                        icon: const Icon(Icons.keyboard_arrow_down),
-
-                        // Array list of items
-                        items: items.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        // After selecting the desired option,it will
-                        // change button value to selected value
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownvalueAQ = newValue!;
-                          });
-                        },
-                      ),
-                    ]),
-
-                    //),
-                  ),
-                ],
-              ),
-
-//-----------------------------------------------------------------------------
-
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
-
+//-------------------------Expiration date ------------------------------------
               Column(
                 children: <Widget>[
                   Align(
@@ -385,8 +370,9 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                     child: Text(
                       "  Expiration date",
                       style: TextStyle(
-                        color: Colors.black,
-                      ),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
                     ),
                   ),
                   ListTile(
@@ -404,6 +390,7 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                       ),
                     ),
                   ),
+//------------------------- Select Image ------------------------------------
                   Container(
                     padding: EdgeInsets.all(15),
                     width: double.infinity,
@@ -414,7 +401,6 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                       ),
                       onPressed: () async {
                         pickC();
-                        //encodePic();
                       },
                       child: Text("Select Image"),
                     ),
@@ -431,28 +417,61 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                                 fontSize: 40,
                               ),
                             )
-                          : Image.file(File(pickedFile!.path))
-                      //Image.file(_file),
-                      ),
+                          : Image.file(File(pickedFile!.path))),
+//------------------------------------------------------------------------------
+                  SizedBox(
+                    height: 30,
+                  ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.teal.shade200),
+                        ),
                         onPressed: () async {
                           FoodCategory = FoodCategoryController.text;
                           FoodStatus = FoodStatusController.text;
 
                           try {
+                            /* if (pickedFile == null) {
+                              Widget okButton = TextButton(
+                                child: Text("OK"),
+                                onPressed: () {
+                                  Navigator.pop(context, 'OK');
+                                },
+                              );
+                              // set up the AlertDialog
+                              AlertDialog alert = AlertDialog(
+                                title: Text("Error!"),
+                                content:
+                                    Text("Please select an image to continue!"),
+                                actions: [
+                                  okButton,
+                                ],
+                              );
+
+                              // show the dialog
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return alert;
+                                },
+                              );
+                            }*/
                             // Validate returns true if the form is valid, or false otherwise.
                             if (formKey.currentState!.validate() &&
-                                Expire == '') {
+                                    Expire ==
+                                        '' /*  &&
+                               pickedFile != null*/
+                                ) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text('Processing Data')),
                               );
-//back
-                              //parseFile = ParseFile(File(pickedFile!.path));
-                              // await parseFile!.save();
+                              /*  parseFile = ParseFile(File(pickedFile!.path));
+                              await parseFile!.save();8*/
 
                               addOffer();
 
@@ -509,28 +528,4 @@ class _PublishOfferPage extends State<PublishOfferPage> {
         Expire = "";
       });
   }
-}
-
-// we will be creating a widget for text field
-Widget inputFile({label, obscureText = false}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      TextField(
-        obscureText: obscureText,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-            ),
-            border:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),
-      ),
-    ],
-  );
 }

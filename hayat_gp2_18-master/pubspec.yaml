@@ -55,6 +55,7 @@ dependencies:
   map_pin_picker: ^0.0.1
   geocoding: ^2.0.4
   geolocator: ^8.0.5
+  syncfusion_flutter_charts: ^20.1.52
  
 
 dev_dependencies:
