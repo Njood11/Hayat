@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/contract/cho_list.dart';
-import 'package:hayat_gp2_18/contract/contract_form.dart';
 import 'package:hayat_gp2_18/contract/view_contract_donor.dart';
-import 'package:hayat_gp2_18/offers/publish_offer.dart';
-import 'package:hayat_gp2_18/offers/view_offers.dart';
+import 'package:hayat_gp2_18/donations/publish_offer.dart';
+import 'package:hayat_gp2_18/donations/view_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
+import 'package:parse_server_sdk/parse_server_sdk.dart';
 
 class HomeD extends StatelessWidget {
   var Did;
@@ -14,7 +14,7 @@ class HomeD extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var Donorid1 = Did;
-    print(Donorid1);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -30,10 +30,26 @@ class HomeD extends StatelessWidget {
               Icons.logout,
               color: Colors.white,
             ),
-            label: Text("Logout"),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => LoginAll()));
+            label: const Text(
+              "Sign out",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () async {
+              final user = await ParseUser.currentUser() as ParseUser;
+              var response = await user.logout();
+
+              if (response.success) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('User was successfully signed out!')),
+                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginAll()));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Can not signed out!')),
+                );
+              }
             },
           ),
         ],
@@ -46,7 +62,6 @@ class HomeD extends StatelessWidget {
             Card(
               child: InkWell(
                 onTap: () {
-                  print('heyy' + Donorid1);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => listCHO(Did)));
                 },
@@ -55,12 +70,15 @@ class HomeD extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Icon(
+                      const Icon(
                         Icons.article,
-                        size: 75,
+                        size: 90,
                         color: Colors.teal,
                       ),
-                      Text("Contracts", style: new TextStyle(fontSize: 12))
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text("Contracts", style: new TextStyle(fontSize: 20))
                     ],
                   ),
                 ),
@@ -81,13 +99,19 @@ class HomeD extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Icon(
+                      const Icon(
                         Icons.receipt_long,
-                        size: 75,
+                        size: 90,
                         color: Colors.teal,
                       ),
-                      Text("Publish new donation",
-                          style: new TextStyle(fontSize: 12))
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        "Publish new donation",
+                        style: new TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                      )
                     ],
                   ),
                 ),
@@ -108,13 +132,19 @@ class HomeD extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Icon(
+                      const Icon(
                         Icons.assignment_outlined,
-                        size: 75,
+                        size: 90,
                         color: Colors.teal,
                       ),
-                      Text("View published contracts",
-                          style: new TextStyle(fontSize: 12))
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        "View published contracts",
+                        style: new TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                      )
                     ],
                   ),
                 ),
@@ -135,13 +165,19 @@ class HomeD extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Icon(
+                      const Icon(
                         Icons.fact_check,
-                        size: 75,
+                        size: 90,
                         color: Colors.teal,
                       ),
-                      Text("View published donations",
-                          style: new TextStyle(fontSize: 11))
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        "View published donations",
+                        style: new TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                      )
                     ],
                   ),
                 ),

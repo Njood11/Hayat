@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hayat_gp2_18/home_pages/cho_home.dart';
+import 'package:hayat_gp2_18/home_pages/charity_home.dart';
 import 'package:hayat_gp2_18/offers/Req_offer_info.dart';
 import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:image_cropper/image_cropper.dart';

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:hayat_gp2_18/offers/search_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/main.dart';

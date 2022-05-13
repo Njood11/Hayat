@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/filter_loc.dart';
-import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:hayat_gp2_18/database/sqlite.dart';
+import 'package:hayat_gp2_18/home_pages/charity_home.dart';
 import 'package:hayat_gp2_18/offers/offer_details.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';

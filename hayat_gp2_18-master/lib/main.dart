@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/home_pages/aboutus.dart';
-import 'package:hayat_gp2_18/home_pages/cho_home.dart';
 import 'package:hayat_gp2_18/home_pages/contactus.dart';
-import 'package:hayat_gp2_18/home_pages/donor_home.dart';
-import 'package:hayat_gp2_18/offers/publish_offer.dart';
-import 'package:hayat_gp2_18/offers/search_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/signup/signup_all.dart';
-import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 void main() async {
@@ -56,14 +51,10 @@ class HomePage extends StatelessWidget {
           child: Container(
               padding: EdgeInsets.only(),
               child: GridView.count(crossAxisCount: 2, children: <Widget>[
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: 50,
-                      left: 45,
-                    ),
-                    child: RichText(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RichText(
                       text: TextSpan(
                         children: [
                           TextSpan(
@@ -75,7 +66,7 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
                 SizedBox(),
                 Card(
@@ -89,7 +80,11 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Image(image: AssetImage("images/Logo.jpg")),
+                          Image(
+                            image: AssetImage("images/Logo.jpg"),
+                            width: 150,
+                            height: 150,
+                          ),
                           Text("What is Hayat",
                               style: new TextStyle(fontSize: 20))
                         ],

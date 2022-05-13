@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/signup/donor_signup.dart';
-import 'package:hayat_gp2_18/signup/cho_signup.dart';
-import 'package:hayat_gp2_18/signin/cho_signin.dart';
+import 'package:hayat_gp2_18/signup/charity_signup.dart';
+import 'package:hayat_gp2_18/signin/charity_signin.dart';
 import 'package:hayat_gp2_18/signin/donor_signin.dart';
 import 'package:hayat_gp2_18/main.dart';
 
@@ -106,7 +106,7 @@ class SignupAll extends StatelessWidget {
                       child: Text(
                         "Donor",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.w600,
                             fontSize: 18),
                       ),

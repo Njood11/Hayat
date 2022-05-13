@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
-import 'package:hayat_gp2_18/offers/donation_details_d.dart';
-import 'package:hayat_gp2_18/offers/offer_details.dart';
+import 'package:hayat_gp2_18/donations/donation_details_d.dart';
+import 'package:hayat_gp2_18/donations/offer_details.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 import 'contract_details.dart';
@@ -20,6 +19,7 @@ class _PublishedcontractCState extends State<PublishedContractC> {
   var Cid;
   _PublishedcontractCState(this.Cid);
 
+// function to retrive all contracts with the same Charity ID from database
   void getContracts(String CID) async {
     QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject('contracts'))
@@ -39,7 +39,6 @@ class _PublishedcontractCState extends State<PublishedContractC> {
   @override
   void initState() {
     super.initState();
-    print(Cid);
     getContracts(Cid);
   }
 
@@ -59,7 +58,6 @@ class _PublishedcontractCState extends State<PublishedContractC> {
             itemCount: allcontracts.length,
             itemBuilder: (context, i) {
               var contract = allcontracts[i];
-              print(contract);
               return Container(
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(

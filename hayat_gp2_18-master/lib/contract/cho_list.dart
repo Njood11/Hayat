@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/contract/contract_form.dart';
-//import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
-import 'package:hayat_gp2_18/offers/donation_details_d.dart';
-import 'package:hayat_gp2_18/offers/offer_details.dart';
+import 'package:hayat_gp2_18/donations/donation_details_d.dart';
+import 'package:hayat_gp2_18/donations/offer_details.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class listCHO extends StatefulWidget {
@@ -18,7 +17,8 @@ class _listCHO extends State<listCHO> {
   var Did;
   _listCHO(this.Did);
 
-  void getCHOs() async {
+// function to retrive all Charities from database
+  void getCharities() async {
     QueryBuilder<ParseUser> queryUsers =
         QueryBuilder<ParseUser>(ParseUser.forQuery())
           ..whereEqualTo("userType", 'cho');
@@ -32,14 +32,12 @@ class _listCHO extends State<listCHO> {
     } else {
       allCHO = [];
     }
-    print('cho');
-    print(allCHO);
   }
 
   @override
   void initState() {
     super.initState();
-    getCHOs();
+    getCharities();
   }
 
   Widget build(BuildContext context) {
@@ -58,12 +56,11 @@ class _listCHO extends State<listCHO> {
             itemCount: allCHO.length,
             itemBuilder: (context, i) {
               var cho = allCHO[i];
-              print(cho);
+
               return Container(
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  // borderRadius: BorderRadius.circular(13),
                   boxShadow: [
                     BoxShadow(
                         color: Colors.grey,
@@ -74,20 +71,14 @@ class _listCHO extends State<listCHO> {
                 ),
                 child: ListTile(
                   onTap: () {
-                    //      print('heyy' + Did);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
                               Contract(Did, cho.get("objectId")),
                         ));
-                    print('id donor' + Did);
-                    print('id cho' + cho.get("objectId"));
                   },
                   leading: const Icon(Icons.home_work_rounded),
-                  //  fit: BoxFit.cover,
-                  //  height: 100,
-
                   title: Text(
                       '\n\nCharity Name:${cho.get("name").toString()}\n\nPhone number:${cho.get("phone").toString()}\n\nLicense Number:${cho.get("lNumber").toString()}\n'),
                   subtitle: Text('Email: ' + cho.get("username").toString()),

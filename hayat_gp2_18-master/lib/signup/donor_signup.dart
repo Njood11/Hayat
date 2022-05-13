@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hayat_gp2_18/map.dart';
 import 'package:hayat_gp2_18/signin/donor_signin.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:encrypt/encrypt.dart';
@@ -10,14 +9,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:hayat_gp2_18/signup/donor_signup.dart';
-//email validation
-//location
-// cho lNumber اتاكد انه مضيوف قبل عشان اقبله
 
 class DSignupPage extends StatefulWidget {
-  // final String ad;
-
   const DSignupPage() : super();
 
   @override
@@ -161,15 +154,15 @@ class _HomeState extends State<DSignupPage> {
 
   void addDonor() async {
     Position position = await _getGeoLocationPosition();
-    final donor =
-        ParseUser(emailController.text, encryptedPass, emailController.text)
-          ..set('location', add)
-          ..set('type', eType)
-          ..set('phone', phone1)
-          ..set('userType', 'donor')
-          ..set('name', nameController.text)
-          ..set('long', position.longitude)
-          ..set('lat', position.latitude);
+    final donor = ParseUser(
+        emailController.text.toLowerCase(), encryptedPass, emailController.text)
+      ..set('location', add)
+      ..set('type', eType)
+      ..set('phone', phone1)
+      ..set('userType', 'donor')
+      ..set('name', nameController.text)
+      ..set('long', position.longitude)
+      ..set('lat', position.latitude);
 
     var response = await donor.signUp();
     print(response);
@@ -187,7 +180,8 @@ class _HomeState extends State<DSignupPage> {
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         title: Text("Success!"),
-        content: Text("Account signed up successfully!"),
+        content: Text(
+            "Account signed up successfully, please check your email to verify it!"),
         actions: [
           okButton,
         ],
@@ -228,11 +222,10 @@ class _HomeState extends State<DSignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(_HomeState.result);
     final double height = MediaQuery.of(context).size.height;
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    print(add);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -410,8 +403,6 @@ class _HomeState extends State<DSignupPage> {
 
                             return null;
                           }
-
-                          //return null;
                         }),
                     const SizedBox(
                       height: 10,
@@ -616,6 +607,11 @@ class _HomeState extends State<DSignupPage> {
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all(Colors.teal[100]),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50))),
                               ),
                               onPressed: () async {
                                 Position position =
@@ -636,7 +632,10 @@ class _HomeState extends State<DSignupPage> {
                                       );
                                     });
                               },
-                              child: Text('Enter your Location')),
+                              child: Text('Enter your Location',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ))),
                         ),
                       ],
                     ),
@@ -660,14 +659,10 @@ class _HomeState extends State<DSignupPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.grey[800]),
-                          ),
+                      child: MaterialButton(
+                          minWidth: double.infinity,
+                          height: 60,
                           onPressed: () async {
-                            print(add);
-                            print(_HomeState.result);
                             if (_HomeState.result == false) {
                               setState(() {
                                 ErrorMesLoc = '   please enter your location';
@@ -690,7 +685,17 @@ class _HomeState extends State<DSignupPage> {
                               );
                             }
                           },
-                          child: const Text('Sign Up')),
+                          color: Colors.teal[100],
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Text(
+                            "Sign up",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18),
+                          ),
+                          splashColor: Colors.red),
                     ),
                   ],
                 ),
@@ -724,36 +729,6 @@ class _HomeState extends State<DSignupPage> {
       ),
     );
   }
-}
-
-// we will be creating a widget for text field
-Widget inputFile({label, obscureText = false}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      const SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obscureText,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-            ),
-            border:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),
-      ),
-      const SizedBox(
-        height: 10,
-      )
-    ],
-  );
 }
 
 @override

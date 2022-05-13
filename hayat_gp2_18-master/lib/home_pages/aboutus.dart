@@ -21,13 +21,16 @@ class HomeAbout extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         body: Column(
-          // even space distribution
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height / 3,
-              decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage("images/Logo.jpg"))),
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 3,
+                decoration: BoxDecoration(
+                    image:
+                        DecorationImage(image: AssetImage("images/Logo.jpg"))),
+              ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

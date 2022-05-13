@@ -5,12 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/signup/donor_signup.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
-import 'package:hayat_gp2_18/offers/publish_offer.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
-import 'package:hayat_gp2_18/database/sqlite.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:hayat_gp2_18/encryption.dart';
-import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class LoginDonor extends StatefulWidget {
@@ -40,7 +37,7 @@ class _LoginDonorState extends State<LoginDonor> {
   ////database cloud add donor functions//////
 
   void loginDonor() async {
-    final email = emailController.text;
+    final email = emailController.text.toLowerCase();
     final inputpass = passController.text;
 
     encryptedPass = EncryptionDecryption.encryptAES(inputpass);
@@ -49,12 +46,6 @@ class _LoginDonorState extends State<LoginDonor> {
     print('encryptedPass:  ');
     print(encryptedPass);
     final donor = ParseUser(email, encryptedPass, null);
-//bring pass from db
-    /*var dbpass = donor.password.toString();
-
-    var y = Encrypted.from64(inputpass);
-    var decryptedPass = EncryptionDecryption.decryptAES(y);
-    print('deccryptedPass: ' + decryptedPass);*/
 
     var response = await donor.login();
 
@@ -77,7 +68,7 @@ class _LoginDonorState extends State<LoginDonor> {
 
       AlertDialog alert = AlertDialog(
         title: Text("Success!"),
-        content: Text("You have successfully logged in"),
+        content: Text("You have successfully Signed in"),
         actions: [
           okButton,
         ],
@@ -114,6 +105,31 @@ class _LoginDonorState extends State<LoginDonor> {
           return alert;
         },
       );
+    } else {
+      if (donor.get("emailVerified") == false) {
+        Widget okButton = TextButton(
+          child: Text("OK"),
+          onPressed: () {
+            Navigator.pop(context, 'OK');
+          },
+        );
+        // set up the AlertDialog
+        AlertDialog alert = AlertDialog(
+          title: Text("Error!"),
+          content: Text("email is not verified!"),
+          actions: [
+            okButton,
+          ],
+        );
+
+        // show the dialog
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          },
+        );
+      }
     }
   }
 
@@ -150,7 +166,7 @@ class _LoginDonorState extends State<LoginDonor> {
                     Column(
                       children: <Widget>[
                         Text(
-                          "Login",
+                          "Sign in",
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
@@ -158,7 +174,7 @@ class _LoginDonorState extends State<LoginDonor> {
                           height: 20,
                         ),
                         Text(
-                          "Hello Donor login to you account ..",
+                          "Hello Donor please sign in to your account ..",
                           style:
                               TextStyle(fontSize: 15, color: Colors.grey[700]),
                         )
@@ -202,25 +218,20 @@ class _LoginDonorState extends State<LoginDonor> {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter some text';
                                 }
-                                //if (z == 'email or password is wrong') {
-                                //  return 'email or password is wrong';
-                                //}
                               }),
                         ],
                       ),
+                    ),
+                    const SizedBox(
+                      height: 3,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40),
                       child: Container(
                           padding: EdgeInsets.only(top: 3, left: 3),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              border: Border(
-                                bottom: BorderSide(color: Colors.black),
-                                top: BorderSide(color: Colors.black),
-                                left: BorderSide(color: Colors.black),
-                                right: BorderSide(color: Colors.black),
-                              )),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                           child: MaterialButton(
                               minWidth: double.infinity,
                               height: 60,
@@ -240,9 +251,9 @@ class _LoginDonorState extends State<LoginDonor> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50)),
                               child: Text(
-                                "Login",
+                                "Sign in",
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18),
                               ),
