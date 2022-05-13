@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hayat_gp2_18/filter_loc.dart';
-import 'package:hayat_gp2_18/database/sqlite.dart';
-import 'package:hayat_gp2_18/home_pages/charity_home.dart';
-import 'package:hayat_gp2_18/offers/offer_details.dart';
-import 'package:hayat_gp2_18/signin/signin_all.dart';
-import 'package:hayat_gp2_18/offers/publish_offer.dart';
-import 'package:hayat_gp2_18/main.dart';
+import 'package:hayat_gp2_18/donations/filter_loc.dart';
+import 'package:hayat_gp2_18/donations/offer_details.dart';
 import 'package:intl/intl.dart';
-import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class ListOffersPage3 extends StatefulWidget {
@@ -222,37 +216,67 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeC(Cid)));
-          },
-          icon: Icon(Icons.home_outlined),
-        ),
         title: Text(
           'Hayat food donation',
         ),
         backgroundColor: Colors.teal[200],
         elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
-            label: Text("Logout"),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => LoginAll()));
-            },
-          ),
-        ],
       ),
       body: Column(
         children: <Widget>[
           Expanded(
             child: Column(
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: FlatButton(
+                          height: 35,
+                          minWidth: 50,
+                          onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeAAA(Cid),
+                                ))
+                          },
+                          color: Colors.teal[200],
+                          padding: EdgeInsets.all(0),
+                          child: Column(
+                            children: <Widget>[Icon(Icons.location_searching)],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: FlatButton(
+                            height: 35,
+                            minWidth: 50,
+                            onPressed: () => {
+                              data = showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomDialog();
+                                  }),
+                            },
+                            color: Colors.teal[200],
+                            padding: EdgeInsets.all(0),
+                            child: Column(
+                              children: <Widget>[
+                                Icon(Icons.filter_alt_outlined)
+                              ],
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Container(
@@ -270,43 +294,6 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment
-                      .topLeft, //mainAxisAlignment: MainAxisAlignment.,
-                  child: FlatButton(
-                    onPressed: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeAAA(Cid),
-                          ))
-                    },
-                    color: Colors.teal[200],
-                    padding: EdgeInsets.all(0),
-                    child: Column(
-                      // Replace with a Row for horizontal icon + text
-                      children: <Widget>[Icon(Icons.filter_alt_outlined)],
-                    ),
-                  ),
-                ),
-                Align(
-                    alignment: Alignment
-                        .topLeft, //mainAxisAlignment: MainAxisAlignment.,
-                    child: FlatButton(
-                      onPressed: () => {
-                        data = showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialog();
-                            }),
-                      },
-                      color: Colors.teal[200],
-                      padding: EdgeInsets.all(0),
-                      child: Column(
-                        // Replace with a Row for horizontal icon + text
-                        children: <Widget>[Icon(Icons.filter_alt_outlined)],
-                      ),
-                    )),
                 Expanded(
                   child: ListView.builder(
                       itemCount: items.length,
@@ -925,6 +912,12 @@ class _CustomDialogState extends State<CustomDialog> {
             ),
           ),
           ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.teal.shade100),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)))),
               onPressed: () async {
                 setState(() {
                   searchWithFilter(SelectedCategory, SelectedStatus);
@@ -945,7 +938,10 @@ class _CustomDialogState extends State<CustomDialog> {
                 //String text = "Data that we want to pass. Can be anything.";
                 // Navigator.pop(context, match);
               },
-              child: const Text('Apply')),
+              child: const Text(
+                'Apply',
+                style: TextStyle(fontSize: 20, color: Colors.black),
+              )),
         ],
       ),
     );

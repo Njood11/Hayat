@@ -493,7 +493,7 @@ class _Contract extends State<Contract> {
                             print(e);
                           }
                         },
-                        child: const Text('Publish')),
+                        child: const Text('Send')),
                   ),
                 ],
               ),

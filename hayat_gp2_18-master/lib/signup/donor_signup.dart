@@ -682,6 +682,9 @@ class _HomeState extends State<DSignupPage> {
                                 const SnackBar(
                                     content: Text('Processing Data')),
                               );
+                            } else {
+                              print('Error');
+                              print(ErrorMesLoc);
                             }
                           },
                           color: Colors.teal[100],
