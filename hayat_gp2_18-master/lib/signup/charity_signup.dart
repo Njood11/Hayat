@@ -678,8 +678,7 @@ class _HomeState extends State<SignupPage> {
 
                             try {
                               if (formKey.currentState!.validate() &&
-                                  _HomeState.result == true &&
-                                  add == 'no location selected yet') {
+                                  _HomeState.result == true) {
                                 addChrity();
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.

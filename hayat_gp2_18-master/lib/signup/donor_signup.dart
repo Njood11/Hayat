@@ -673,8 +673,7 @@ class _HomeState extends State<DSignupPage> {
                               });
 
                             if (formKey.currentState!.validate() &&
-                                _HomeState.result == true &&
-                                add == 'no location selected yet') {
+                                _HomeState.result == true) {
                               addDonor();
 
                               // If the form is valid, display a snackbar. In the real world,
