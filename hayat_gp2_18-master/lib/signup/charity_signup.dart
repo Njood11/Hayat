@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:hayat_gp2_18/signin/charity_signin.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:hayat_gp2_18/encryption.dart';
+import 'package:hayat_gp2_18/signup/signup_all.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -260,6 +261,15 @@ class _HomeState extends State<SignupPage> {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignupAll()),
+            );
+          },
+        ),
         backgroundColor: Colors.teal[200],
         title: Text('Hayat food donation'),
       ),
