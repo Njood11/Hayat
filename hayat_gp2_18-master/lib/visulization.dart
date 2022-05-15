@@ -23,12 +23,13 @@ class _ChartState extends State<Chart> {
   int contracts = 0;
   int quantity = 0;
   List<ParseObject> allDonations = <ParseObject>[];
-  List<ParseObject> qlist = <ParseObject>[];
+  List<ParseObject> allContracts = <ParseObject>[];
 
   void getDonations(String? CID) async {
     QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject('donations'))
-          ..whereEqualTo("RequesterCHOid", CID);
+          ..whereEqualTo("RequesterCHOid", CID)
+          ..whereEqualTo("req_donation_status", "Delivered");
 
     final ParseResponse apiResponse = await parseQuery.query();
 
@@ -40,53 +41,35 @@ class _ChartState extends State<Chart> {
     } else {
       donations = 0;
     }
+
     for (int i = 0; i < allDonations.length; i++) {
       int q = allDonations[i].get('aq');
       quantity = quantity + q;
     }
-    setState(() {
-      chartData = [
-        GDPData('Donations : $donations', donations),
-        GDPData('Contracts : $contracts', 20),
-        GDPData('People covered : $quantity', quantity),
-      ];
-    });
   }
 
-  void getQuantity(String? CID) async {
-/*
+  void getContracts(String? CID) async {
     QueryBuilder<ParseObject> parseQuery =
-        QueryBuilder<ParseObject>(ParseObject('donations'))
-          ..whereEqualTo("RequesterCHOid", CID)
-          ..keysToReturn(["aq"]);
+        QueryBuilder<ParseObject>(ParseObject('contracts'))
+          ..whereEqualTo("cho_id", CID)
+          ..whereEqualTo("contract_status", "Complete");
 
     final ParseResponse apiResponse = await parseQuery.query();
 
     if (apiResponse.success && apiResponse.results != null) {
       setState(() {
-        qlist = apiResponse.results as List<ParseObject>;
-        for (var i = 0; i < qlist.length; i++) {
-          var q = int.parse(qlist[i].toString());
-          quantity = quantity + q;
-          print(quantity);
-        }
+        allContracts = apiResponse.results as List<ParseObject>;
+        contracts = allContracts.length;
       });
     } else {
-      quantity = 0;
-    }*/
-
-    getDonations(Cid);
-    for (int i = 0; i <= allDonations.length; i++) {
-      var q = int.parse(allDonations[i].get('aq'));
-      quantity = quantity + q;
-      print(quantity);
+      contracts = 0;
     }
   }
 
   List<GDPData> getChartData() {
     chartData = [
       GDPData('Donations : $donations', donations),
-      GDPData('Contracts : $contracts', 2490),
+      GDPData('Contracts : $contracts', contracts),
       GDPData('People covered : $quantity', quantity),
     ];
     return chartData;
@@ -114,7 +97,7 @@ class _ChartState extends State<Chart> {
         ),
         body: SfCircularChart(
           title: ChartTitle(
-              text: 'Statistics for this year',
+              text: 'Statistics about your charity',
               textStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           legend: Legend(
               isVisible: true,
