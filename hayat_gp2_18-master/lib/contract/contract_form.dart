@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,28 +27,21 @@ class _Contract extends State<Contract> {
   var _file;
   var Donorid;
   var CID;
-
+  late int quantity = 1;
+  late var inValidEndDate = "";
   _Contract(this.Donorid, this.CID);
-
-// function to take picture from camera
-  void pickC() async {
-    var picFile = await ImagePicker().pickImage(source: ImageSource.camera);
-    setState(() {
-      _file = File(picFile!.path);
-    });
-  }
 
 //function to add new contract to database
   void addcontracts() async {
     final offer = ParseObject("contracts")
       ..set('Food_category', dropdownvalueCategory + ',' + MoreController.text)
       ..set('Food_status', dropdownvalueStatus)
-      ..set('fquantity', dropdownvalueAQ)
+      ..set('fquantity', quantity)
       ..set('cho_id', CID)
       ..set('donor_id', Donorid)
       ..set('contract_type', dropdownvalueContract)
-      ..set('End_date', DateFormat('yyyy-MM-dd').format(pickedDate))
-      ..set('startDate', DateFormat('yyyy-MM-dd').format(pickedDate2))
+      ..set('End_date', DateFormat('yyyy-MM-dd').format(pickedDate2))
+      ..set('startDate', DateFormat('yyyy-MM-dd').format(pickedDate))
       ..set('contract_status', 'In Progress');
     ;
 
@@ -88,14 +82,6 @@ class _Contract extends State<Contract> {
   String dropdownvalueAQ = ' 1-5 ';
 
   // List of items in our dropdown menu
-  var items = [
-    ' 1-5 ',
-    ' 6-10 ',
-    ' 11-20 ',
-    ' 21-30 ',
-    ' 31-40 ',
-    ' more than 40 ',
-  ];
 
   String dropdownvalueCategory = ' Vegetables ';
   // List of items in our dropdown menu of category
@@ -177,7 +163,7 @@ class _Contract extends State<Contract> {
               Column(
                 children: <Widget>[
                   Text(
-                    "Publish Contract",
+                    "Send Contract",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -198,9 +184,9 @@ class _Contract extends State<Contract> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      "\n\n Type of contract    \n",
-                    ),
+                    child: Text("\n\n Type of contract    \n",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17)),
                   ),
                 ],
               ),
@@ -247,9 +233,9 @@ class _Contract extends State<Contract> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      "\n\n Food Category:      \n",
-                    ),
+                    child: Text("\n\n Food Category:      \n",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17)),
                   ),
                 ],
               ),
@@ -316,9 +302,9 @@ class _Contract extends State<Contract> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      "\n\n Food Status:      \n",
-                    ),
+                    child: Text("\n\n Food Status:      \n",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17)),
                   ),
                 ],
               ),
@@ -363,14 +349,7 @@ class _Contract extends State<Contract> {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "\n\n Available quantity (number of person):      \n",
-                    ),
-                  ),
-                ],
+                children: <Widget>[],
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
@@ -378,31 +357,36 @@ class _Contract extends State<Contract> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
+                    child: Text(
+                      "\n\n Available quantity:      \n",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
                     child: Column(children: <Widget>[
-                      DropdownButton(
-                        // Initial Value
-                        value: dropdownvalueAQ,
+                      TextFormField(
+                          onChanged: (value) {
+                            var q = int.parse(value);
+                            quantity = q;
+                          },
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(),
+                            labelText: 'Number of Person',
+                          ),
+                          validator: (value) {
+                            var v = int.parse(value!);
 
-                        // Down Arrow Icon
-                        icon: const Icon(Icons.keyboard_arrow_down),
-
-                        // Array list of items
-                        items: items.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        // After selecting the desired option,it will
-                        // change button value to selected value
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownvalueAQ = newValue!;
-                          });
-                        },
-                      ),
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a number';
+                            } else if (v.toInt() == false)
+                              return 'Enter a valid number';
+                          }),
                     ]),
                   ),
+                  //
                 ],
               ),
 
@@ -417,12 +401,11 @@ class _Contract extends State<Contract> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      " Start date",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
+                    child: Text(" Start date",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                            color: Colors.black)),
                   ),
                   ListTile(
                     title: Text(
@@ -441,12 +424,11 @@ class _Contract extends State<Contract> {
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      " End date",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
+                    child: Text(" End date",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                            color: Colors.black)),
                   ),
                   ListTile(
                     title: Text(
@@ -463,6 +445,15 @@ class _Contract extends State<Contract> {
                       ),
                     ),
                   ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      inValidEndDate,
+                      style: TextStyle(
+                        color: Colors.red.withOpacity(0.8),
+                      ),
+                    ),
+                  ),
 //-----------------------------------------------------------------------------
 
                   Padding(
@@ -472,7 +463,8 @@ class _Contract extends State<Contract> {
                         onPressed: () async {
                           FoodCategory = FoodCategoryController.text;
                           FoodStatus = FoodStatusController.text;
-
+                          print("start date" + pickedDate.toString());
+                          print("End date" + pickedDate2.toString());
                           try {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (formKey.currentState!.validate() &&
@@ -513,18 +505,34 @@ class _Contract extends State<Contract> {
       firstDate: DateTime(DateTime.now().year),
       lastDate: DateTime(DateTime.now().year + 5),
     );
+/*
+    if (date != null && date.isBefore(DateTime.now())) {
+      if (date.isAfter(pickedDate2)) {
+        setState(() {
+          pickedDate = date;
+          Expire = "Please enter valid date\n";
+          inValidEndDate = "";
+        });
+      }
+    }*/
 
-    if (date != null && date.isBefore(DateTime.now()))
-      setState(() {
-        pickedDate = date;
-        Expire = "Please enter valid date";
-      });
-
-    if (date != null && date.isAfter(DateTime.now()))
-      setState(() {
-        pickedDate = date;
-        Expire = "";
-      });
+    if (date != null && date.isAfter(DateTime.now())) {
+      print('arraived');
+      if (date.isAfter(pickedDate2)) {
+        setState(() {
+          pickedDate = date;
+          Expire = "";
+          inValidEndDate = "Please enter valid end date\n";
+        });
+        print('arraived');
+      } else if (date.isBefore(pickedDate2)) {
+        print('arraived2');
+        setState(() {
+          Expire = "";
+          inValidEndDate = "";
+        });
+      }
+    }
   }
 
   _pickedDate2() async {
@@ -534,17 +542,28 @@ class _Contract extends State<Contract> {
       firstDate: DateTime(DateTime.now().year),
       lastDate: DateTime(DateTime.now().year + 5),
     );
+    print(date);
 
     if (date != null && date.isBefore(DateTime.now()))
       setState(() {
         pickedDate2 = date;
-        Expire = "Please enter valid date";
+        Expire2 = "Please enter valid date\n";
+        inValidEndDate = "";
       });
 
     if (date != null && date.isAfter(DateTime.now()))
       setState(() {
         pickedDate2 = date;
-        Expire = "";
+        Expire2 = "";
+      });
+    if (date!.isBefore(pickedDate) && date.isAfter(DateTime.now()))
+      setState(() {
+        inValidEndDate = "Please enter valid end date\n";
+      });
+    if (date.isAfter(pickedDate) && date.isAfter(DateTime.now()))
+      setState(() {
+        inValidEndDate = "";
+        Expire2 = "";
       });
   }
 }
