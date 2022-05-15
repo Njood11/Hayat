@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/contract/cho_list.dart';
 import 'package:hayat_gp2_18/contract/contract_form.dart';
 import 'package:hayat_gp2_18/contract/view_contract_donor.dart';
-import 'package:hayat_gp2_18/offers/publish_offer.dart';
-import 'package:hayat_gp2_18/offers/view_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 
 class HomeD2 extends StatelessWidget {

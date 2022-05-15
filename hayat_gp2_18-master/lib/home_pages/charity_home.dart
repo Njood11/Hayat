@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/contract/view_contract_cho.dart';
-import 'package:hayat_gp2_18/offers/published_request_cho.dart';
-import 'package:hayat_gp2_18/offers/search_offers.dart';
+import 'package:hayat_gp2_18/donations/published_request_cho.dart';
+import 'package:hayat_gp2_18/donations/search_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/main.dart';
 import 'package:hayat_gp2_18/visulization.dart';

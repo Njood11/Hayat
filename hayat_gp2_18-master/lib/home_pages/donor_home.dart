@@ -4,8 +4,6 @@ import 'package:hayat_gp2_18/contract/contract_form.dart';
 import 'package:hayat_gp2_18/contract/view_contract_donor.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home_2.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home_3.dart';
-import 'package:hayat_gp2_18/offers/publish_offer.dart';
-import 'package:hayat_gp2_18/offers/view_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 
 class HomeD extends StatelessWidget {
