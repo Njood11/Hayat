@@ -47,7 +47,8 @@ class _Contract extends State<Contract> {
       ..set('donor_id', Donorid)
       ..set('contract_type', dropdownvalueContract)
       ..set('End_date', DateFormat('yyyy-MM-dd').format(pickedDate))
-      ..set('startDate', DateFormat('yyyy-MM-dd').format(pickedDate2));
+      ..set('startDate', DateFormat('yyyy-MM-dd').format(pickedDate2))
+      ..set('contract_status', 'In Progress');
     ;
 
     var response = await offer.save();

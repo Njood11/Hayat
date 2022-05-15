@@ -111,7 +111,7 @@ class HomeC extends StatelessWidget {
                         size: 75,
                         color: Colors.teal,
                       ),
-                      Text("Your Requests", style: new TextStyle(fontSize: 12))
+                      Text("My Requests", style: new TextStyle(fontSize: 12))
                     ],
                   ),
                 ),

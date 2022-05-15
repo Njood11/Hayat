@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/contract/cho_list.dart';
 import 'package:hayat_gp2_18/contract/contract_form.dart';
 import 'package:hayat_gp2_18/contract/view_contract_donor.dart';
+import 'package:hayat_gp2_18/home_pages/donor_home_2.dart';
+import 'package:hayat_gp2_18/home_pages/donor_home_3.dart';
 import 'package:hayat_gp2_18/offers/publish_offer.dart';
 import 'package:hayat_gp2_18/offers/view_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
@@ -41,121 +43,76 @@ class HomeD extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.all(35),
         child: GridView.count(
-          crossAxisCount: 2,
+          crossAxisCount: 1,
           children: <Widget>[
-            Card(
-              child: InkWell(
-                onTap: () {
-                  print('heyy' + Donorid1);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => listCHO(Did)));
-                },
-                splashColor: Colors.red,
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(
-                        Icons.article,
-                        size: 75,
-                        color: Colors.teal,
-                      ),
-                      Text("Contracts", style: new TextStyle(fontSize: 12))
-                    ],
+            Align(
+              alignment: Alignment.topRight,
+              child: Card(
+                elevation: 20,
+                color: Colors.white,
+                shape: const CircleBorder(),
+                child: InkWell(
+                  onTap: () {
+                    print('heyy' + Donorid1);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeD2(Did)));
+                  },
+                  splashColor: Colors.red,
+                  child: Container(
+                    height: 200,
+                    width: 200,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Image.asset('images/ContractTap.png',
+                            height: 160, fit: BoxFit.fill),
+                        Text("Contracts",
+                            style: new TextStyle(
+                                fontSize: 19, fontWeight: FontWeight.bold))
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-            Card(
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PublishOfferPage(
-                                Donorid: Did,
-                              )));
-                },
-                splashColor: Colors.red,
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(
-                        Icons.receipt_long,
-                        size: 75,
-                        color: Colors.teal,
-                      ),
-                      Text("Publish new donation",
-                          style: new TextStyle(fontSize: 12))
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PublishedContract(
-                                Did,
-                              )));
-                },
-                splashColor: Colors.red,
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(
-                        Icons.assignment_outlined,
-                        size: 75,
-                        color: Colors.teal,
-                      ),
-                      Text("View Sent contracts",
-                          style: new TextStyle(fontSize: 12))
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PublishedOffers(
-                                Donorid1,
-                              )));
-                },
-                splashColor: Colors.red,
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(
-                        Icons.fact_check,
-                        size: 75,
-                        color: Colors.teal,
-                      ),
-                      Text("View published donations",
-                          style: new TextStyle(fontSize: 11))
-                    ],
+            Align(
+              alignment: Alignment.topLeft,
+              child: Card(
+                elevation: 20,
+                color: Colors.white,
+                shape: const CircleBorder(),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeD3(Did)));
+                  },
+                  splashColor: Colors.red,
+                  child: Container(
+                    height: 200,
+                    width: 200,
+                    child: Column(
+                      children: <Widget>[
+                        Text("\n"),
+                        Image.asset('images/MydonationsTap.png',
+                            fit: BoxFit.fill),
+                        Text("Donations",
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 19))
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
             SizedBox(),
-            Container(
+            /*  Container(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.only(bottom: 50, left: 100),
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('images/Dhome.jpeg'),
                       fit: BoxFit.cover)),
-            ),
+            ),*/
           ],
         ),
       ),
