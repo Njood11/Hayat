@@ -41,14 +41,12 @@ class _ChartState extends State<Chart> {
     } else {
       donations = 0;
     }
-    print("donations : $donations");
     for (int i = 0; i < allDonations.length; i++) {
       int q = allDonations[i].get('aq');
       setState(() {
         quantity = quantity + q;
       });
     }
-    print("q : $quantity");
   }
 
   void getContracts(String? CID) async {
@@ -69,7 +67,6 @@ class _ChartState extends State<Chart> {
     }
     print("c : $contracts");
     chartData = getChartData(donations, contracts, quantity);
-    print(chartData);
   }
 
   List<GDPData> getChartData(int d, int c, int q) {
