@@ -505,30 +505,35 @@ class _Contract extends State<Contract> {
       firstDate: DateTime(DateTime.now().year),
       lastDate: DateTime(DateTime.now().year + 5),
     );
-/*
+    setState(() {
+      pickedDate = date!;
+    });
     if (date != null && date.isBefore(DateTime.now())) {
-      if (date.isAfter(pickedDate2)) {
-        setState(() {
-          pickedDate = date;
-          Expire = "Please enter valid date\n";
-          inValidEndDate = "";
-        });
-      }
-    }*/
+      setState(() {
+        pickedDate = date;
+        Expire = "Please enter valid date\n";
+        inValidEndDate = "";
+      });
+    }
 
     if (date != null && date.isAfter(DateTime.now())) {
-      print('arraived');
-      if (date.isAfter(pickedDate2)) {
+      if (date.isAfter(pickedDate2) && pickedDate2.isAfter(DateTime.now())) {
         setState(() {
-          pickedDate = date;
           Expire = "";
           inValidEndDate = "Please enter valid end date\n";
         });
-        print('arraived');
-      } else if (date.isBefore(pickedDate2)) {
-        print('arraived2');
+      } else if (date.isBefore(pickedDate2) &&
+          pickedDate2.isAfter(DateTime.now())) {
         setState(() {
           Expire = "";
+          inValidEndDate = "";
+        });
+      } else if (date.isAfter(pickedDate2) &&
+          pickedDate2.isBefore(DateTime.now())) {
+        print('access');
+        setState(() {
+          Expire = "";
+          Expire2 = "Please enter valid date\n";
           inValidEndDate = "";
         });
       }
@@ -551,19 +556,21 @@ class _Contract extends State<Contract> {
         inValidEndDate = "";
       });
 
-    if (date != null && date.isAfter(DateTime.now()))
+    if (date != null && date.isAfter(DateTime.now())) {
       setState(() {
         pickedDate2 = date;
         Expire2 = "";
       });
-    if (date!.isBefore(pickedDate) && date.isAfter(DateTime.now()))
-      setState(() {
-        inValidEndDate = "Please enter valid end date\n";
-      });
-    if (date.isAfter(pickedDate) && date.isAfter(DateTime.now()))
-      setState(() {
-        inValidEndDate = "";
-        Expire2 = "";
-      });
+      if (date.isBefore(pickedDate))
+        setState(() {
+          inValidEndDate = "Please enter valid end date\n";
+          Expire2 = "";
+        });
+      if (date.isAfter(pickedDate))
+        setState(() {
+          inValidEndDate = "";
+          Expire2 = "";
+        });
+    }
   }
 }
