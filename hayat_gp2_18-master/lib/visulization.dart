@@ -41,11 +41,14 @@ class _ChartState extends State<Chart> {
     } else {
       donations = 0;
     }
-
+    print("donations : $donations");
     for (int i = 0; i < allDonations.length; i++) {
       int q = allDonations[i].get('aq');
-      quantity = quantity + q;
+      setState(() {
+        quantity = quantity + q;
+      });
     }
+    print("q : $quantity");
   }
 
   void getContracts(String? CID) async {
@@ -64,14 +67,18 @@ class _ChartState extends State<Chart> {
     } else {
       contracts = 0;
     }
+    print("c : $contracts");
+    chartData = getChartData(donations, contracts, quantity);
+    print(chartData);
   }
 
-  List<GDPData> getChartData() {
+  List<GDPData> getChartData(int d, int c, int q) {
     chartData = [
-      GDPData('Donations : $donations', donations),
-      GDPData('Contracts : $contracts', contracts),
-      GDPData('People covered : $quantity', quantity),
+      GDPData('Donations : $d', d),
+      GDPData('Contracts : $c', c),
+      GDPData('People covered : $q', q),
     ];
+
     return chartData;
   }
 
@@ -79,7 +86,7 @@ class _ChartState extends State<Chart> {
   void initState() {
     super.initState();
     getDonations(Cid);
-    chartData = getChartData();
+    getContracts(Cid);
     _tooltipBehavior = TooltipBehavior(enable: true);
   }
 
