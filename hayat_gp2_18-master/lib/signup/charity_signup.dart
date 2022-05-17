@@ -37,11 +37,25 @@ class _HomeState extends State<SignupPage> {
   var encryptedPass;
   var _LicenseNo;
   late String ErrorMesLoc = '';
-  var allDonorswithEmail = [];
-  var elements = [];
-  var allDonorswithEmail2 = [];
-  var elements2 = [];
+  var charity600 = ['info@saudifoodbank.com'];
+  var charity14 = [
+    'info@albr.org',
+    'tbaro@albr.org',
+    'faisalia@lbr.org',
+    'marqab@albr.org',
+    'Orija@albr.org',
+  ];
+  var charity733 = ['info@khiyrat.org.sa'];
+  var charity668 = ['info@nemah.org.sa'];
   var LNum = [600, 14, 733, 668];
+//600-info@saudifoodbank.com
+//14-info@albr.org
+//14-tbaro@albr.org
+//14-faisalia@lbr.org
+//14-marqab@albr.org
+//14-Orija@albr.org
+//733-info@khiyrat.org.sa
+//668-info@nemah.org.sa
 
   var emailController = new TextEditingController();
   var passController = new TextEditingController();
@@ -357,6 +371,15 @@ class _HomeState extends State<SignupPage> {
                             return 'Enter a valid email address';
                           else if (x == 'This email already used') {
                             return 'This email already used';
+                          } else if (_LicenseNo == 600 &&
+                                  !charity600.contains(emailController.text) ||
+                              _LicenseNo == 14 &&
+                                  !charity14.contains(emailController.text) ||
+                              _LicenseNo == 733 &&
+                                  !charity733.contains(emailController.text) ||
+                              _LicenseNo == 668 &&
+                                  !charity668.contains(emailController.text)) {
+                            return 'Please enter a valid email that match your charity';
                           }
                         }),
                     const SizedBox(
@@ -598,7 +621,7 @@ class _HomeState extends State<SignupPage> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         } else if (!LNum.contains(_LicenseNo))
-                          return 'Please enter valid License number';
+                          return 'Please enter valid license number';
                         return null;
                       },
                     ),

@@ -249,6 +249,8 @@ class _HomeState extends State<HomeAAA> {
       distancesListSorted.add(smallestValue);
       distancesList.remove(smallestValue);
       foundDonorsSorted.add(foundDonors[indexx]);
+      print(' distancesListSorted');
+      print(distancesListSorted);
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/contract/contract_details_charity.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
 import 'package:hayat_gp2_18/donations/donation_details_d.dart';
 import 'package:hayat_gp2_18/donations/offer_details.dart';
@@ -76,9 +77,9 @@ class _PublishedcontractCState extends State<PublishedContractC> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => contractDetailesForDonor(
+                            builder: (context) => contractDetailesForCharity(
                                   Selectedperiod:
-                                      contract.get("period").toString(),
+                                      contract.get("contract_type").toString(),
                                   SelectedcontCategory:
                                       contract.get("Food_category").toString(),
                                   SelectedcontStatus:
@@ -96,7 +97,7 @@ class _PublishedcontractCState extends State<PublishedContractC> {
                           height: 100,
                         ),*/
                   title: Text(
-                      'Food Category:${contract.get("Food_category").toString()}\n\nFood Status:${contract.get("Food_status").toString()}\n\nEXP:${contract.get("End_date").toString()}\n\nperiod:${contract.get("period").toString()}\n '),
+                      'Food Category:${contract.get("Food_category").toString()}\n\nFood Status:${contract.get("Food_status").toString()}\n\nEXP:${contract.get("End_date").toString()}\n\nperiod:${contract.get("contract_type").toString()}\n '),
                   subtitle: Text('Available Quantity' +
                       contract.get("fquantity").toString()),
                 ),

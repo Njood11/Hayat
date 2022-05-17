@@ -34,7 +34,7 @@ class _PublishOfferPage extends State<PublishOfferPage> {
     final offer = ParseObject("donations")
       ..set("aq", quantity)
       ..set('exp_date', DateFormat('yyyy-MM-dd').format(pickedDate))
-      ..set('food_category', dropdownvalueCategory + ',' + MoreController.text)
+      ..set('food_category', dropdownvalueCategory)
       ..set('food_status', dropdownvalueStatus)
       ..set('donor_ID', Donorid)
       ..set("pic", parseFile);
@@ -85,6 +85,7 @@ class _PublishOfferPage extends State<PublishOfferPage> {
     ' Nuts and Seeds ',
     ' Candy ',
     ' Dairy ',
+    'Other',
   ];
 
   String dropdownvalueStatus = ' Frozen ';
@@ -255,7 +256,7 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Align(
+                  /*   Align(
                     alignment: Alignment.centerLeft,
                     // see 3
                     child: Column(children: <Widget>[
@@ -271,7 +272,23 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                           ),
                           validator: (value) {}),
                     ]),
-                  ),
+                  ),*/
+
+                  Column(children: <Widget>[
+                    if (dropdownvalueCategory == "Other")
+                      Column(
+                        children: <Widget>[
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Your category',
+                            ),
+                            onChanged: (value) {
+                              dropdownvalueCategory = value;
+                            },
+                          ),
+                        ],
+                      ),
+                  ]),
                 ],
               ),
 
@@ -338,6 +355,9 @@ class _PublishOfferPage extends State<PublishOfferPage> {
               ),
 
 //-----------------------------------------------------------------------------
+              SizedBox(
+                height: 15,
+              ),
               const SizedBox(
                 height: 30,
               ),
