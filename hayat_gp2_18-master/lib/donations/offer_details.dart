@@ -180,9 +180,15 @@ class _offerDetailes extends State<offerDetailes> {
     var E = this.SelectedExpirationDate;
     var P = this.SelectedPic;
     var I = this.SelectedDonorId;
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text(
+          'Hayat food donation',
+        ),
+        backgroundColor: Colors.teal[200],
+        elevation: 0.0,
+      ),
       backgroundColor: Colors.blueGrey[200],
       body: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -199,7 +205,7 @@ class _offerDetailes extends State<offerDetailes> {
           children: <Widget>[
             Text(
               'Donation offer details',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Text('\n\n\nFood category of the donation: ',
@@ -384,6 +390,6 @@ class _offerDetailes extends State<offerDetailes> {
           ],
         ),
       ),
-    ));
+    );
   }
 }
