@@ -80,8 +80,7 @@ class _listCHO extends State<listCHO> {
                   },
                   leading: const Icon(Icons.home_work_rounded),
                   title: Text(
-                      '\n\nCharity Name:${cho.get("name").toString()}\n\nPhone number:${cho.get("phone").toString()}\n\nLicense Number:${cho.get("lNumber").toString()}\n'),
-                  subtitle: Text('Email: ' + cho.get("username").toString()),
+                      '\nCharity Name: ${cho.get("name").toString()}\n\nPhone number: ${cho.get("phone").toString()}\n\nLicense Number: ${cho.get("lNumber").toString()}\n\nEmail: ${cho.get("username").toString()}\n'),
                 ),
               );
             }),
