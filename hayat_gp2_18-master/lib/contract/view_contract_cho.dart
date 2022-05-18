@@ -18,6 +18,7 @@ class PublishedContractC extends StatefulWidget {
 class _PublishedcontractCState extends State<PublishedContractC> {
   List<ParseObject> allcontracts = <ParseObject>[];
   var Cid;
+  String status = '';
   _PublishedcontractCState(this.Cid);
 
 // function to retrive all contracts with the same Charity ID from database
@@ -29,11 +30,37 @@ class _PublishedcontractCState extends State<PublishedContractC> {
     final ParseResponse apiResponse = await parseQuery.query();
 
     if (apiResponse.success && apiResponse.results != null) {
-      setState(() {
+      setState(() async {
         allcontracts = apiResponse.results as List<ParseObject>;
+        for (int i = 0; i < allcontracts.length; i++) {
+          var contract = allcontracts[i];
+          DateTime? end = DateTime.parse(contract.get("End_date"));
+          String status = contract.get("contract_status");
+
+          if (end.isBefore(DateTime.now()) && status != "Canceled") {
+            //update database
+            var ContractStatus = ParseObject('contracts')
+              ..objectId = contract.get("objectId")
+              ..set('contract_status', "Complete");
+
+            await ContractStatus.save();
+          }
+        }
       });
     } else {
       allcontracts = [];
+    }
+  }
+
+  Color? getDynamicColor(String status) {
+    if (status == 'Complete') {
+      return Colors.green[400];
+    } else {
+      if (status == 'In Progress') {
+        return Colors.orange;
+      } else {
+        return Colors.red;
+      }
     }
   }
 
@@ -59,6 +86,17 @@ class _PublishedcontractCState extends State<PublishedContractC> {
             itemCount: allcontracts.length,
             itemBuilder: (context, i) {
               var contract = allcontracts[i];
+
+              if (contract.get('contract_status') == "Complete") {
+                status = 'Complete';
+              }
+              if (contract.get('contract_status') == "In Progress") {
+                status = 'In Progress';
+              }
+              if (contract.get('contract_status') == "Canceled") {
+                status = 'Canceled';
+              }
+
               return Container(
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
@@ -94,6 +132,24 @@ class _PublishedcontractCState extends State<PublishedContractC> {
                   },
                   title: Text(
                       '\nFood Category: ${contract.get("Food_category").toString()}\n\nFood Status: ${contract.get("Food_status").toString()}\n\nStart Date: ${contract.get("startDate").toString()}\n\nEnd Date: ${contract.get("End_date").toString()}\n\nperiod:${contract.get("contract_type").toString()}\n\nAvailable Quantity: ${contract.get("fquantity").toString()}\n'),
+                  subtitle: Align(
+                      alignment: Alignment.bottomRight,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            WidgetSpan(
+                              child: Icon(Icons.mode_standby_outlined,
+                                  color: getDynamicColor(status), size: 16),
+                            ),
+                            TextSpan(
+                                text: ' $status       \n',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: getDynamicColor(status),
+                                    fontSize: 16)),
+                          ],
+                        ),
+                      )),
                 ),
               );
             }),
