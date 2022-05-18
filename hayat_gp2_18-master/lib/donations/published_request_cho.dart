@@ -70,6 +70,9 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
     print(Cid);
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          'Hayat food donation',
+        ),
         leading: IconButton(
           onPressed: () {
             Navigator.push(
@@ -77,9 +80,7 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: Text("Requested Offers"),
         backgroundColor: Colors.teal[200],
-        centerTitle: true,
       ),
       body: Column(
         children: <Widget>[
