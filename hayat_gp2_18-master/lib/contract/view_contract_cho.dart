@@ -135,7 +135,7 @@ class _PublishedcontractCState extends State<PublishedContractC> {
                                 )));
                   },
                   title: Text(
-                      '\nFood Category: ${contract.get("Food_category").toString()}\n\nFood Status: ${contract.get("Food_status").toString()}\n\nStart Date: ${contract.get("startDate").toString()}\n\nEnd Date: ${contract.get("End_date").toString()}\n\nperiod:${contract.get("contract_type").toString()}\n\nAvailable Quantity: ${contract.get("fquantity").toString()}\n'),
+                      '\nFood Category: ${contract.get("Food_category").toString()}\n\nFood Status: ${contract.get("Food_status").toString()}\n\nStart Date: ${contract.get("startDate").toString()}\n\nEnd Date: ${contract.get("End_date").toString()}\n\nPeriod:${contract.get("contract_type").toString()}\n\nAvailable Quantity: ${contract.get("fquantity").toString()}\n'),
                   subtitle: Align(
                       alignment: Alignment.bottomRight,
                       child: RichText(
