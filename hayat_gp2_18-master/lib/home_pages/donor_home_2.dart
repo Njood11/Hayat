@@ -3,6 +3,7 @@ import 'package:hayat_gp2_18/contract/cho_list.dart';
 import 'package:hayat_gp2_18/contract/contract_form.dart';
 import 'package:hayat_gp2_18/contract/view_contract_donor.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class HomeD2 extends StatelessWidget {
   var Did;
@@ -17,6 +18,7 @@ class HomeD2 extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Hayat food donation',
         ),
@@ -28,10 +30,26 @@ class HomeD2 extends StatelessWidget {
               Icons.logout,
               color: Colors.white,
             ),
-            label: Text("Logout"),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => LoginAll()));
+            label: const Text(
+              "Sign out",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () async {
+              final user = await ParseUser.currentUser() as ParseUser;
+              var response = await user.logout();
+
+              if (response.success) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('User was successfully signed out!')),
+                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginAll()));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Can not signed out!')),
+                );
+              }
             },
           ),
         ],
