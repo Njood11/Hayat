@@ -7,7 +7,8 @@ class contractDetailesForDonor extends StatelessWidget {
   var SelectedcontCategory;
   var SelectedcontStatus;
   var SelectedAvailableQuantity_c;
-  var SelectedExpirationDate_c;
+  var SelectedStartDate_c;
+  var SelectedEndDate_c;
   var Selectedperiod;
   var SelectedContractId;
   var Did;
@@ -18,7 +19,8 @@ class contractDetailesForDonor extends StatelessWidget {
     this.SelectedcontCategory,
     this.SelectedcontStatus,
     this.SelectedAvailableQuantity_c,
-    this.SelectedExpirationDate_c,
+    this.SelectedStartDate_c,
+    this.SelectedEndDate_c,
     this.Selectedperiod,
     this.SelectedContractId,
     this.Did,
@@ -29,7 +31,8 @@ class contractDetailesForDonor extends StatelessWidget {
     var C = this.SelectedcontCategory;
     var S = this.SelectedcontStatus;
     var A = this.SelectedAvailableQuantity_c;
-    var E = this.SelectedExpirationDate_c;
+    var SD = this.SelectedStartDate_c;
+    var ED = this.SelectedEndDate_c;
     var P = this.Selectedperiod;
     var contractId = this.SelectedContractId;
     var Did = this.Did;
@@ -80,7 +83,7 @@ class contractDetailesForDonor extends StatelessWidget {
           children: <Widget>[
             Text(
               'Contract details',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Text('\n\n\nFood Category of the Donation: ',
@@ -101,16 +104,20 @@ class contractDetailesForDonor extends StatelessWidget {
               '\n' + A,
               overflow: TextOverflow.visible,
             ),
-            Text('\n  period : ',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('\nPeriod : ', style: TextStyle(fontWeight: FontWeight.bold)),
             Text(
               '\n' + P + '\n',
               overflow: TextOverflow.visible,
             ),
-            Text('\nExpiration date: ',
+            Text('\nStart date: ',
                 style: TextStyle(fontWeight: FontWeight.bold)),
             Text(
-              '\n' + E + '\n',
+              '\n' + SD + '\n',
+              overflow: TextOverflow.visible,
+            ),
+            Text('\nEnd date: ', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '\n' + ED + '\n',
               overflow: TextOverflow.visible,
             ),
             Divider(color: Colors.grey),
