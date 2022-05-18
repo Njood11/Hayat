@@ -3,6 +3,9 @@ import 'package:hayat_gp2_18/donations/filter_loc.dart';
 import 'package:hayat_gp2_18/donations/offer_details.dart';
 import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ListOffersPage3 extends StatefulWidget {
   var myArray;
@@ -40,20 +43,78 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   var SelectCategory;
   var selectstatus;
   var Cid;
+
+  List<ParseObject> Charity = <ParseObject>[];
+  List<ParseObject> alldonations = <ParseObject>[];
+  List<ParseObject> donor = <ParseObject>[];
+  List<String> foundDonors = <String>[];
+  List foundDonorsSorted = [];
+
+  List<double> distancesList = <double>[];
+  List distancesListSorted = [];
+  double distance = 0.0;
+
+  final Set<Marker> donorMarkerLocs = new Set();
+
+  late GoogleMapController mapController; //contrller for Google map
+  final Set<Marker> markers = new Set(); //markers for google map
+  static const LatLng showLocation =
+      const LatLng(27.7089427, 85.3086209); //location to show in map
+
   _ListOffersPage3(this.myArray, this.apply, this.AllCategory, this.myArray2S,
       this.myArray2C, this.selectstatus, this.SelectCategory, this.Cid);
   // late String searchText = searchController.text;
   //late var allOffers = [];
   var items = [];
   var match = [];
+  var getlocation = [];
   TextEditingController searchController = new TextEditingController();
   late String Searchstring = "";
-
   @override
   void initState() {
     super.initState();
 
     getOffers();
+  }
+
+  void getCHOs() async {
+    QueryBuilder<ParseUser> queryUsers =
+        QueryBuilder<ParseUser>(ParseUser.forQuery())
+          ..whereEqualTo("objectId", Cid);
+
+    final ParseResponse apiResponse = await queryUsers.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      setState(() {
+        Charity = apiResponse.results as List<ParseObject>;
+        print('cho');
+        print(Charity);
+        print(Charity[0].get("name").toString());
+        print(Charity[0].get("long"));
+        print(Charity[0].get("lat"));
+      });
+      //add charity marker
+      setState(() {
+        markers.add(Marker(
+          //add first marker
+
+          markerId: MarkerId(Charity[0].get("name").toString()),
+          position: LatLng(Charity[0].get("lat"),
+              Charity[0].get("long")), //position of marker
+          infoWindow: InfoWindow(
+            //popup info
+            title: 'Marker ' + Charity[0].get("name").toString(),
+          ),
+          icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+        ));
+        print('marker added');
+      });
+      print('charity marker added');
+    } else {
+      Charity = [];
+    }
+    print('cho');
+    print(Charity);
   }
 
   void getOffers() async {
@@ -88,6 +149,131 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
       allOffers = [];
     }
     print(items);
+  }
+
+  void arrangment() async {
+    // distancesList.sort();
+    var smallestValue = distancesList[0];
+    var indexx;
+
+//extract the first nearest distance
+    for (int i = 0; i < foundDonors.length; i++) {
+      for (int j = 0; j < distancesList.length; j++) {
+        for (int z = 0; z < distancesList.length; z++) {
+          if (distancesList[z] < distancesList[j]) {
+            setState(() {
+              smallestValue = distancesList[z];
+            });
+
+            indexx = z;
+          }
+
+          if (1 == distancesList.length) {
+            setState(() {
+              smallestValue = distancesList[z];
+            });
+            foundDonors.remove(foundDonors[indexx]);
+          }
+        }
+      }
+      distancesListSorted.add(smallestValue);
+      distancesList.remove(smallestValue);
+      foundDonorsSorted.add(foundDonors[indexx]);
+      print("sorded distend");
+      print(distancesListSorted);
+    }
+  }
+
+  void getDistance(double dLat, double dLon) async {
+    double cLat = markers.elementAt(0).position.latitude;
+    double cLon = markers.elementAt(0).position.longitude;
+
+    distance = await Geolocator.distanceBetween(cLat, cLon, dLat, dLon);
+    distancesList.add(distance);
+    print(distance);
+    print('list of distance');
+    print(distancesList);
+  }
+
+  void getMarkers() async {
+    getCHOs();
+    QueryBuilder<ParseObject> parseQuery =
+        QueryBuilder<ParseObject>(ParseObject('donations'));
+
+    final ParseResponse apiResponse = await parseQuery.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      setState(() {
+        alldonations = apiResponse.results as List<ParseObject>;
+        print('alldonations');
+        print(alldonations);
+        for (int i = 0; i < alldonations.length; i++) {
+          var offer = alldonations[i];
+          DateTime? dbOfferDate = DateTime.parse(offer.get("exp_date"));
+
+          if (dbOfferDate.isBefore(DateTime.now())) {
+            alldonations.remove(offer);
+            alldonations.remove(offer);
+            print("old remove");
+          }
+        }
+      });
+      print('alldonations2');
+      print(alldonations);
+      //   موقع كل دونر بدون تكرار
+      for (int i = 0; i < alldonations.length; i++) {
+        var donorId = alldonations[i].get("donor_ID");
+
+        print('donorId');
+        print(donorId);
+        QueryBuilder<ParseUser> queryUsers =
+            QueryBuilder<ParseUser>(ParseUser.forQuery())
+              ..whereEqualTo("objectId", alldonations[i].get("donor_ID"));
+        final ParseResponse apiResponse = await queryUsers.query();
+
+        if (apiResponse.success && apiResponse.results != null) {
+          setState(() {
+            donor = apiResponse.results as List<ParseObject>;
+            print('donor');
+            print(donor[0]);
+          });
+
+          if (!foundDonors.contains(donor[0].get("objectId"))) {
+            foundDonors.add(donor[0].get("objectId"));
+            setState(() {
+              markers.add(Marker(
+                  markerId: MarkerId(donor[0].get("name").toString()),
+                  position: LatLng(donor[0].get("lat"),
+                      donor[0].get("long")), //position of marker
+                  infoWindow: InfoWindow(
+                    //popup info
+                    title: 'Marker ' + donor[0].get("name").toString(),
+                  ),
+                  icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+
+                  onTap: () {
+                    getDistance(donor[0].get("lat"), donor[0].get("long"));
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('$distance meters away from you')),
+                    );
+                  }));
+              print(donor[0].get("lat"));
+              getDistance(donor[0].get("lat"), donor[0].get("long"));
+
+              print('marker added');
+            });
+          }
+          print('foundDonors');
+          print(foundDonors);
+        }
+      }
+      print('Markers');
+      print(markers.length);
+      arrangment();
+    } else {
+      alldonations = [];
+    }
   }
 
   void search1(String query) async {
@@ -238,11 +424,23 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                           height: 35,
                           minWidth: 50,
                           onPressed: () => {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomeAAA(Cid),
-                                ))
+                            getMarkers(),
+                            for (int i = 0; i < foundDonorsSorted.length; i++)
+                              {
+                                for (int j = 0; j < items.length; j++)
+                                  {
+                                    if (foundDonorsSorted[i] ==
+                                        items[j].get("donor_ID"))
+                                      {
+                                        getlocation.add(items[j]),
+                                        items.remove(items[j]),
+                                      }
+                                  }
+                              },
+                            for (int i = 0; i < getlocation.length; i++)
+                              {
+                                items.add(getlocation[i]),
+                              }
                           },
                           color: Colors.teal[200],
                           padding: EdgeInsets.all(0),

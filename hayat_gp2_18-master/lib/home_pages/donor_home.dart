@@ -103,14 +103,6 @@ class HomeD extends StatelessWidget {
               ),
             ),
             SizedBox(),
-            /*  Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(bottom: 50, left: 100),
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('images/Dhome.jpeg'),
-                      fit: BoxFit.cover)),
-            ),*/
           ],
         ),
       ),
