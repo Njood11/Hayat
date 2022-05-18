@@ -57,7 +57,7 @@ class _PublishedcontractState extends State<PublishedContract> {
 
   Color? getDynamicColor(String status) {
     if (status == 'Complete') {
-      return Colors.green[400];
+      return Colors.blueGrey;
     } else {
       if (status == 'In Progress') {
         return Colors.orange;
