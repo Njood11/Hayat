@@ -200,6 +200,7 @@ class _Contract extends State<Contract> {
                       DropdownButton(
                         // Initial Value
                         value: dropdownvalueContract,
+                        isExpanded: true,
 
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
@@ -249,6 +250,7 @@ class _Contract extends State<Contract> {
                       DropdownButton(
                         // Initial Value
                         value: dropdownvalueCategory,
+                        isExpanded: true,
 
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
@@ -318,6 +320,7 @@ class _Contract extends State<Contract> {
                       DropdownButton(
                         // Initial Value
                         value: dropdownvalueStatus,
+                        isExpanded: true,
 
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
@@ -394,7 +397,7 @@ class _Contract extends State<Contract> {
 //--------------------- Start and end dates ------------------------------------
 
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
 
               Column(
@@ -455,39 +458,49 @@ class _Contract extends State<Contract> {
                     ),
                   ),
 //-----------------------------------------------------------------------------
-
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          FoodCategory = FoodCategoryController.text;
-                          FoodStatus = FoodStatusController.text;
-                          print("start date" + pickedDate.toString());
-                          print("End date" + pickedDate2.toString());
-                          try {
-                            // Validate returns true if the form is valid, or false otherwise.
-                            if (formKey.currentState!.validate() &&
-                                Expire == '' &&
-                                Expire2 == '') {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Processing Data')),
-                              );
-                              addcontracts();
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 0),
+                      child: MaterialButton(
+                          minWidth: double.infinity,
+                          height: 60,
+                          onPressed: () async {
+                            FoodCategory = FoodCategoryController.text;
+                            FoodStatus = FoodStatusController.text;
+                            print("start date" + pickedDate.toString());
+                            print("End date" + pickedDate2.toString());
+                            try {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              if (formKey.currentState!.validate() &&
+                                  Expire == '' &&
+                                  Expire2 == '') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Processing Data')),
+                                );
+                                addcontracts();
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeD(Donorid)),
-                              );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeD(Donorid)),
+                                );
+                              }
+                            } catch (e) {
+                              print(e);
                             }
-                          } catch (e) {
-                            print(e);
-                          }
-                        },
-                        child: const Text('Send')),
-                  ),
+                          },
+                          color: Colors.teal[100],
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Text(
+                            "Send",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18),
+                          ),
+                          splashColor: Colors.red)),
                 ],
               ),
             ],
