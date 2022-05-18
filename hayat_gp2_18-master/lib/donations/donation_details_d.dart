@@ -57,7 +57,7 @@ class offerDetailesForDonor extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Donation offer details',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               Text('\n\n\nFood Category of the Donation: ',
