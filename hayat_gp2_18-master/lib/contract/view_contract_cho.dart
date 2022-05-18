@@ -30,25 +30,28 @@ class _PublishedcontractCState extends State<PublishedContractC> {
     final ParseResponse apiResponse = await parseQuery.query();
 
     if (apiResponse.success && apiResponse.results != null) {
-      setState(() async {
+      setState(() {
         allcontracts = apiResponse.results as List<ParseObject>;
-        for (int i = 0; i < allcontracts.length; i++) {
-          var contract = allcontracts[i];
-          DateTime? end = DateTime.parse(contract.get("End_date"));
-          String status = contract.get("contract_status");
-
-          if (end.isBefore(DateTime.now()) && status != "Canceled") {
-            //update database
-            var ContractStatus = ParseObject('contracts')
-              ..objectId = contract.get("objectId")
-              ..set('contract_status', "Complete");
-
-            await ContractStatus.save();
-          }
-        }
       });
     } else {
       allcontracts = [];
+    }
+  }
+
+  checkStatus() async {
+    for (int i = 0; i < allcontracts.length; i++) {
+      var contract = allcontracts[i];
+      DateTime? end = DateTime.parse(contract.get("End_date"));
+      String status = contract.get("contract_status");
+
+      if (end.isBefore(DateTime.now()) && status != "Canceled") {
+        //update database
+        var ContractStatus = ParseObject('contracts')
+          ..objectId = contract.get("objectId")
+          ..set('contract_status', "Complete");
+
+        await ContractStatus.save();
+      }
     }
   }
 
@@ -67,6 +70,7 @@ class _PublishedcontractCState extends State<PublishedContractC> {
   @override
   void initState() {
     super.initState();
+    checkStatus();
     getContracts(Cid);
   }
 
