@@ -86,20 +86,14 @@ class _PublishedcontractCState extends State<PublishedContractC> {
                                       contract.get("Food_status").toString(),
                                   SelectedAvailableQuantity_c:
                                       contract.get("fquantity").toString(),
-                                  SelectedExpirationDate_c:
+                                  SelectedStartDate_c:
+                                      contract.get("startDate").toString(),
+                                  SelectedEndDate_c:
                                       contract.get("End_date").toString(),
                                 )));
                   },
-                  /* leading:   Image.network(
-                          offer.pic,
-                          fit: BoxFit.cover,
-                          width: 90,
-                          height: 100,
-                        ),*/
                   title: Text(
-                      'Food Category:${contract.get("Food_category").toString()}\n\nFood Status:${contract.get("Food_status").toString()}\n\nEXP:${contract.get("End_date").toString()}\n\nperiod:${contract.get("contract_type").toString()}\n '),
-                  subtitle: Text('Available Quantity' +
-                      contract.get("fquantity").toString()),
+                      '\nFood Category: ${contract.get("Food_category").toString()}\n\nFood Status: ${contract.get("Food_status").toString()}\n\nStart Date: ${contract.get("startDate").toString()}\n\nEnd Date: ${contract.get("End_date").toString()}\n\nperiod:${contract.get("contract_type").toString()}\n\nAvailable Quantity: ${contract.get("fquantity").toString()}\n'),
                 ),
               );
             }),
