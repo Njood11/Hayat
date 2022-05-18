@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		osDzPrlo92KspauU/40vIOMMRv0=
+		iauyupp2aT3XvD4p1RW3mt1Qq1Q=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,11 +54,11 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		4y5Wb+DtXZra0supIxb/N+p6zw8=
+		SSGkQCpGB/kpRNzcIDyBz1q4dnQ=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<data>
-		9si/zjBpGd15GUGUMamk54aiOBA=
+		sotKM5+xHBpDowGpda44bwcxj14=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
 		<data>
@@ -66,7 +66,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/NOTICES.Z</key>
 		<data>
-		H1pRV4eS7F3IFZeHqTI2w3o92Yc=
+		XTfbuMGg9PGgHkTr4L0Mas/xpC4=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -86,7 +86,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/images/Logo.jpg</key>
 		<data>
-		GrI4aDcGsW+FJkgmriVTah/c02w=
+		yM8lr2788hhtMjpKz29bceaFFsE=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/images/MyContracts.png</key>
 		<data>
@@ -95,6 +95,18 @@
 		<key>Frameworks/App.framework/flutter_assets/images/MydonationsTap.png</key>
 		<data>
 		tzx0CMNV02TGKHvi5ixb3rCDVSQ=
+		</data>
+		<key>Frameworks/App.framework/flutter_assets/images/charity.jpg</key>
+		<data>
+		lg1e4vGNPztSnn+NSH8/e6EfnuQ=
+		</data>
+		<key>Frameworks/App.framework/flutter_assets/images/charity2.jpg</key>
+		<data>
+		W6wnfz5LI7UlMQa4h7teHoCn3Bk=
+		</data>
+		<key>Frameworks/App.framework/flutter_assets/images/chohome.jpg</key>
+		<data>
+		/08Vr80f4CH1v3ULxIBTJ52kUy0=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/images/donationsTap.jpg</key>
 		<data>
@@ -122,7 +134,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		RQvFTi0W7sW4aeOt0LZeRpL5SRU=
+		9DYA6QRS5uTC1YS7Gyio2ULGMwI=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -1831,7 +1843,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ds7ZAMH+LDXVTrc/sWHNUW/hXOcuF2vx3MBdOs0ONS4=
+			1grfr9acF5ZG/NA/vi7aCjj3JFY5oMbFDt5QPoEozGI=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -1845,14 +1857,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			U1f/HOmLf+QRE5DV7YbiVVDXfVP2lFM9Uki6Fy6oceY=
+			aH0toMlpNnfY49NhU/4pPWrwitvQ2dy4XqRlNMMoWh0=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			p03tnLXncEDQhwr3+fJetzmwK0RQ5yetQjCX9KGM5zg=
+			cS1EITszk2C9U812RNMzEywyirbhSq9PUSJospgH2/Q=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
@@ -1866,7 +1878,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			c+K+UxfyDkH6sfcP1GCY8auAbIMFi5+LS5mp+e1hYj4=
+			g66CHEL9PaixZ6ulHQ09PLN5izW6usHgv/0daeDZVx8=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -1901,7 +1913,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uGriIMlEqgEXeB9qjac/KaBaJ/DO/Gu0hzkKkI+igps=
+			8kuRYDb89kSABtEqFzpoMbitunHReY8wnw8QfIdZoeA=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/images/MyContracts.png</key>
@@ -1916,6 +1928,27 @@
 			<key>hash2</key>
 			<data>
 			CO9gqVSl8v00mNLlKdhBF6CpkRI4d1DO79wxdEuL3TQ=
+			</data>
+		</dict>
+		<key>Frameworks/App.framework/flutter_assets/images/charity.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			SIyMerVKVbAG/iUBntxPhXPomPgrFM1BVtHBrw5YMe8=
+			</data>
+		</dict>
+		<key>Frameworks/App.framework/flutter_assets/images/charity2.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			lvieJlAH2kSkKa13RKUkK0NZHOluEhr+EczY2f3Kf04=
+			</data>
+		</dict>
+		<key>Frameworks/App.framework/flutter_assets/images/chohome.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ughB2d1jUo7FqsugxJo51uJfoq5md/xGC1w6M7JIg1k=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/images/donationsTap.jpg</key>
@@ -1964,7 +1997,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/zjpf2OeBld2jWEL60vYlNDwurl32unPxgVjvPnrV2Q=
+			z1deOcyTufwd8XqUx0MGKHo55ISHV5fZIb5UzuDKp10=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

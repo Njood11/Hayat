@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                              text: 'Welcome',
+                              text: 'Welcome to Hayat',
                               style: TextStyle(
                                 fontSize: 30,
                                 color: Colors.teal[200],
