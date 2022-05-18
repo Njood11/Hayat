@@ -8,6 +8,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:geolocator/geolocator.dart';
 
+//c all
+//c
+//s
 class ListOffersPage3 extends StatefulWidget {
   var myArray;
   var myArray2S;
@@ -280,7 +283,6 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   }
 
   void search1(String query) async {
-    var s = allOffers;
     if (query.isNotEmpty) {
       match = [];
 
@@ -332,6 +334,29 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
             status.toLowerCase().contains(query.toLowerCase())) {
           match.add(offer);
           print('yes match');
+        }
+      }
+      for (int i = 0; i < allOffers.length; i++) {
+        var offer = allOffers[i];
+        DateTime? dbOfferDate = DateTime.parse(offer.get("exp_date"));
+
+        print('tody date');
+        print(DateTime.now());
+        print('offer date');
+        print(dbOfferDate);
+        print('all donations');
+        print(allOffers.length);
+
+        if (dbOfferDate.isBefore(DateTime.now())) {
+          setState(() {
+            items.remove(offer);
+            allOffers.remove(offer);
+            match.remove(offer);
+            myAr.remove(offer);
+            myArray2C.remove(offer);
+            myArray2S.remove(offer);
+            print("filter old remove");
+          });
         }
       }
 
@@ -607,10 +632,6 @@ class _CustomDialogState extends State<CustomDialog> {
   bool selectCategory2 = false;
   late var allOffers2 = [];
   void getOffers() async {
-    /*QueryBuilder<ParseObject> parseQuery =
-        QueryBuilder<ParseObject>(ParseObject('donations'))
-          ..whereEqualTo("requested", false);*/
-
     QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject('donations'))
           ..whereEqualTo("req_donation_status", 'Sent');
@@ -622,6 +643,26 @@ class _CustomDialogState extends State<CustomDialog> {
         allOffers = apiResponse.results as List<ParseObject>;
         items = allOffers as List<ParseObject>;
       });
+      for (int i = 0; i < allOffers.length; i++) {
+        var offer = allOffers[i];
+        DateTime? dbOfferDate = DateTime.parse(offer.get("exp_date"));
+
+        print('tody date');
+        print(DateTime.now());
+        print('offer date');
+        print(dbOfferDate);
+        print('all donations');
+        print(allOffers.length);
+
+        if (dbOfferDate.isBefore(DateTime.now())) {
+          setState(() {
+            items.remove(offer);
+            allOffers.remove(offer);
+
+            print("filter old remove");
+          });
+        }
+      }
     } else {
       allOffers = [];
     }
@@ -639,6 +680,7 @@ class _CustomDialogState extends State<CustomDialog> {
     var SelectedCategories = SelectedCat;
 
     var query;
+
     for (int i = 0; i < SelectedCat.length; i++) {
       query = SelectedCat[i];
       print('query');
@@ -789,6 +831,27 @@ class _CustomDialogState extends State<CustomDialog> {
 
         print('final match :');
         print(finalMatch);
+      }
+    }
+
+    for (int i = 0; i < finalMatch.length; i++) {
+      var offer = allOffers[i];
+      DateTime? dbOfferDate = DateTime.parse(offer.get("exp_date"));
+
+      print('tody date');
+      print(DateTime.now());
+      print('offer date');
+      print(dbOfferDate);
+      print('all donations');
+      print(allOffers.length);
+
+      if (dbOfferDate.isBefore(DateTime.now())) {
+        setState(() {
+          items.remove(offer);
+          allOffers.remove(offer);
+          finalMatch.remove(offer);
+          print("filter old remove");
+        });
       }
     }
   }
