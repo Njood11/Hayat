@@ -18,41 +18,11 @@ class HomeD2 extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text(
           'Hayat food donation',
         ),
         backgroundColor: Colors.teal[200],
         elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
-            label: const Text(
-              "Sign out",
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () async {
-              final user = await ParseUser.currentUser() as ParseUser;
-              var response = await user.logout();
-
-              if (response.success) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('User was successfully signed out!')),
-                );
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginAll()));
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Can not signed out!')),
-                );
-              }
-            },
-          ),
-        ],
       ),
       body: Container(
         padding: EdgeInsets.all(35),
