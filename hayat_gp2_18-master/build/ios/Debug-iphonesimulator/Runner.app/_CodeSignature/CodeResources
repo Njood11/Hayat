@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		iauyupp2aT3XvD4p1RW3mt1Qq1Q=
+		ut0R9TI/fU9YAX1KRPiRf0SIdks=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,11 +54,11 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		SSGkQCpGB/kpRNzcIDyBz1q4dnQ=
+		uzmtZyEC0ykh9LMxXCU7AahVuBY=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<data>
-		sotKM5+xHBpDowGpda44bwcxj14=
+		A5t8vDL09H+OALB0ojLnsH/uSSs=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
 		<data>
@@ -66,7 +66,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/NOTICES.Z</key>
 		<data>
-		XTfbuMGg9PGgHkTr4L0Mas/xpC4=
+		EMia4UwbXx6X1q4FIEpVGy2YRac=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -95,6 +95,10 @@
 		<key>Frameworks/App.framework/flutter_assets/images/MydonationsTap.png</key>
 		<data>
 		tzx0CMNV02TGKHvi5ixb3rCDVSQ=
+		</data>
+		<key>Frameworks/App.framework/flutter_assets/images/background.jpg</key>
+		<data>
+		LWdGE8bw+fT/GHyq2/S0ii6NIfQ=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/images/charity.jpg</key>
 		<data>
@@ -134,7 +138,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		9DYA6QRS5uTC1YS7Gyio2ULGMwI=
+		UsJsRittCSWegiPlCNRrlBzCFIs=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -270,7 +274,7 @@
 		</data>
 		<key>Frameworks/Flutter.framework/Flutter</key>
 		<data>
-		X/fLrXtBqknhotIXpsSRiMXgSds=
+		YtTbX8fFZnLXI8a837le/lLPBWA=
 		</data>
 		<key>Frameworks/Flutter.framework/Headers/Flutter.h</key>
 		<data>
@@ -382,7 +386,7 @@
 		</data>
 		<key>Frameworks/Reachability.framework/Reachability</key>
 		<data>
-		pLbXpyNMqygrbodyFb/fHwbrjiQ=
+		k8zM8HtYrZMKNXHph+wmT9hd/pI=
 		</data>
 		<key>Frameworks/Reachability.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -394,7 +398,7 @@
 		</data>
 		<key>Frameworks/TOCropViewController.framework/TOCropViewController</key>
 		<data>
-		Rf9+5rzLM6bCDcZntQxQYWGmPaw=
+		S9++VVNBU9CIvy+zazDnVl5XmBQ=
 		</data>
 		<key>Frameworks/TOCropViewController.framework/TOCropViewControllerBundle.bundle/Base.lproj/TOCropViewControllerLocalizable.strings</key>
 		<dict>
@@ -707,7 +711,7 @@
 		</data>
 		<key>Frameworks/connectivity_plus.framework/connectivity_plus</key>
 		<data>
-		trvflkiqwvZxLA+LZYKMZ3UU+Kw=
+		Rmi5mPjXtzYprprUOx9hr3CrSwk=
 		</data>
 		<key>Frameworks/geocoding.framework/Info.plist</key>
 		<data>
@@ -719,7 +723,7 @@
 		</data>
 		<key>Frameworks/geocoding.framework/geocoding</key>
 		<data>
-		0Q46LLql+p5VYzYfbtarEim7/vc=
+		pnf+tRXWhvvTf4J5OgKCceLqGZM=
 		</data>
 		<key>Frameworks/geolocator_apple.framework/Info.plist</key>
 		<data>
@@ -731,7 +735,7 @@
 		</data>
 		<key>Frameworks/geolocator_apple.framework/geolocator_apple</key>
 		<data>
-		elvj21sptJuTqKJNOaHDy29QNcE=
+		sAeVYHgiCoXAXKcinSmG+N6Fqi0=
 		</data>
 		<key>Frameworks/grpc.framework/Info.plist</key>
 		<data>
@@ -795,7 +799,7 @@
 		</data>
 		<key>Frameworks/image_cropper.framework/image_cropper</key>
 		<data>
-		x6kJO7mEJ21FdmgW9IR35k/RBJI=
+		Qmy4lHSL4OW1XwiPSBcREzn6ZYo=
 		</data>
 		<key>Frameworks/image_picker.framework/Info.plist</key>
 		<data>
@@ -807,7 +811,7 @@
 		</data>
 		<key>Frameworks/image_picker.framework/image_picker</key>
 		<data>
-		OHxDIi0Czp6h17HNL4GMlY5y2GI=
+		8tuAjmNJJ4j8Rz7vgCHn95H59dw=
 		</data>
 		<key>Frameworks/leveldb.framework/Info.plist</key>
 		<data>
@@ -915,7 +919,7 @@
 		</data>
 		<key>Frameworks/package_info_plus.framework/package_info_plus</key>
 		<data>
-		lcmX6bJbcHttDDtmg/IsjSUyHj8=
+		qW+JaOEtNDAlpKlOFBabdiUMZHM=
 		</data>
 		<key>Frameworks/path_provider_ios.framework/Info.plist</key>
 		<data>
@@ -927,7 +931,7 @@
 		</data>
 		<key>Frameworks/path_provider_ios.framework/path_provider_ios</key>
 		<data>
-		lWJTo146h6CwtnqI+rS5ublStl0=
+		OFn4Oy5zCbz9jF1dNduwjJzKYXQ=
 		</data>
 		<key>Frameworks/shared_preferences_ios.framework/Info.plist</key>
 		<data>
@@ -939,7 +943,7 @@
 		</data>
 		<key>Frameworks/shared_preferences_ios.framework/shared_preferences_ios</key>
 		<data>
-		jh6zQPxrYpfHiT8/WLhDaWwhIlU=
+		jHzh7ZyqFkh8wIA71C+53cI65JU=
 		</data>
 		<key>Frameworks/sqflite.framework/Info.plist</key>
 		<data>
@@ -963,7 +967,7 @@
 		</data>
 		<key>Frameworks/url_launcher_ios.framework/url_launcher_ios</key>
 		<data>
-		XKp6ujVNFH5oGFeraITQ4AlROoc=
+		FSfGMwhrn6Xgt+iopVh1qP0y+NY=
 		</data>
 		<key>GoogleMaps.bundle/GMSCacheStorage.momd/Storage.mom</key>
 		<data>
@@ -1760,7 +1764,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		FDnOy1nFDObZVVUIuml+TqRRHlM=
+		ZtVZMb064oHHDpJ807SRc/vO9SA=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -1843,7 +1847,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1grfr9acF5ZG/NA/vi7aCjj3JFY5oMbFDt5QPoEozGI=
+			WtR7HifOkncRmHBRE+gNfWJTiVXs7F6A3SXgTDA+PJw=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -1857,14 +1861,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			aH0toMlpNnfY49NhU/4pPWrwitvQ2dy4XqRlNMMoWh0=
+			TkzyK/Hyxfbf5log8Tp0POqshp1bKAPd6klp+Pkjrig=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cS1EITszk2C9U812RNMzEywyirbhSq9PUSJospgH2/Q=
+			5jnip+wTFL/+rxzHyLrNTcU6O/QN53lzvecbv909iOA=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
@@ -1878,7 +1882,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			g66CHEL9PaixZ6ulHQ09PLN5izW6usHgv/0daeDZVx8=
+			roL/lhMpFa0St2967ILf2OpBfDLS5V+0+nL1v60iPLA=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -1928,6 +1932,13 @@
 			<key>hash2</key>
 			<data>
 			CO9gqVSl8v00mNLlKdhBF6CpkRI4d1DO79wxdEuL3TQ=
+			</data>
+		</dict>
+		<key>Frameworks/App.framework/flutter_assets/images/background.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			5+nWPA+Vb/xPcOG1xXKIbtLbjSaXpA0mmQ4BMSYh/RQ=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/images/charity.jpg</key>
@@ -1997,7 +2008,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			z1deOcyTufwd8XqUx0MGKHo55ISHV5fZIb5UzuDKp10=
+			lRg/ON8xkXDasmkG0AC+hZDpR/Nte5lbQO+gF5mZoxM=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -2235,7 +2246,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			88qxJDTfejDFRbhIYOscyNnlFc5rFzXR1JHMJygfxg4=
+			b7gn+PiVOmgFxLoFiRC7Ll3o65XQT8rYNJ1CTeQaJWU=
 			</data>
 		</dict>
 		<key>Frameworks/Flutter.framework/Headers/Flutter.h</key>
@@ -2431,7 +2442,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			iNYRP2RFXDjVphrih7D+HiT5AvwMgAYo+qzMzi1jGLk=
+			P8UEOA5mGmZsl4Gcosh5m5mf0aUzrrbCBDXaFT/rO7E=
 			</data>
 		</dict>
 		<key>Frameworks/Reachability.framework/_CodeSignature/CodeResources</key>
@@ -2452,7 +2463,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			pyGCof2g09oa8iqfe7UjGPQhnX3bfir0c2hmMWoZ3rQ=
+			G087gSqHlzX8bmS9nohWKD0s0Kxvb0LARwZYtO+AXVk=
 			</data>
 		</dict>
 		<key>Frameworks/TOCropViewController.framework/TOCropViewControllerBundle.bundle/Base.lproj/TOCropViewControllerLocalizable.strings</key>
@@ -2804,7 +2815,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			BWDklhelI5PQNl9DqTdNup2lv8+tNLzkTRW6Ljj8nkM=
+			GC5taAK221QFbxwOodS62WHBBYgOhrvtIPU4unpNbKQ=
 			</data>
 		</dict>
 		<key>Frameworks/geocoding.framework/Info.plist</key>
@@ -2825,7 +2836,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			e1jfvkZYB5YfjP6qNmHjDS8bjggSb0n/CDUTyfwoAE0=
+			t6lBODIrObjOlB9BgqikHP3jjEuHdKdsMKtvOZKMMEc=
 			</data>
 		</dict>
 		<key>Frameworks/geolocator_apple.framework/Info.plist</key>
@@ -2846,7 +2857,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			gR/CL6yGwqziokQNF1T7N0XMiPbwjFEuyWcexVuYtzw=
+			tli/3rYPGWKm3pZ4drNX6WmQ7Qw7ArFIK8AUJZ38IjU=
 			</data>
 		</dict>
 		<key>Frameworks/grpc.framework/Info.plist</key>
@@ -2958,7 +2969,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			KKHV6EwKj+dsClZRo6hsyDILq8xsSQSBga51o8XZe2U=
+			VB+681DkjkfH+iGe5ghpT0mplZ5WJgLp7dG1A3vTrH0=
 			</data>
 		</dict>
 		<key>Frameworks/image_picker.framework/Info.plist</key>
@@ -2979,7 +2990,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wiV2m0KCelMPUBl9uhK83VSlZLPBUt+8UXFByfjjlVM=
+			TUpzBYm4V3WT2FCWLNoz2JjO6lt6iYEotMeat36kwMo=
 			</data>
 		</dict>
 		<key>Frameworks/leveldb.framework/Info.plist</key>
@@ -3168,7 +3179,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			7i9o1PyN375PmiE7h37VYNR9S/iE+1uW8EV0j5iTqC8=
+			tQ4JzjvQEu4Yb+a2MFQy4oFKbeA2MTbUlBehqPuKEos=
 			</data>
 		</dict>
 		<key>Frameworks/path_provider_ios.framework/Info.plist</key>
@@ -3189,7 +3200,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			pHyaLE0EqL7B1A6Uz0eCFyg+F7wB6uX+r2At/Dwg6TY=
+			ROFGGaaiteEe+p+TVsDyL+vbVUbZXov2s6rAWvDwJbk=
 			</data>
 		</dict>
 		<key>Frameworks/shared_preferences_ios.framework/Info.plist</key>
@@ -3210,7 +3221,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			HCZeK15/FWwpH7ekcwmFkH7LIptXKzSO+MxM37uFsvM=
+			Fnmk5IUIHOReBDe1j3uVWMEanxi68aZPVK4ftnU3Esk=
 			</data>
 		</dict>
 		<key>Frameworks/sqflite.framework/Info.plist</key>
@@ -3252,7 +3263,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			u1/rpcvc/G1sxUk4ulqjniNwH+h8GSYShtuKqCoywEk=
+			KRZKqbSiDpXr3gqk+eVuDSqFmC+uZs5GTe2RX1/4dQc=
 			</data>
 		</dict>
 		<key>GoogleMaps.bundle/GMSCacheStorage.momd/Storage.mom</key>

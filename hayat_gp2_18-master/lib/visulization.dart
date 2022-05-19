@@ -65,7 +65,6 @@ class _ChartState extends State<Chart> {
     } else {
       contracts = 0;
     }
-    print("c : $contracts");
     chartData = getChartData(donations, contracts, quantity);
   }
 

@@ -51,24 +51,24 @@ class HomePage extends StatelessWidget {
           child: Container(
               padding: EdgeInsets.only(),
               child: GridView.count(crossAxisCount: 2, children: <Widget>[
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     RichText(
                       text: TextSpan(
                         children: [
                           TextSpan(
-                              text: 'Welcome to Hayat',
+                              text: ' Welcome ..',
                               style: TextStyle(
-                                fontSize: 30,
-                                color: Colors.teal[200],
-                              )),
+                                  fontSize: 30,
+                                  color: Colors.teal[200],
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
                   ],
                 ),
-                SizedBox(),
+                Column(),
                 Card(
                   child: InkWell(
                     onTap: () {
@@ -82,8 +82,8 @@ class HomePage extends StatelessWidget {
                         children: <Widget>[
                           Image(
                             image: AssetImage("images/Logo.jpg"),
-                            width: 150,
-                            height: 150,
+                            width: 120,
+                            height: 120,
                           ),
                           Text("What is Hayat",
                               style: new TextStyle(fontSize: 20))

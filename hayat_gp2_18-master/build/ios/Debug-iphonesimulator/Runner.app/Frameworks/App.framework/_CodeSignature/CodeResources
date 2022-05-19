@@ -10,7 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		sotKM5+xHBpDowGpda44bwcxj14=
+		A5t8vDL09H+OALB0ojLnsH/uSSs=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		XTfbuMGg9PGgHkTr4L0Mas/xpC4=
+		EMia4UwbXx6X1q4FIEpVGy2YRac=
 		</data>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -47,6 +47,10 @@
 		<key>flutter_assets/images/MydonationsTap.png</key>
 		<data>
 		tzx0CMNV02TGKHvi5ixb3rCDVSQ=
+		</data>
+		<key>flutter_assets/images/background.jpg</key>
+		<data>
+		LWdGE8bw+fT/GHyq2/S0ii6NIfQ=
 		</data>
 		<key>flutter_assets/images/charity.jpg</key>
 		<data>
@@ -86,7 +90,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		9DYA6QRS5uTC1YS7Gyio2ULGMwI=
+		UsJsRittCSWegiPlCNRrlBzCFIs=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -167,11 +171,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sotKM5+xHBpDowGpda44bwcxj14=
+			A5t8vDL09H+OALB0ojLnsH/uSSs=
 			</data>
 			<key>hash2</key>
 			<data>
-			cS1EITszk2C9U812RNMzEywyirbhSq9PUSJospgH2/Q=
+			5jnip+wTFL/+rxzHyLrNTcU6O/QN53lzvecbv909iOA=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -189,11 +193,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XTfbuMGg9PGgHkTr4L0Mas/xpC4=
+			EMia4UwbXx6X1q4FIEpVGy2YRac=
 			</data>
 			<key>hash2</key>
 			<data>
-			g66CHEL9PaixZ6ulHQ09PLN5izW6usHgv/0daeDZVx8=
+			roL/lhMpFa0St2967ILf2OpBfDLS5V+0+nL1v60iPLA=
 			</data>
 		</dict>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -271,6 +275,17 @@
 			<key>hash2</key>
 			<data>
 			CO9gqVSl8v00mNLlKdhBF6CpkRI4d1DO79wxdEuL3TQ=
+			</data>
+		</dict>
+		<key>flutter_assets/images/background.jpg</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LWdGE8bw+fT/GHyq2/S0ii6NIfQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			5+nWPA+Vb/xPcOG1xXKIbtLbjSaXpA0mmQ4BMSYh/RQ=
 			</data>
 		</dict>
 		<key>flutter_assets/images/charity.jpg</key>
@@ -376,11 +391,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9DYA6QRS5uTC1YS7Gyio2ULGMwI=
+			UsJsRittCSWegiPlCNRrlBzCFIs=
 			</data>
 			<key>hash2</key>
 			<data>
-			z1deOcyTufwd8XqUx0MGKHo55ISHV5fZIb5UzuDKp10=
+			lRg/ON8xkXDasmkG0AC+hZDpR/Nte5lbQO+gF5mZoxM=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
