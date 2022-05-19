@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/home_pages/charity_home.dart';
@@ -92,6 +93,31 @@ class _offerDetailes extends State<offerDetailes> {
       });
     } else {
       donor = [];
+    }
+  }
+
+  openwhatsapp(phone) async {
+    // var whatsapp = "+919144040888";
+    print('access openwhatsapp ');
+    print(phone);
+    var whatsappURl_android = "whatsapp://send?phone=" + phone + "&text=hello";
+    var whatappURL_ios = "https://wa.me/$phone?text=${Uri.parse("hello")}";
+    if (Platform.isIOS) {
+      // for iOS phone only
+      if (await canLaunch(whatappURL_ios)) {
+        await launch(whatappURL_ios, forceSafariVC: false);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    } else {
+      // android
+      if (await canLaunch(whatsappURl_android)) {
+        await launch(whatsappURl_android);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
     }
   }
 
@@ -260,10 +286,10 @@ class _offerDetailes extends State<offerDetailes> {
                       child: Text("Contact"),
                       onPressed: () {
                         //what's app
-                        /*
-                        print('hey ' + c);
-                        () async =>
-                            await launch("https://wa.me/${c}?text=Hello");*/
+                        var Userphone = donor[0].get('phone').toString();
+                        print('hey ' + donor[0].get('phone').toString());
+                        print(Userphone);
+                        openwhatsapp(Userphone);
                       },
                     );
 
