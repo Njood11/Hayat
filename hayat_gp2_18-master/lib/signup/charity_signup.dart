@@ -103,13 +103,6 @@ class _HomeState extends State<SignupPage> {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
-/*
-  Future<Position> _getGeoLocationPosition() async {
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-  }*/
 
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemarks =

@@ -21,6 +21,8 @@ class DSignupPage extends StatefulWidget {
 class _HomeState extends State<DSignupPage> {
   //var ad;
   //_HomeState( this.ad);
+  List<ParseObject> results = <ParseObject>[];
+
   bool response2 = false;
   late String e_mail;
   late String pass;
@@ -61,6 +63,41 @@ class _HomeState extends State<DSignupPage> {
 
   static String add = 'no location selected yet';
   static bool result = false;
+  Future<Position> getCurrentPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    print('serviceEnabled');
+
+    print(serviceEnabled);
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    print('permission');
+
+    print(permission);
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
   Future<Position> _getPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -100,13 +137,6 @@ class _HomeState extends State<DSignupPage> {
         desiredAccuracy: LocationAccuracy.high);
   }
 
-  Future<Position> _getGeoLocationPosition() async {
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-  }
-
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
@@ -118,6 +148,42 @@ class _HomeState extends State<DSignupPage> {
       add =
           '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
     });
+  }
+
+  void doQueryNear() async {
+    // Create your query
+    final QueryBuilder<ParseObject> parseQuery =
+        QueryBuilder<ParseObject>(ParseObject('City'));
+
+    // Get current position from device
+    final position = await getCurrentPosition();
+
+    final currentGeoPoint = ParseGeoPoint(
+        latitude: position.latitude, longitude: position.longitude);
+
+    // `whereNear` will order results based on distance between the GeoPoint
+    // type field from the class and the GeoPoint argument
+    parseQuery.whereNear('location', currentGeoPoint);
+
+    // The query will resolve only after calling this method, retrieving
+    // an array of `ParseObjects`, if success
+    final ParseResponse apiResponse = await parseQuery.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      // Let's show the results
+      for (var o in apiResponse.results! as List<ParseObject>) {
+        print(
+            'City: ${o.get<String>('name')} - Location: ${o.get<ParseGeoPoint>('location')!.latitude}, ${o.get<ParseGeoPoint>('location')!.longitude}');
+      }
+
+      setState(() {
+        results = apiResponse.results as List<ParseObject>;
+      });
+    } else {
+      setState(() {
+        results.clear();
+      });
+    }
   }
 
   onPasswordChanged(String password) {
@@ -154,7 +220,7 @@ class _HomeState extends State<DSignupPage> {
   ////database cloud add donor functions//////
 
   void addDonor() async {
-    Position position = await _getGeoLocationPosition();
+    Position position = await getCurrentPosition();
     final donor = ParseUser(
         emailController.text.toLowerCase(), encryptedPass, emailController.text)
       ..set('location', add)
@@ -624,8 +690,7 @@ class _HomeState extends State<DSignupPage> {
                                             BorderRadius.circular(50))),
                               ),
                               onPressed: () async {
-                                Position position =
-                                    await _getGeoLocationPosition();
+                                Position position = await getCurrentPosition();
                                 if (_HomeState.result == true) {
                                   GetAddressFromLatLong(position);
                                 }
