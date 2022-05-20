@@ -142,7 +142,7 @@ class contractDetailesForDonor extends StatelessWidget {
                         //update request column to true (Done)
                         var CancelContract = ParseObject('contracts')
                           ..objectId = contractId
-                          ..set('canceled', true);
+                          ..set('contract_status', "Canceled");
 
                         await CancelContract.save();
 

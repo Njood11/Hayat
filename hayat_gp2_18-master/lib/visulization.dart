@@ -18,7 +18,6 @@ class _ChartState extends State<Chart> {
     GDPData('Contracts : ', 0),
     GDPData('People covered : ', 0),
   ];
-  late TooltipBehavior _tooltipBehavior;
   int donations = 0;
   int contracts = 0;
   int quantity = 0;
@@ -41,12 +40,14 @@ class _ChartState extends State<Chart> {
     } else {
       donations = 0;
     }
+    print(donations);
     for (int i = 0; i < allDonations.length; i++) {
       int q = allDonations[i].get('aq');
       setState(() {
         quantity = quantity + q;
       });
     }
+    getContracts(Cid);
   }
 
   void getContracts(String? CID) async {
@@ -65,25 +66,20 @@ class _ChartState extends State<Chart> {
     } else {
       contracts = 0;
     }
-    chartData = getChartData(donations, contracts, quantity);
-  }
-
-  List<GDPData> getChartData(int d, int c, int q) {
-    chartData = [
-      GDPData('Donations : $d', d),
-      GDPData('Contracts : $c', c),
-      GDPData('People covered : $q', q),
-    ];
-
-    return chartData;
+    print("c : $contracts");
+    setState(() {
+      chartData = [
+        GDPData('Donations : $donations', donations),
+        GDPData('Contracts : $contracts', contracts),
+        GDPData('People covered : $quantity', quantity),
+      ];
+    });
   }
 
   @override
   void initState() {
-    super.initState();
     getDonations(Cid);
-    getContracts(Cid);
-    _tooltipBehavior = TooltipBehavior(enable: true);
+    super.initState();
   }
 
   @override
@@ -106,7 +102,6 @@ class _ChartState extends State<Chart> {
               isVisible: true,
               overflowMode: LegendItemOverflowMode.wrap,
               textStyle: TextStyle(fontSize: 18)),
-          tooltipBehavior: _tooltipBehavior,
           series: <CircularSeries>[
             PieSeries<GDPData, String>(
               dataSource: chartData,
@@ -116,7 +111,6 @@ class _ChartState extends State<Chart> {
                   isVisible: true,
                   textStyle:
                       TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              enableTooltip: true,
             )
           ],
         ));
