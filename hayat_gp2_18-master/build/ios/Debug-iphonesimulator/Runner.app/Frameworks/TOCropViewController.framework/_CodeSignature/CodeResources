@@ -6,7 +6,7 @@
 	<dict>
 		<key>Info.plist</key>
 		<data>
-		bfXI7k7jtdXmKmh/qIiyHP8yV/4=
+		M2fZLrHiBomQPGazJF2JJrfdx9k=
 		</data>
 		<key>TOCropViewControllerBundle.bundle/Base.lproj/TOCropViewControllerLocalizable.strings</key>
 		<dict>
@@ -19,11 +19,11 @@
 		</dict>
 		<key>TOCropViewControllerBundle.bundle/Info.plist</key>
 		<data>
-		kEL2kQqqQiGs5zEbi3zmCzpViao=
+		vyZsumBKnrashnmvWEvztNzomgY=
 		</data>
 		<key>TOCropViewControllerBundle.bundle/_CodeSignature/CodeDirectory</key>
 		<data>
-		THAtBQZL8S6I13bh+75vj4obBS8=
+		c/qO+tCBFCLIgXdFUgwyXCOLnTI=
 		</data>
 		<key>TOCropViewControllerBundle.bundle/_CodeSignature/CodeRequirements</key>
 		<data>
@@ -31,7 +31,7 @@
 		</data>
 		<key>TOCropViewControllerBundle.bundle/_CodeSignature/CodeRequirements-1</key>
 		<data>
-		sShXmcTwqWNXbNNbffjhEKax5IU=
+		GzxbZ5sq2u77d5FFF/en+c3/jx8=
 		</data>
 		<key>TOCropViewControllerBundle.bundle/_CodeSignature/CodeResources</key>
 		<data>
@@ -313,22 +313,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			kEL2kQqqQiGs5zEbi3zmCzpViao=
+			vyZsumBKnrashnmvWEvztNzomgY=
 			</data>
 			<key>hash2</key>
 			<data>
-			HsEUpTwfc0HmawyGoGVCe0NYlPYxl9o5XUGCZ5YSmIs=
+			58Dwp0dchYNdjjn0PD6yKSPNLD2bllXuK783Zt0y4Ro=
 			</data>
 		</dict>
 		<key>TOCropViewControllerBundle.bundle/_CodeSignature/CodeDirectory</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			THAtBQZL8S6I13bh+75vj4obBS8=
+			c/qO+tCBFCLIgXdFUgwyXCOLnTI=
 			</data>
 			<key>hash2</key>
 			<data>
-			fc1y21qJdxRsbgTuUSjTmitcIVSBuuHEjEMA5jriQN0=
+			+Deji4uGIKzEFnq1VVIT20uQo5sOwEn8kRt+SH9V25I=
 			</data>
 		</dict>
 		<key>TOCropViewControllerBundle.bundle/_CodeSignature/CodeRequirements</key>
@@ -346,11 +346,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sShXmcTwqWNXbNNbffjhEKax5IU=
+			GzxbZ5sq2u77d5FFF/en+c3/jx8=
 			</data>
 			<key>hash2</key>
 			<data>
-			6rjOAV60c3WCRT4cO+hOwDP82D065lGZc7K1uEC4vCk=
+			DAy9IgABSXhZDSzAfhjAOoNrI7CkwWjIwK0AKAuco70=
 			</data>
 		</dict>
 		<key>TOCropViewControllerBundle.bundle/_CodeSignature/CodeResources</key>

@@ -34,7 +34,7 @@ class _Contract extends State<Contract> {
 //function to add new contract to database
   void addcontracts() async {
     final offer = ParseObject("contracts")
-      ..set('Food_category', dropdownvalueCategory + ',' + MoreController.text)
+      ..set('Food_category', dropdownvalueCategory)
       ..set('Food_status', dropdownvalueStatus)
       ..set('fquantity', quantity)
       ..set('cho_id', CID)
@@ -95,6 +95,7 @@ class _Contract extends State<Contract> {
     ' Nuts and Seeds ',
     ' Candy ',
     ' Dairy ',
+    'Other',
   ];
 
   String dropdownvalueStatus = ' Frozen ';
@@ -227,16 +228,17 @@ class _Contract extends State<Contract> {
 //-----------------------------------------------------------------------------
 
 //------------------------- Food Category ------------------------------------
-
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("\n\n Food Category:      \n",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17)),
+                    child: Text(
+                      "\n\n Food Category:      \n",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                    ),
                   ),
                 ],
               ),
@@ -251,7 +253,6 @@ class _Contract extends State<Contract> {
                         // Initial Value
                         value: dropdownvalueCategory,
                         isExpanded: true,
-
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
 
@@ -271,29 +272,30 @@ class _Contract extends State<Contract> {
                         },
                       ),
                     ]),
+                    //),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(children: <Widget>[
-                      TextFormField(
-                          onChanged: (value) {
-                            More = value;
-                          },
-                          controller: MoreController,
-                          decoration: const InputDecoration(
-                            border: UnderlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(),
-                            labelText: '  more..',
+                  Column(children: <Widget>[
+                    if (dropdownvalueCategory == "Other")
+                      Column(
+                        children: <Widget>[
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Your category',
+                            ),
+                            onChanged: (value) {
+                              dropdownvalueCategory = value;
+                            },
                           ),
-                          validator: (value) {}),
-                    ]),
-                  ),
+                        ],
+                      ),
+                  ]),
                 ],
               ),
 
+//-----------------------------------------------------------------------------
+              SizedBox(
+                height: 15,
+              ),
 //-----------------------------------------------------------------------------
 
 //------------------------- Food Status ------------------------------------
