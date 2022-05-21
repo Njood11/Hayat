@@ -376,7 +376,7 @@ class _offerDetailes extends State<offerDetailes> {
                         AlertDialog alert = AlertDialog(
                           title: Text("Success!"),
                           content: Text(
-                              "Your request has been successful.\n\nNow you can find your request on the (Published Requests) page on your home page."),
+                              "Your request has been successful.\n\nNow you can find your request on the (My Requests) page on your home page."),
                           actions: [
                             okButton,
                           ],
