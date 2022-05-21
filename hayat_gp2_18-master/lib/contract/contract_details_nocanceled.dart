@@ -45,24 +45,6 @@ class contractDetailesnocanceled extends StatelessWidget {
 
     List<ParseObject> ChO = <ParseObject>[];
 
-// function to retrive all contracts with same Charity ID from database
-    /*void getContracts(String CID) async {
-      QueryBuilder<ParseUser> queryUsers =
-          QueryBuilder<ParseUser>(ParseUser.forQuery())
-            ..whereEqualTo("cho_id", CID);
-
-      final ParseResponse apiResponse = await queryUsers.query();
-
-      if (apiResponse.success && apiResponse.results != null) {
-        ChO = apiResponse.results as List<ParseObject>;
-        print('cho id' + CID);
-        print(ChO[0]);
-        print('cho' + ChO[0].get(("name")));
-      } else {
-        ChO = [];
-      }
-    }*/
-
     void getDonor(String SelectedchoId) async {
       QueryBuilder<ParseUser> queryUsers =
           QueryBuilder<ParseUser>(ParseUser.forQuery())
@@ -95,6 +77,10 @@ class contractDetailesnocanceled extends StatelessWidget {
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+      // ios
+      if (await canLaunch(whatappURL_ios)) {
+        await launch(whatappURL_ios);
       }
     }
 
