@@ -141,6 +141,13 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
         home: Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blueGrey[200],
+      appBar: AppBar(
+        title: Text(
+          'Hayat food donation',
+        ),
+        backgroundColor: Colors.teal[200],
+        elevation: 0.0,
+      ),
       body: Container(
           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           padding: EdgeInsets.all(10),
