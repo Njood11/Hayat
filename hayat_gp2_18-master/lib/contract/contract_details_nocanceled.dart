@@ -210,7 +210,7 @@ class _contractDetailesnocanceled extends State<contractDetailesnocanceled> {
                       ),
                       onPressed: () async {
                         // set up the buttons
-
+                        getcho(CID);
                         Widget cancelButton = TextButton(
                           child: Text("Ok"),
                           onPressed: () {
