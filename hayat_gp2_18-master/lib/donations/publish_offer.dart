@@ -192,11 +192,11 @@ class _PublishOfferPage extends State<PublishOfferPage> {
                       ),
                       validator: (value) {
                         var v = int.parse(value!);
-
                         if (value == null || value.isEmpty) {
                           return 'Please enter a number';
-                        } else if (v.toInt() == false)
+                        } else if (v.isFinite == false) {
                           return 'Enter a valid number';
+                        }
                       }),
                 ]),
               ),

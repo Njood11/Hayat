@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/donations/filter_loc.dart';
 import 'package:hayat_gp2_18/donations/offer_details.dart';
 import 'package:hayat_gp2_18/home_pages/charity_home.dart';
+import 'package:hayat_gp2_18/home_pages/charity_home_2.dart';
 import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -433,7 +434,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
         leading: IconButton(
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeC(Cid)));
+                context, MaterialPageRoute(builder: (context) => HomeC2(Cid)));
           },
           icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
         ),

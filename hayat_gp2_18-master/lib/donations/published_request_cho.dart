@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/home_pages/charity_home.dart';
 import 'package:hayat_gp2_18/donations/Req_offer_info.dart';
 import 'package:hayat_gp2_18/donations/offer_details.dart';
+import 'package:hayat_gp2_18/home_pages/charity_home_2.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
@@ -76,7 +77,7 @@ class _publishedRequestCHO extends State<publishedRequestCHO> {
         leading: IconButton(
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeC(Cid)));
+                context, MaterialPageRoute(builder: (context) => HomeC2(Cid)));
           },
           icon: Icon(Icons.arrow_back),
         ),

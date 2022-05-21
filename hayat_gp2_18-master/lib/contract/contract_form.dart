@@ -386,8 +386,9 @@ class _Contract extends State<Contract> {
 
                             if (value == null || value.isEmpty) {
                               return 'Please enter a number';
-                            } else if (v.toInt() == false)
+                            } else if (v.isFinite == false) {
                               return 'Enter a valid number';
+                            }
                           }),
                     ]),
                   ),
