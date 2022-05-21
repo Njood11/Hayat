@@ -7,7 +7,7 @@ import 'package:hayat_gp2_18/donations/search_offers.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class contractDetailesForCharity extends StatelessWidget {
+class contractDetailesnocanceled extends StatelessWidget {
   List<ParseObject> ChO = <ParseObject>[];
   var SelectedcontCategory;
   var SelectedcontStatus;
@@ -19,7 +19,7 @@ class contractDetailesForCharity extends StatelessWidget {
   var Did;
   var charityWeContractwith;
 
-  contractDetailesForCharity({
+  contractDetailesnocanceled({
     Key? key,
     this.SelectedcontCategory,
     this.SelectedcontStatus,
@@ -43,7 +43,7 @@ class contractDetailesForCharity extends StatelessWidget {
     var Did = this.Did;
     var CID = this.charityWeContractwith;
 
-    List<ParseObject> donor = <ParseObject>[];
+    List<ParseObject> ChO = <ParseObject>[];
 
 // function to retrive all contracts with same Charity ID from database
     /*void getContracts(String CID) async {
@@ -63,21 +63,21 @@ class contractDetailesForCharity extends StatelessWidget {
       }
     }*/
 
-    void getDonor(String Did) async {
+    void getDonor(String SelectedchoId) async {
       QueryBuilder<ParseUser> queryUsers =
           QueryBuilder<ParseUser>(ParseUser.forQuery())
-            ..whereEqualTo("objectId", Did);
+            ..whereEqualTo("objectId", SelectedchoId);
 
       final ParseResponse apiResponse = await queryUsers.query();
 
       if (apiResponse.success) {
-        donor = apiResponse.results as List<ParseObject>;
+        ChO = apiResponse.results as List<ParseObject>;
         print('donors');
-        print(donor);
-        print(donor[0].get('name'));
-        print(donor[0].get('phone'));
+        print(ChO);
+        print(ChO[0].get('name'));
+        print(ChO[0].get('phone'));
       } else {
-        donor = [];
+        ChO = [];
       }
     }
 
@@ -170,8 +170,8 @@ class contractDetailesForCharity extends StatelessWidget {
                   ),
                   onPressed: () async {
                     // set up the buttons
-                    print(Did);
-                    getDonor(Did);
+                    print(CID);
+                    getDonor(CID);
                     Widget cancelButton = TextButton(
                       child: Text("Ok"),
                       onPressed: () {
@@ -183,8 +183,8 @@ class contractDetailesForCharity extends StatelessWidget {
                       onPressed: () {
                         //what's app
 
-                        var Userphone = donor[0].get('phone').toString();
-                        print('hey ' + donor[0].get('phone').toString());
+                        var Userphone = ChO[0].get('phone').toString();
+                        print('hey ' + ChO[0].get('phone').toString());
                         print(Userphone);
                         openwhatsapp(Userphone);
                       },
@@ -193,20 +193,18 @@ class contractDetailesForCharity extends StatelessWidget {
                     // set up the AlertDialog
                     AlertDialog alert = AlertDialog(
                       title: Text(
-                        '\nDonor Information',
+                        '\ncharity Information',
                         style: TextStyle(fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
                       content: Container(
                         child: Text(
-                          '\nDonor type:  ' +
-                              donor[0].get("type").toString() +
-                              '\n\nName:  ' +
-                              donor[0].get("name").toString() +
+                          '\nName:  ' +
+                              ChO[0].get("name").toString() +
                               '\n\nContact number:  ' +
-                              donor[0].get("phone").toString() +
+                              ChO[0].get("phone").toString() +
                               '\n\nLocation:  ' +
-                              donor[0].get("location").toString(),
+                              ChO[0].get("location").toString(),
                           overflow: TextOverflow.visible,
                         ),
                       ),
@@ -224,7 +222,7 @@ class contractDetailesForCharity extends StatelessWidget {
                       },
                     );
                   },
-                  child: const Text('Donor Information')),
+                  child: const Text('charity Information')),
             ),
           ],
         ),
