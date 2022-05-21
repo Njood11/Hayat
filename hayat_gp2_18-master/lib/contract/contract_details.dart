@@ -1,13 +1,53 @@
 import 'dart:math';
-import 'dart:io' as Platform;
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:hayat_gp2_18/home_pages/donor_home.dart';
+import 'package:hayat_gp2_18/home_pages/charity_home.dart';
 import 'package:hayat_gp2_18/donations/search_offers.dart';
+import 'package:hayat_gp2_18/home_pages/donor_home.dart';
+import 'package:hayat_gp2_18/signin/signin_all.dart';
+import 'package:hayat_gp2_18/main.dart';
+import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class contractDetailesForDonor extends StatelessWidget {
+class contractDetailesForDonor extends StatefulWidget {
+  var SelectedcontCategory;
+  var SelectedcontStatus;
+  var SelectedAvailableQuantity_c;
+  var SelectedStartDate_c;
+  var SelectedEndDate_c;
+  var Selectedperiod;
+  var SelectedContractId;
+  var Did;
+  var charityWeContractwith;
+
+  contractDetailesForDonor(
+      {Key? key,
+      this.SelectedcontCategory,
+      this.SelectedcontStatus,
+      this.SelectedAvailableQuantity_c,
+      this.SelectedStartDate_c,
+      this.SelectedEndDate_c,
+      this.Selectedperiod,
+      this.SelectedContractId,
+      this.Did,
+      this.charityWeContractwith})
+      : super(key: key);
+  @override
+  _contractDetailesForDonor createState() => _contractDetailesForDonor(
+      SelectedcontCategory,
+      SelectedcontStatus,
+      SelectedAvailableQuantity_c,
+      SelectedStartDate_c,
+      SelectedEndDate_c,
+      Selectedperiod,
+      SelectedContractId,
+      Did,
+      charityWeContractwith);
+}
+
+class _contractDetailesForDonor extends State<contractDetailesForDonor> {
   List<ParseObject> ChO = <ParseObject>[];
   var SelectedcontCategory;
   var SelectedcontStatus;
@@ -19,19 +59,71 @@ class contractDetailesForDonor extends StatelessWidget {
   var Did;
   var charityWeContractwith;
 
-  contractDetailesForDonor({
-    Key? key,
-    this.SelectedcontCategory,
-    this.SelectedcontStatus,
-    this.SelectedAvailableQuantity_c,
-    this.SelectedStartDate_c,
-    this.SelectedEndDate_c,
-    this.Selectedperiod,
-    this.SelectedContractId,
-    this.Did,
-    this.charityWeContractwith,
-  }) : super(key: key);
+  _contractDetailesForDonor(
+      this.SelectedcontCategory,
+      this.SelectedcontStatus,
+      this.SelectedAvailableQuantity_c,
+      this.SelectedStartDate_c,
+      this.SelectedEndDate_c,
+      this.Selectedperiod,
+      this.SelectedContractId,
+      this.Did,
+      this.charityWeContractwith);
+
   @override
+  void initState() {
+    super.initState();
+
+    getDonor(charityWeContractwith);
+  }
+
+  void getDonor(String SelectedchoId) async {
+    QueryBuilder<ParseUser> queryUsers =
+        QueryBuilder<ParseUser>(ParseUser.forQuery())
+          ..whereEqualTo("objectId", SelectedchoId);
+
+    final ParseResponse apiResponse = await queryUsers.query();
+
+    if (apiResponse.success) {
+      setState(() {
+        ChO = apiResponse.results as List<ParseObject>;
+        print('cho');
+        print(ChO[0].get('name'));
+        print(ChO[0].get('phone'));
+        
+
+        // location = donor[0].get("location").toString();
+      });
+    } else {
+      ChO = [];
+    }
+  }
+
+  openwhatsapp(phone) async {
+    // var whatsapp = "+919144040888";
+    print('access openwhatsapp ');
+    print(phone);
+    var whatsappURl_android = "whatsapp://send?phone=" + phone + "&text=hello";
+    var whatappURL_ios = "https://wa.me/$phone?text=${Uri.parse("hello")}";
+    if (Platform.isIOS) {
+      // for iOS phone only
+      if (await canLaunch(whatappURL_ios)) {
+        await launch(whatappURL_ios, forceSafariVC: false);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    } else {
+      // android
+      if (await canLaunch(whatsappURl_android)) {
+        await launch(whatsappURl_android);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    }
+  }
+
   Widget build(BuildContext context) {
     var C = this.SelectedcontCategory;
     var S = this.SelectedcontStatus;
@@ -42,48 +134,8 @@ class contractDetailesForDonor extends StatelessWidget {
     var contractId = this.SelectedContractId;
     var Did = this.Did;
     var CID = this.charityWeContractwith;
-
-    List<ParseObject> ChO = <ParseObject>[];
-
-    void getDonor(String SelectedchoId) async {
-      QueryBuilder<ParseUser> queryUsers =
-          QueryBuilder<ParseUser>(ParseUser.forQuery())
-            ..whereEqualTo("objectId", SelectedchoId);
-
-      final ParseResponse apiResponse = await queryUsers.query();
-
-      if (apiResponse.success) {
-        ChO = apiResponse.results as List<ParseObject>;
-        print('donors');
-        print(ChO);
-        print(ChO[0].get('name'));
-        print(ChO[0].get('phone'));
-      } else {
-        ChO = [];
-      }
-    }
-
-    openwhatsapp(phone) async {
-      print('access openwhatsapp ');
-      print(phone);
-      var whatsappURl_android =
-          "whatsapp://send?phone=" + phone + "&text=hello";
-      var whatappURL_ios = "https://wa.me/$phone?text=${Uri.parse("hello")}";
-
-      // android
-      if (await canLaunch(whatsappURl_android)) {
-        await launch(whatsappURl_android);
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
-      }
-      // ios
-      if (await canLaunch(whatappURL_ios)) {
-        await launch(whatappURL_ios);
-      }
-    }
-
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blueGrey[200],
       appBar: AppBar(
@@ -155,7 +207,6 @@ class contractDetailesForDonor extends StatelessWidget {
                   ),
                   onPressed: () async {
                     // set up the buttons
-                    print(CID);
                     getDonor(CID);
                     Widget cancelButton = TextButton(
                       child: Text("Ok"),
@@ -288,6 +339,6 @@ class contractDetailesForDonor extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }
