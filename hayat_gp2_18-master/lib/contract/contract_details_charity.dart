@@ -1,13 +1,16 @@
 import 'dart:math';
-import 'dart:io' as Platform;
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:hayat_gp2_18/home_pages/donor_home.dart';
+import 'package:hayat_gp2_18/home_pages/charity_home.dart';
 import 'package:hayat_gp2_18/donations/search_offers.dart';
+import 'package:hayat_gp2_18/signin/signin_all.dart';
+import 'package:hayat_gp2_18/main.dart';
+import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class contractDetailesForCharity extends StatelessWidget {
+class contractDetailesForCharity extends StatefulWidget {
   List<ParseObject> ChO = <ParseObject>[];
   var SelectedcontCategory;
   var SelectedcontStatus;
@@ -32,6 +35,97 @@ class contractDetailesForCharity extends StatelessWidget {
     this.charityWeContractwith,
   }) : super(key: key);
   @override
+  _contractDetailesForCharity createState() => _contractDetailesForCharity(
+      SelectedcontCategory,
+      SelectedcontStatus,
+      SelectedAvailableQuantity_c,
+      SelectedStartDate_c,
+      SelectedEndDate_c,
+      Selectedperiod,
+      SelectedContractId,
+      Did,
+      charityWeContractwith);
+}
+
+class _contractDetailesForCharity extends State<contractDetailesForCharity> {
+  List<ParseObject> donor = <ParseObject>[];
+  var SelectedcontCategory;
+  var SelectedcontStatus;
+  var SelectedAvailableQuantity_c;
+  var SelectedStartDate_c;
+  var SelectedEndDate_c;
+  var Selectedperiod;
+  var SelectedContractId;
+  var Did;
+  var charityWeContractwith;
+
+  _contractDetailesForCharity(
+    this.SelectedcontCategory,
+    this.SelectedcontStatus,
+    this.SelectedAvailableQuantity_c,
+    this.SelectedStartDate_c,
+    this.SelectedEndDate_c,
+    this.Selectedperiod,
+    this.SelectedContractId,
+    this.Did,
+    this.charityWeContractwith,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+
+    getDonor(Did);
+  }
+
+  void getDonor(String Did) async {
+    QueryBuilder<ParseUser> queryUsers =
+        QueryBuilder<ParseUser>(ParseUser.forQuery())
+          ..whereEqualTo("objectId", Did);
+
+    final ParseResponse apiResponse = await queryUsers.query();
+
+    if (apiResponse.success) {
+      setState(() {
+        donor = apiResponse.results as List<ParseObject>;
+        print('donors');
+        print(donor);
+        print(donor[0].get('name'));
+        print(donor[0].get('phone'));
+        print(donor[0].get('type'));
+
+        // location = donor[0].get("location").toString();
+      });
+    } else {
+      donor = [];
+    }
+  }
+
+  openwhatsapp(phone) async {
+    // var whatsapp = "+919144040888";
+    print('access openwhatsapp ');
+    print(phone);
+    var whatsappURl_android = "whatsapp://send?phone=" + phone + "&text=hello";
+    var whatappURL_ios = "https://wa.me/$phone?text=${Uri.parse("hello")}";
+    if (Platform.isIOS) {
+      // for iOS phone only
+      if (await canLaunch(whatappURL_ios)) {
+        await launch(whatappURL_ios, forceSafariVC: false);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    } else {
+      // android
+      if (await canLaunch(whatsappURl_android)) {
+        await launch(whatsappURl_android);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    }
+  }
+
   Widget build(BuildContext context) {
     var C = this.SelectedcontCategory;
     var S = this.SelectedcontStatus;
@@ -42,48 +136,8 @@ class contractDetailesForCharity extends StatelessWidget {
     var contractId = this.SelectedContractId;
     var Did = this.Did;
     var CID = this.charityWeContractwith;
-
-    List<ParseObject> donor = <ParseObject>[];
-
-    void getDonor(String Did) async {
-      QueryBuilder<ParseUser> queryUsers =
-          QueryBuilder<ParseUser>(ParseUser.forQuery())
-            ..whereEqualTo("objectId", Did);
-
-      final ParseResponse apiResponse = await queryUsers.query();
-
-      if (apiResponse.success) {
-        donor = apiResponse.results as List<ParseObject>;
-        print('donors');
-        print(donor);
-        print(donor[0].get('name'));
-        print(donor[0].get('phone'));
-      } else {
-        donor = [];
-      }
-    }
-
-    openwhatsapp(phone) async {
-      print('access openwhatsapp ');
-      print(phone);
-      var whatsappURl_android =
-          "whatsapp://send?phone=" + phone + "&text=hello";
-      var whatappURL_ios = "https://wa.me/$phone?text=${Uri.parse("hello")}";
-
-      // android
-      if (await canLaunch(whatsappURl_android)) {
-        await launch(whatsappURl_android);
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
-      }
-      // ios
-      if (await canLaunch(whatappURL_ios)) {
-        await launch(whatappURL_ios);
-      }
-    }
-
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blueGrey[200],
       appBar: AppBar(
@@ -214,6 +268,6 @@ class contractDetailesForCharity extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }
