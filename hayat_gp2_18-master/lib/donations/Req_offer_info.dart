@@ -143,10 +143,15 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blueGrey[200],
       appBar: AppBar(
-          leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-        onPressed: () => Navigator.of(context).pop(),
-      )),
+        title: Text(
+          'Hayat food donation',
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: Colors.teal[200],
+      ),
       body: Container(
           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           padding: EdgeInsets.all(10),
