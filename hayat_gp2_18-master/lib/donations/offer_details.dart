@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:hayat_gp2_18/home_pages/charity_home.dart';
+import 'package:hayat_gp2_18/home_pages/charity_home_2.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -367,7 +368,7 @@ class _offerDetailes extends State<offerDetailes> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeC(SelectedCHOId)),
+                                  builder: (context) => HomeC2(SelectedCHOId)),
                             );
                           },
                         );
