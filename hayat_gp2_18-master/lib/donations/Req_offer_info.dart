@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/donations/published_request_cho.dart';
 import 'package:hayat_gp2_18/home_pages/charity_home.dart';
 import 'package:hayat_gp2_18/donations/search_offers.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
@@ -142,12 +143,10 @@ class _ReqOfferInfo extends State<ReqOfferInfo> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blueGrey[200],
       appBar: AppBar(
-        title: Text(
-          'Hayat food donation',
-        ),
-        backgroundColor: Colors.teal[200],
-        elevation: 0.0,
-      ),
+          leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+        onPressed: () => Navigator.of(context).pop(),
+      )),
       body: Container(
           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           padding: EdgeInsets.all(10),
