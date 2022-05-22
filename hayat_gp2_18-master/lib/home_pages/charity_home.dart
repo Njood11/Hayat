@@ -131,7 +131,7 @@ class HomeC extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => PublishedContractC(
-                                    Cid: CHOid1,
+                                    Cid: Cid,
                                   )));
                     },
                     splashColor: Colors.red,
