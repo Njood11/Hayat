@@ -37,6 +37,7 @@ class _PublishOfferPage extends State<PublishOfferPage> {
       ..set('food_category', dropdownvalueCategory)
       ..set('food_status', dropdownvalueStatus)
       ..set('donor_ID', Donorid)
+      ..set('req_donation_status', 'Sent')
       ..set("pic", parseFile);
     var response = await offer.save();
     if (response.success) {

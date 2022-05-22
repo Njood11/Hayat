@@ -139,6 +139,7 @@ class _PublishedcontractState extends State<PublishedContract> {
                                         contract.get("objectId").toString(),
                                     charityWeContractwith:
                                         contract.get("cho_id").toString(),
+                                    Did: Did,
                                   )));
                     } else {
                       Navigator.push(

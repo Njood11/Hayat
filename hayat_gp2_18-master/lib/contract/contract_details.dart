@@ -2,9 +2,11 @@ import 'dart:math';
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/contract/view_contract_donor.dart';
 import 'package:hayat_gp2_18/home_pages/charity_home.dart';
 import 'package:hayat_gp2_18/donations/search_offers.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
+import 'package:hayat_gp2_18/home_pages/donor_home_2.dart';
 import 'package:hayat_gp2_18/signin/signin_all.dart';
 import 'package:hayat_gp2_18/main.dart';
 import 'package:parse_server_sdk_flutter/generated/i18n.dart';
@@ -90,7 +92,6 @@ class _contractDetailesForDonor extends State<contractDetailesForDonor> {
         print('cho');
         print(ChO[0].get('name'));
         print(ChO[0].get('phone'));
-        
 
         // location = donor[0].get("location").toString();
       });
@@ -288,11 +289,12 @@ class _contractDetailesForDonor extends State<contractDetailesForDonor> {
                         Widget okButton = TextButton(
                           child: Text("OK"),
                           onPressed: () {
-                            Navigator.pop(context, "OK");
+                            print('ok button');
+                            print(Did);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeD(Did)),
+                                  builder: (context) => PublishedContract(Did)),
                             );
                           },
                         );
