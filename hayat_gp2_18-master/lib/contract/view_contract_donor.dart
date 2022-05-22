@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hayat_gp2_18/contract/cenceled.dart';
+import 'package:hayat_gp2_18/contract/contract_details_nocanceled.dart';
 import 'package:hayat_gp2_18/home_pages/donor_home.dart';
 import 'package:hayat_gp2_18/donations/donation_details_d.dart';
 import 'package:hayat_gp2_18/donations/offer_details.dart';
@@ -114,27 +116,55 @@ class _PublishedcontractState extends State<PublishedContract> {
                 ),
                 child: ListTile(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => contractDetailesForDonor(
-                                  Selectedperiod:
-                                      contract.get("contract_type").toString(),
-                                  SelectedcontCategory:
-                                      contract.get("Food_category").toString(),
-                                  SelectedcontStatus:
-                                      contract.get("Food_status").toString(),
-                                  SelectedAvailableQuantity_c:
-                                      contract.get("fquantity").toString(),
-                                  SelectedStartDate_c:
-                                      contract.get("startDate").toString(),
-                                  SelectedEndDate_c:
-                                      contract.get("End_date").toString(),
-                                  SelectedContractId:
-                                      contract.get("objectId").toString(),
-                                  charityWeContractwith:
-                                      contract.get("cho_id").toString(),
-                                )));
+                    if (contract.get('contract_status') == "In Progress") {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => contractDetailesForDonor(
+                                    Selectedperiod: contract
+                                        .get("contract_type")
+                                        .toString(),
+                                    SelectedcontCategory: contract
+                                        .get("Food_category")
+                                        .toString(),
+                                    SelectedcontStatus:
+                                        contract.get("Food_status").toString(),
+                                    SelectedAvailableQuantity_c:
+                                        contract.get("fquantity").toString(),
+                                    SelectedStartDate_c:
+                                        contract.get("startDate").toString(),
+                                    SelectedEndDate_c:
+                                        contract.get("End_date").toString(),
+                                    SelectedContractId:
+                                        contract.get("objectId").toString(),
+                                    charityWeContractwith:
+                                        contract.get("cho_id").toString(),
+                                  )));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => contractDetailesnocanceled(
+                                    Selectedperiod: contract
+                                        .get("contract_type")
+                                        .toString(),
+                                    SelectedcontCategory: contract
+                                        .get("Food_category")
+                                        .toString(),
+                                    SelectedcontStatus:
+                                        contract.get("Food_status").toString(),
+                                    SelectedAvailableQuantity_c:
+                                        contract.get("fquantity").toString(),
+                                    SelectedStartDate_c:
+                                        contract.get("startDate").toString(),
+                                    SelectedEndDate_c:
+                                        contract.get("End_date").toString(),
+                                    SelectedContractId:
+                                        contract.get("objectId").toString(),
+                                    charityWeContractwith:
+                                        contract.get("cho_id").toString(),
+                                  )));
+                    }
                   },
                   title: Text(
                       '\nFood Category:${contract.get("Food_category").toString()}\n\nFood Status:${contract.get("Food_status").toString()}\n\nStart Date: ${contract.get("startDate").toString()}\n\nEnd Date: ${contract.get("End_date").toString()}\n\nperiod:${contract.get("contract_type").toString()}\n\nAvailable Quantity: ${contract.get("fquantity").toString()}\n'),
