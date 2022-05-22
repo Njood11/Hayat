@@ -566,6 +566,9 @@ class _HomeState extends State<SignupPage> {
                       height: 20,
                     ),
                     TextFormField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                        ],
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           var phoneint = int.parse(value);
@@ -589,8 +592,6 @@ class _HomeState extends State<SignupPage> {
                               value == null ||
                               !str.startsWith('05'))
                             return 'Enter a valid phone number';
-                          else if (phone.toString().length < 10)
-                            return 'Enter a valid phone number of 10 digits';
                         }),
                     const SizedBox(
                       height: 20,
