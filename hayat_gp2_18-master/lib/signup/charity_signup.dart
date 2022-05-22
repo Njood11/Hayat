@@ -37,7 +37,7 @@ class _HomeState extends State<SignupPage> {
   var encryptedPass;
   var _LicenseNo;
   late String ErrorMesLoc = '';
-  var charity600 = ['info@saudifoodbank.com'];
+  var charity600 = ['info@saudifoodbank.com', 'njoodmohammed96@gmail.com'];
   var charity14 = [
     'info@albr.org',
     'tbaro@albr.org',
