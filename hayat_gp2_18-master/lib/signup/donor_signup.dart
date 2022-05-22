@@ -437,10 +437,9 @@ class _HomeState extends State<DSignupPage> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter some text';
                           } else if (!RegExp(
-                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                  .hasMatch(value) ||
-                              value == null)
-                            return 'Enter a valid email address';
+                                  "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                              .hasMatch(value))
+                            return 'Enter a valid email address:name@domain.com';
                           else if (x == 'This email already used') {
                             return 'This email already used';
                           }
@@ -661,7 +660,9 @@ class _HomeState extends State<DSignupPage> {
                                   .hasMatch(value) ||
                               value == null ||
                               !str.startsWith('05'))
-                            return 'Enter a valid phone number';
+                            return 'Please enter a valid phone number';
+                          else if (phone1.toString().length < 10)
+                            return 'Enter a valid phone number of 10 digits';
                         }),
                     const SizedBox(
                       height: 20,

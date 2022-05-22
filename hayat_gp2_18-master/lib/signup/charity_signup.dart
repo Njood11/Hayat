@@ -358,11 +358,10 @@ class _HomeState extends State<SignupPage> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter some text';
                           } else if (!RegExp(
-                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                  .hasMatch(value) ||
-                              value == null)
-                            return 'Enter a valid email address';
-                          else if (x == 'This email already used') {
+                                  "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                              .hasMatch(value)) {
+                            return 'Enter a valid email address:name@domain.com';
+                          } else if (x == 'This email already used') {
                             return 'This email already used';
                           } else if (_LicenseNo == 600 &&
                                   !charity600.contains(emailController.text) ||
@@ -590,6 +589,8 @@ class _HomeState extends State<SignupPage> {
                               value == null ||
                               !str.startsWith('05'))
                             return 'Enter a valid phone number';
+                          else if (phone.toString().length < 10)
+                            return 'Enter a valid phone number of 10 digits';
                         }),
                     const SizedBox(
                       height: 20,
