@@ -589,9 +589,8 @@ class _HomeState extends State<SignupPage> {
                             return 'Please enter some text';
                           } else if (!RegExp(r'^(?:[+0]9)?[0-9]{10}$')
                                   .hasMatch(value) ||
-                              value == null ||
                               !str.startsWith('05'))
-                            return 'Enter a valid phone number';
+                            return 'Enter a valid phone number ';
                         }),
                     const SizedBox(
                       height: 20,
