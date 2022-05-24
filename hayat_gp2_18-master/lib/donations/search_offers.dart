@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:hayat_gp2_18/donations/filter_loc.dart';
 import 'package:hayat_gp2_18/donations/offer_details.dart';
 import 'package:hayat_gp2_18/home_pages/charity_home.dart';
@@ -9,9 +10,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:geolocator/geolocator.dart';
 
-//c all
-//c
-//s
 class ListOffersPage3 extends StatefulWidget {
   var myArray;
   var myArray2S;
@@ -21,7 +19,8 @@ class ListOffersPage3 extends StatefulWidget {
   var AllCategory;
   var SelectCategory;
   var selectstatus;
-
+  var locationF;
+  var getlocation1;
   ListOffersPage3(
       {Key? key,
       this.myArray,
@@ -31,11 +30,22 @@ class ListOffersPage3 extends StatefulWidget {
       this.myArray2C,
       this.selectstatus,
       this.SelectCategory,
-      this.Cid})
+      this.Cid,
+      this.locationF,
+      this.getlocation1})
       : super(key: key);
   @override
-  _ListOffersPage3 createState() => _ListOffersPage3(myArray, apply,
-      AllCategory, myArray2S, myArray2C, selectstatus, SelectCategory, Cid);
+  _ListOffersPage3 createState() => _ListOffersPage3(
+      myArray,
+      apply,
+      AllCategory,
+      myArray2S,
+      myArray2C,
+      selectstatus,
+      SelectCategory,
+      Cid,
+      locationF,
+      getlocation1);
 }
 
 class _ListOffersPage3 extends State<ListOffersPage3> {
@@ -48,12 +58,14 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   var SelectCategory;
   var selectstatus;
   var Cid;
-
+  var locationF;
+  var getlocation1;
   List<ParseObject> Charity = <ParseObject>[];
   List<ParseObject> alldonations = <ParseObject>[];
   List<ParseObject> donor = <ParseObject>[];
   List<String> foundDonors = <String>[];
   List foundDonorsSorted = [];
+  List Sorted = [];
 
   List<double> distancesList = <double>[];
   List distancesListSorted = [];
@@ -64,13 +76,24 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   late GoogleMapController mapController; //contrller for Google map
   final Set<Marker> markers = new Set(); //markers for google map
 
-  _ListOffersPage3(this.myArray, this.apply, this.AllCategory, this.myArray2S,
-      this.myArray2C, this.selectstatus, this.SelectCategory, this.Cid);
+  _ListOffersPage3(
+      this.myArray,
+      this.apply,
+      this.AllCategory,
+      this.myArray2S,
+      this.myArray2C,
+      this.selectstatus,
+      this.SelectCategory,
+      this.Cid,
+      this.locationF,
+      this.getlocation1);
   // late String searchText = searchController.text;
   //late var allOffers = [];
   var items = [];
   var match = [];
   var getlocation = [];
+  var test = [];
+
   TextEditingController searchController = new TextEditingController();
   late String Searchstring = "";
   @override
@@ -121,6 +144,8 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   }
 
   void getOffers() async {
+    print('\n getlocation array is here \n');
+    print(getlocation);
     QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject('donations'))
           ..whereEqualTo("req_donation_status", 'Sent');
@@ -151,7 +176,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
           }
         }
       });
-      search("", apply, myArray);
+      search("", apply, myArray, locationF, getlocation1);
     } else {
       allOffers = [];
     }
@@ -162,33 +187,103 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
     // distancesList.sort();
     var smallestValue = distancesList[0];
     var indexx;
+    var smallestdonor = foundDonors[0];
+
+    //extract the first nearest distance
 
 //extract the first nearest distance
     for (int i = 0; i < foundDonors.length; i++) {
+      print('foundDonors');
+      print(foundDonors);
+      print(' distancesList.length');
+      print(distancesList.length);
       for (int j = 0; j < distancesList.length; j++) {
         for (int z = 0; z < distancesList.length; z++) {
-          if (distancesList[z] < distancesList[j]) {
+          if (distancesList[z] < distancesList[j] &&
+              !distancesListSorted.contains(distancesList[z])) {
             setState(() {
               smallestValue = distancesList[z];
+              smallestdonor = foundDonors[z];
+              indexx = z;
             });
-
-            indexx = z;
           }
+          //foundDonors.remove(smallestValue);
 
-          if (1 == distancesList.length) {
+          /*   if (1 == distancesList.length) {
             setState(() {
               smallestValue = distancesList[z];
             });
-            foundDonors.remove(foundDonors[indexx]);
+            smallestdonor = foundDonors[z];
+          }*/
+        }
+      }
+      if (i != distancesList.length - 1) {
+        distancesListSorted.add(smallestValue);
+        foundDonorsSorted.add(foundDonors[indexx]);
+      } else {
+        for (int i = 0; i < distancesList.length; i++) {
+          if (!distancesListSorted.contains(distancesList[i])) {
+            distancesListSorted.add(distancesList[i]);
+          }
+        }
+        for (int i = 0; i < foundDonors.length; i++) {
+          if (!foundDonorsSorted.contains(foundDonors[i])) {
+            foundDonorsSorted.add(foundDonors[i]);
           }
         }
       }
-      distancesListSorted.add(smallestValue);
-      distancesList.remove(smallestValue);
-      foundDonorsSorted.add(foundDonors[indexx]);
-      print("sorded distend");
+
+      print(' distancesListSorted');
       print(distancesListSorted);
+      print(' foundDonorsSorted');
+      print(foundDonorsSorted);
     }
+    filterLocation();
+  }
+
+  filterLocation() async {
+    print(' in filter location foundDonorsSorted');
+    print(foundDonorsSorted);
+    setState(() {
+      getlocation = [];
+    });
+    for (int i = 0; i < foundDonorsSorted.length; i++) {
+      QueryBuilder<ParseObject> parseQuery =
+          QueryBuilder<ParseObject>(ParseObject('donations'))
+            ..whereEqualTo("donor_ID", foundDonorsSorted[i]);
+
+      final ParseResponse apiResponse = await parseQuery.query();
+
+      var DonationWithSpecificId = apiResponse.results as List<ParseObject>;
+
+      print('DonationWithSpecificId  llll');
+      print(DonationWithSpecificId);
+      if (apiResponse.success && apiResponse.results != null) {
+        for (int j = 0; j < DonationWithSpecificId.length; j++) {
+          print(DonationWithSpecificId.length);
+          var donation = DonationWithSpecificId[j];
+          DateTime? dbOfferDate = DateTime.parse(donation.get("exp_date"));
+
+          if (!dbOfferDate.isBefore(DateTime.now()) &&
+              donation.get("req_donation_status") == 'Sent' &&
+              donation.get("donor_ID") == foundDonorsSorted[i]) {
+            print(getlocation.length);
+            print('getlocation.length');
+            print(locationF);
+
+            getlocation.add(donation);
+            print('found donation in get location');
+            print(donation);
+          }
+        }
+      }
+      setState(() {
+        getlocation1 = getlocation;
+        items = [];
+        items = getlocation;
+      });
+    }
+    return getlocation;
   }
 
   void getDistance(double dLat, double dLon) async {
@@ -203,6 +298,9 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
   }
 
   void getMarkers() async {
+    setState(() {
+      locationF = true;
+    });
     getCHOs();
     QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject('donations'));
@@ -220,7 +318,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
 
           if (dbOfferDate.isBefore(DateTime.now())) {
             alldonations.remove(offer);
-            alldonations.remove(offer);
+            items.remove(offer);
             print("old remove");
           }
         }
@@ -314,13 +412,23 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
     }
   }
 
-  void search(String query, var applay, var myAr) async {
-    print('apply: ');
-    print(applay);
-    print('my filters:');
-    print(myAr);
+  void search(String query, var applay, var myAr, var locationF,
+      var getlocation1) async {
+    print('arrive search method');
+
+    print('locationF ');
+    print(locationF);
+    print('getlocation1 ');
+
+    print(getlocation1);
 
     var s = allOffers;
+    if (locationF == true) {
+      setState(() {
+        items = [];
+        items.addAll(getlocation1);
+      });
+    }
     if (query.isNotEmpty) {
       match = [];
 
@@ -366,6 +474,16 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
         items.addAll(match);
       });
       return;
+    } else if (locationF == true) {
+      print('arrive search method');
+      print('getlocation1 d');
+
+      print(getlocation1);
+
+      setState(() {
+        items = [];
+        items = getlocation1;
+      });
     } else {
       setState(() {
         items = [];
@@ -373,7 +491,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
       });
     }
 
-    if (myAr == null && apply == false) {
+    if (myAr == null && apply == false && locationF == false) {
       print('Emptyyy');
       setState(() {
         items = [];
@@ -414,7 +532,9 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
         items = [];
         items = myArray2S;
       });
-    } /*else if (apply == true && myAr != null) {
+    }
+
+    /*else if (apply == true && myAr != null) {
       setState(() {
         items = myAr;
         print('items:');
@@ -461,22 +581,8 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                           minWidth: 50,
                           onPressed: () => {
                             getMarkers(),
-                            for (int i = 0; i < foundDonorsSorted.length; i++)
-                              {
-                                for (int j = 0; j < items.length; j++)
-                                  {
-                                    if (foundDonorsSorted[i] ==
-                                        items[j].get("donor_ID"))
-                                      {
-                                        getlocation.add(items[j]),
-                                        items.remove(items[j]),
-                                      }
-                                  }
-                              },
-                            for (int i = 0; i < getlocation.length; i++)
-                              {
-                                items.add(getlocation[i]),
-                              }
+                            print('getlocation after getMarkers'),
+                            print(getlocation),
                           },
                           color: Colors.teal[200],
                           padding: EdgeInsets.all(0),
@@ -518,7 +624,7 @@ class _ListOffersPage3 extends State<ListOffersPage3> {
                       onChanged: (value) {
                         setState(() {
                           // search(value, apply, myArray);
-                          search(value, apply, myArray);
+                          search(value, apply, myArray, locationF, getlocation);
                         });
                       },
                       controller: searchController,
